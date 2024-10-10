@@ -1,0 +1,176 @@
+.invitation-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 576px;
+  margin: auto;
+
+  .challenger-details {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+
+    .text {
+      color: #fff;
+      font-family: 'TuskerGrotesk-Medium-6500';
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+
+  .combat-details {
+    margin-top: 1.5rem;
+
+    position: relative;
+    padding: 44px;
+    padding-left: 46px;
+    padding-right: 46px;
+    padding-bottom: 132px;
+    width: 100%;
+    // flex-basis: 50%;
+    height: max-content;
+    background: url(../../assets/images/combat-details-bg.svg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    overflow: hidden;
+
+    .time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .time-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: auto;
+        color: #f5841f;
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        // margin-top: 14px;
+      }
+
+      .stake {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        .title {
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+        }
+        .value {
+          color: #fff;
+          font-family: 'TuskerGrotesk-Medium-6500';
+          font-size: 24px;
+          font-style: normal;
+          line-height: normal;
+        }
+      }
+    }
+
+    .details {
+      margin-top: 1.5rem;
+      padding: 1.5rem 2rem;
+      border-radius: 22.826px;
+      border: 0.951px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(
+          181deg,
+          rgba(255, 255, 255, 0) 1.16%,
+          rgba(255, 255, 255, 0.09) 55.1%,
+          rgba(255, 255, 255, 0.02) 95.36%
+        ),
+        #0a0d15;
+      box-shadow: 0px 24px 28px 0px rgba(6, 6, 6, 0.41);
+
+      h3 {
+        color: #fff;
+        font-family: 'TuskerGrotesk-Medium-5500';
+        font-size: 24px;
+        font-style: normal;
+        line-height: normal;
+      }
+
+      .desc {
+        margin-top: 1.5rem;
+
+        .title {
+          color: rgba(255, 255, 255, 0.65);
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: 150%; /* 24px */
+          text-transform: uppercase;
+        }
+
+        p {
+          margin-top: 1rem;
+          color: rgba(255, 255, 255, 0.8);
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: 150%; /* 24px */
+        }
+      }
+
+      .options-container {
+        margin-top: 1.5rem;
+
+        .title {
+          color: rgba(255, 255, 255, 0.65);
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: 150%; /* 24px */
+          text-transform: uppercase;
+        }
+
+        .options {
+          margin-top: 1rem;
+          display: flex;
+          gap: 1rem;
+
+          .option {
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+          }
+          .option.active {
+            border: 2px solid #f46f0f;
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+    }
+
+    button {
+      position: absolute;
+      left: -2rem;
+      bottom: -28%;
+      transform: translate(0%, -10%);
+      color: #000;
+      font-family: 'ABC-Diatype';
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      img {
+      }
+      div {
+        position: absolute;
+        left: 50%;
+        top: 3rem;
+        transform: translate(-50%, -2rem);
+      }
+    }
+  }
+}

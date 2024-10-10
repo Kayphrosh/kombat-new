@@ -1,0 +1,19 @@
+<svg width="463" height="287" viewBox="0 0 463 287" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_i_154_481818)">
+<path d="M8.69075 15.4881C8.96708 6.85525 16.0453 0 24.6826 0H446.48C455.517 0 462.761 7.47934 462.471 16.5119L454.309 271.512C454.033 280.145 446.955 287 438.317 287H16.5203C7.48318 287 0.239404 279.521 0.528524 270.488L8.69075 15.4881Z" fill="#0A0D15"/>
+</g>
+<path d="M9.16606 15.5033C9.43417 7.12704 16.302 0.475548 24.6826 0.475548H446.48C455.248 0.475548 462.277 7.73259 461.996 16.4967L453.834 271.497C453.566 279.873 446.698 286.524 438.317 286.524H16.5203C7.75178 286.524 0.723302 279.267 1.00383 270.503L9.16606 15.5033Z" stroke="white" stroke-opacity="0.15" stroke-width="0.951096"/>
+<defs>
+<filter id="filter0_i_154_481818" x="0.52002" y="0" width="461.96" height="287" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feMorphology radius="13.7841" operator="erode" in="SourceAlpha" result="effect1_innerShadow_154_481818"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="22.8263"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_154_481818"/>
+</filter>
+</defs>
+</svg>

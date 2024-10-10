@@ -1,0 +1,190 @@
+.wallet-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  margin-top: 60px;
+
+  .wallet-balance-container {
+    flex-basis: 50%;
+    width: 100%;
+
+    .balance-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 500px;
+      padding: 2.6rem;
+      padding-bottom: 5rem;
+    //   background: #0a0d15;
+    //   stroke-width: 0.951px;
+    //   stroke: rgba(255, 255, 255, 0.15);
+    //   box-shadow: 0px 0px 45.653px 13.784px rgba(255, 255, 255, 0.1) inset;
+      background: url(../../../assets/images/wallet-balance-bg.svg);
+      background-size: cover;
+      background-position: top;
+      background-repeat: no-repeat;
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        img {
+          width: 49px;
+          height: 49px;
+        }
+        font-family: 'ABC-Diatype';
+        font-size: 20px;
+        text-transform: uppercase;
+      }
+      .amount {
+        margin-top: 46px;
+        margin-bottom: 24px;
+        color: #fff;
+        font-family: 'TuskerGrotesk-Medium-5500';
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+      .cta {
+        display: flex;
+        position: absolute;
+        gap: 1rem;
+        bottom: -45%;
+        width: 100%;
+
+        .fund-wallet {
+          margin-top: 0.3rem;
+          min-width: 170px;
+          height: 49px;
+          padding: 8px 16px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: rgba(14, 17, 25, 0.24);
+          box-shadow: 0px 0px 16px 0px rgba(255, 255, 255, 0.1) inset;
+
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+        }
+
+        .withdraw {
+          //   margin-top: 48px;
+          margin-right: auto;
+          //   margin-bottom: auto;
+          position: relative;
+          transform: translate(-20%);
+          color: #000;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+          min-width: 350px;
+          img {
+          }
+          div {
+            position: absolute;
+            left: 50%;
+            top: 3rem;
+            transform: translate(-50%, -2rem);
+          }
+        }
+      }
+    }
+  }
+  .wallet-container {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 50%;
+    border-radius: 19.872px;
+    border: 0.8px solid rgba(255, 255, 255, 0.15);
+    background: #0a0d15;
+    position: relative;
+
+    .title {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+
+      h4 {
+        color: #fff;
+        font-family: 'TuskerGrotesk-Medium-5500';
+        font-size: 24px;
+        font-style: normal;
+        line-height: normal;
+      }
+    }
+
+    .transaction-history {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 36px;
+
+      .transaction {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .transaction-desc {
+          display: flex;
+          gap: 1.5rem;
+          .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 50%;
+          }
+          .desc {
+            display: flex;
+            flex-direction: column;
+
+            .wallet-amount {
+              display: flex;
+              gap: 4px;
+              color: #fff;
+              font-family: 'Unbounded', sans-serif;
+              font-size: 18px;
+              font-style: normal;
+              line-height: normal;
+              text-transform: capitalize;
+
+              #amount {
+                color: #e27625;
+              }
+            }
+
+            .transaction-time {
+              margin-top: 8px;
+              color: rgba(255, 255, 255, 0.7);
+              font-family: 'ABC-Diatype';
+              font-size: 14px;
+              font-style: normal;
+              line-height: normal;
+            }
+          }
+        }
+
+        .address {
+          font-family: 'Unbounded', sans-serif;
+        }
+      }
+    }
+  }
+}

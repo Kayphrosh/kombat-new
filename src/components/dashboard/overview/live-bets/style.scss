@@ -1,0 +1,213 @@
+.live-bets-container {
+  position: relative;
+
+  .title {
+    margin-top: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative !important;
+    width: 100%;
+    max-height: max-content;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #fff;
+      font-family: 'TuskerGrotesk-Medium-4500';
+      font-size: 32px;
+      font-style: normal;
+      line-height: normal;
+      img {
+        width: 24px;
+      }
+    }
+
+    #new-kombat-btn {
+      // margin-top: 56px;
+      padding-bottom: 67px;
+      position: absolute;
+      bottom: -50%;
+      right: 0;
+      transform: translate(30%, 72%);
+
+      &:hover {
+        button {
+          transform: scale(0.96);
+          transform: 0.4s ease;
+        }
+      }
+      button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 20px 1.5rem;
+        font-family: 'Unbounded', sans-serif;
+        font-weight: 500;
+        font-size: 1rem;
+
+        .btn-text {
+          position: absolute;
+          left: 50%;
+          top: 2.2rem;
+          transform: translate(-50%, -1.5rem);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          padding: 20px 1.5rem;
+          font-family: 'Unbounded', sans-serif;
+          font-weight: 500;
+          font-size: 1rem;
+          width: max-content;
+        }
+      }
+    }
+  }
+
+  .livebets {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .livebet {
+      display: flex;
+      align-items: center;
+      padding: 2rem;
+      background: rgba(10, 13, 21, 0.8);
+      stroke-width: 0.88px;
+      stroke: rgba(255, 255, 255, 0.15);
+      box-shadow: 0px 0px 42.253px 0px rgba(255, 255, 255, 0.13) inset;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+
+      clip-path: polygon(
+        46px 0%,
+        100% 0%,
+        100% calc(100% - 46px),
+        calc(100% - 46px) 100%,
+        0% 100%,
+        0% 46px
+      );
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        clip-path: polygon(
+          25px 0%,
+          100% 0%,
+          100% calc(100% - 25px),
+          calc(100% - 25px) 100%,
+          0% 100%,
+          0% 25px
+        );
+        pointer-events: none; /* Prevent ::after from blocking clicks */
+      }
+      .players-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .player {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
+          img {
+            width: 56px;
+          }
+
+          p {
+            margin-top: 14px;
+            color: #fff;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+        span {
+          color: #fff;
+          font-family: 'Unbounded', sans-serif;
+          font-size: 20px;
+          font-style: italic;
+          font-weight: 300;
+          line-height: normal;
+        }
+      }
+
+      .details {
+        margin-left: 68px;
+
+        #title {
+          color: #fff;
+          font-family: 'TuskerGrotesk-Medium-5500';
+          font-size: 20px;
+          font-style: normal;
+          line-height: normal;
+        }
+
+        #time-left {
+          margin-top: 12px;
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+        }
+      }
+
+      .stake {
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+
+        #title {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 14px;
+          line-height: normal;
+        }
+
+        #value {
+          color: #fff;
+          font-size: 20px;
+          font-style: normal;
+          line-height: normal;
+          margin-top: 4px;
+        }
+      }
+
+      .cta {
+        margin-left: 40px;
+        button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #fff;
+          min-width: 33px;
+          height: 38px;
+          flex-shrink: 0;
+
+          clip-path: polygon(
+            4px 0%,
+            100% 0%,
+            100% calc(100% - 4px),
+            calc(100% - 4px) 100%,
+            0% 100%,
+            0% 4px
+          );
+        }
+      }
+    }
+  }
+}

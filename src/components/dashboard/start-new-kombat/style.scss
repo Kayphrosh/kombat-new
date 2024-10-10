@@ -1,0 +1,116 @@
+.new-kombat-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 10%;
+  justify-content: center;
+  align-items: center;
+  max-width: 850px;
+  position: relative;
+
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 160px;
+    h3 {
+      color: #fff;
+      font-family: 'TuskerGrotesk-Medium-6500';
+      font-size: 40px;
+      font-style: normal;
+      text-align: center;
+      line-height: normal;
+    }
+    p {
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.75);
+      font-family: 'ABC-Diatype';
+      font-size: 16px;
+      font-style: normal;
+      line-height: 150%;
+    }
+  }
+
+  a {
+    // margin-top: 56px;
+    padding-bottom: 67px;
+    position: absolute;
+    bottom: -60px;
+    button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 1.5rem;
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+
+      .btn-text {
+        position: absolute;
+        left: 50%;
+        top: 2.2rem;
+        transform: translate(-50%, -1.5rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 20px 1.5rem;
+        font-family: 'Unbounded', sans-serif;
+        font-weight: 500;
+        font-size: 1rem;
+        width: max-content;
+      }
+
+      // new-kombat-btn-bg
+      // background: linear-gradient(180deg, #f46f0f 0%, #c1272d 100%);
+      // color: #fff;
+      // border: none;
+      // filter: drop-shadow(0px 2.767px 2.214px rgba(255, 0, 0, 0.26))
+      //   drop-shadow(0px 6.65px 5.32px rgba(255, 0, 0, 0.19))
+      //   drop-shadow(0px 12.522px 10.017px rgba(255, 0, 0, 0.15))
+      //   drop-shadow(0px 22.336px 17.869px rgba(255, 0, 0, 0.13))
+      //   drop-shadow(0px 41.778px 33.422px rgba(255, 0, 0, 0.11))
+      //   drop-shadow(0px 100px 80px rgba(255, 0, 0, 0.07));
+
+      // /* Clip path to slant the corners by 25px */
+      // clip-path: polygon(
+      //   25px 0%,
+      //   100% 0%,
+      //   100% calc(100% - 25px),
+      //   calc(100% - 25px) 100%,
+      //   0% 100%,
+      //   0% 25px
+      // );
+    }
+  }
+
+  .avatars-container {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    justify-content: center;
+
+
+    .avatar {
+      img {
+        // width: 100%;
+        width: 220px;
+      }
+    }
+    .vs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      color: #fff;
+      font-family: 'TuskerGrotesk-Medium-6500';
+      font-size: 20px;
+      font-style: normal;
+      line-height: normal;
+    }
+  }
+}

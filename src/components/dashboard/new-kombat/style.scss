@@ -1,0 +1,118 @@
+.wrapper {
+  margin: auto;
+  .start-new-kombat-content {
+    align-self: center;
+    justify-self: center;
+    overflow: hidden;
+    width: 100%;
+    max-width: 580px;
+    margin: 4rem auto;
+    padding: 2rem 46px;
+    padding-bottom: 0;
+    background: url(../../../assets/images/new-kombat-bg.svg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    opacity: 1;
+    h2 {
+      color: #fff;
+      font-family: 'TuskerGrotesk-Medium-6500';
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+    }
+
+    form {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      padding-bottom: 140px;
+
+      .form-group {
+        label {
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+        }
+
+        input,
+        textarea {
+          margin-top: 1rem;
+          width: 100%;
+          padding: 1rem 1.5rem;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: rgba(255, 255, 255, 0.02);
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          line-height: normal;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+          }
+        }
+        textarea {
+          max-height: 56px;
+          resize: none;
+        }
+        .amount {
+          display: flex;
+          justify-content: space-between;
+        }
+        .options {
+          margin-top: 1rem;
+          display: flex;
+          gap: 1.5rem;
+
+          .option {
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            // font-family: 'Blanc Groove';
+            font-size: 16px;
+            font-style: normal;
+            // font-weight: 500;
+            line-height: normal;
+            cursor: pointer;
+          }
+          .option.active {
+            border-radius: 8px;
+            border: 2px solid #f46f0f;
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
+        .error-message {
+          color: #c1272d;
+          font-size: 14px;
+        }
+      }
+
+      button {
+        margin-top: 0.5rem;
+        margin-right: auto;
+        position: absolute;
+        bottom: -20%;
+        transform: translate(-20%);
+        color: #000;
+        font-family: 'ABC-Diatype';
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        img {
+        }
+        div {
+          position: absolute;
+          left: 50%;
+          top: 3rem;
+          transform: translate(-50%, -2rem);
+        }
+      }
+    }
+  }
+}

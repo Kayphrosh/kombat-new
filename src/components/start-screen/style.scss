@@ -1,0 +1,176 @@
+.start-screen-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background: url(../../assets/images/home-bg.svg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  .start-screen-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 100vh;
+    max-width: 1500px;
+    padding: 56px 50px;
+    margin: 0 auto;
+    position: relative;
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      position: relative;
+      .cta {
+        display: flex;
+        gap: 1rem;
+
+        .font-sans {
+          font-family: 'ABC-Diatype' !important;
+        }
+        button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 40px;
+          padding: 8px 16px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: rgba(14, 17, 25, 0.24);
+          box-shadow: 0px 0px 16px 0px rgba(255, 255, 255, 0.1) inset;
+
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+        }
+      }
+    }
+
+    main {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      margin: auto 0;
+
+      .text {
+        flex-basis: 50%;
+        position: relative;
+
+        h2 {
+          color: #fff;
+          font-family: 'TuskerGrotesk-Semibold';
+          font-size: 64px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+        }
+
+        p {
+          margin-top: 1.5rem;
+          color: rgba(255, 255, 255, 0.65);
+          font-family: 'ABC-Diatype';
+          font-size: 18px;
+          font-style: normal;
+          line-height: 150%;
+          letter-spacing: 0.18px;
+          max-width: 470px;
+        }
+
+        .text-ock-inverse,
+        .btn-custom {
+          all: unset;
+          color: #000;
+          position: absolute;
+          cursor: pointer;
+          left: 18%;
+          top: 3.65rem;
+          transform: translate(-0%, -2rem);
+          width: 100%;
+          width: 200px;
+          height: 50px;
+          z-index: 111;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #000 !important;
+        }
+        button {
+          // all: unset;
+          // margin-top: 48px;
+          margin-right: auto;
+          position: relative !important;
+          transform: translate(-20%);
+          color: #000;
+          font-family: 'ABC-Diatype' !important;
+          font-size: 16px;
+          font-style: normal;
+          line-height: normal;
+          img {
+            width: 100%;
+            height: auto;
+          }
+          #text {
+            position: absolute;
+            // visibility: hidden;
+            left: 50%;
+            top: 3rem;
+            transform: translate(-50%, -2rem);
+            // z-index: 0;
+          }
+        }
+      }
+
+      .steps {
+        flex-basis: 50%;
+
+        img {
+          max-width: 550px;
+          margin-left: auto;
+        }
+      }
+
+      .home-illustration-2 {
+        position: absolute;
+        left: 40%;
+        bottom: 0;
+        transform: translate(-40%, 0);
+      }
+    }
+
+    .join-community {
+      .title {
+        color: #fff;
+        font-family: 'Unbounded', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .sm-links {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px;
+          border-radius: 8px 0px;
+          border: 1px solid #fff;
+          background: rgba(255, 255, 255, 0.03);
+          box-shadow: -2px 4px 0px 0px #fff;
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}

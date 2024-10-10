@@ -1,0 +1,16 @@
+@import './variables';
+
+@import '@/components/start-screen/style.scss';
+@import '@/components/dashboard/navbar/style.scss';
+@import '@/components/dashboard/overview/style.scss';
+@import '@/components/dashboard/overview/live-bets/style.scss';
+@import '@/components/dashboard/new-kombat/style.scss';
+@import '@/components/dashboard/livebet-overview/style.scss';
+@import '@/components/dashboard/share-link-modal/style.scss';
+@import '@/components/dashboard/start-new-kombat/style.scss';
+
+@import '@/components/dashboard/kombat-warriors/style.scss';
+
+@import '@/components/invitation/style.scss';
+@import '@/components/identity/style.scss';
+@import '@/components/dashboard/wallet/style.scss';
