@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router'; // For navigation after closing ShareLinkModal
-import Navbar from '../navbar';
-import buttonBg from '@/assets/images/icons/button-bg.svg';
-import Image from 'next/image';
-import FundWalletModal from '../fund-wallet-modal';
-import ShareLinkModal from '../share-link-modal';
+import React, { useState } from "react";
+import { useRouter } from "next/router"; // For navigation after closing ShareLinkModal
+import Navbar from "../navbar";
+import buttonBg from "@/assets/images/icons/button-bg.svg";
+import Image from "next/image";
+import FundWalletModal from "../fund-wallet-modal";
+import ShareLinkModal from "../share-link-modal";
+import { useCallback } from "react";
+import { Avatar, Name } from "@coinbase/onchainkit/identity";
+import {
+  Transaction,
+  TransactionButton,
+  TransactionSponsor,
+  TransactionStatus,
+  TransactionStatusAction,
+  TransactionStatusLabel,
+} from "@coinbase/onchainkit/transaction";
+import type { LifecycleStatus } from "@coinbase/onchainkit/transaction";
+import { Wallet, ConnectWallet } from "@coinbase/onchainkit/wallet";
+import { useAccount } from "wagmi";
+import { KomatAbi } from "@/KombatAbi";
 
 const NewKombatForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    question: '',
-    description: '',
-    amount: '',
-    challenger: '',
+    question: "",
+    description: "",
+    amount: "",
+    challenger: "",
   });
 
   // State to track the selected option
-  const [selectedOption, setSelectedOption] = useState<'yes' | 'no'>('yes'); // Default to 'yes'
+  const [selectedOption, setSelectedOption] = useState<"yes" | "no">("yes"); // Default to 'yes'
 
   // State to manage modal visibility
   const [isFundWalletModalVisible, setIsFundWalletModalVisible] =
@@ -24,10 +38,10 @@ const NewKombatForm: React.FC = () => {
 
   // State for form validation errors
   const [errors, setErrors] = useState({
-    question: '',
-    description: '',
-    amount: '',
-    challenger: '',
+    question: "",
+    description: "",
+    amount: "",
+    challenger: "",
   });
 
   // Available balance (assumed to be a number for comparison)
@@ -36,61 +50,61 @@ const NewKombatForm: React.FC = () => {
   const router = useRouter(); // For navigating to the /overview page
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
     // Clear error as the user types valid input
-    if (name === 'question' && value.trim()) {
-      setErrors((prevErrors) => ({ ...prevErrors, question: '' }));
+    if (name === "question" && value.trim()) {
+      setErrors((prevErrors) => ({ ...prevErrors, question: "" }));
     }
 
-    if (name === 'description' && value.trim()) {
-      setErrors((prevErrors) => ({ ...prevErrors, description: '' }));
+    if (name === "description" && value.trim()) {
+      setErrors((prevErrors) => ({ ...prevErrors, description: "" }));
     }
 
-    if (name === 'challenger' && value.trim()) {
-      setErrors((prevErrors) => ({ ...prevErrors, challenger: '' }));
+    if (name === "challenger" && value.trim()) {
+      setErrors((prevErrors) => ({ ...prevErrors, challenger: "" }));
     }
 
-    if (name === 'amount') {
+    if (name === "amount") {
       const amount = parseFloat(value);
       if (!isNaN(amount) && amount >= 5) {
-        setErrors((prevErrors) => ({ ...prevErrors, amount: '' }));
+        setErrors((prevErrors) => ({ ...prevErrors, amount: "" }));
       }
     }
   };
 
-  const handleOptionChange = (option: 'yes' | 'no') => {
+  const handleOptionChange = (option: "yes" | "no") => {
     setSelectedOption(option);
   };
 
   const validateForm = () => {
     const newErrors = {
-      question: '',
-      description: '',
-      amount: '',
-      challenger: '',
+      question: "",
+      description: "",
+      amount: "",
+      challenger: "",
     };
     let isValid = true;
 
     if (!formData.question.trim()) {
-      newErrors.question = 'Question is required';
+      newErrors.question = "Question is required";
       isValid = false;
     }
 
     if (!formData.description.trim()) {
-      newErrors.description = 'Description is required';
+      newErrors.description = "Description is required";
       isValid = false;
     }
     if (!formData.challenger.trim()) {
-      newErrors.challenger = 'Challenger is required';
+      newErrors.challenger = "Challenger is required";
       isValid = false;
     }
     const amount = parseFloat(formData.amount);
     if (isNaN(amount) || amount < 5) {
-      newErrors.amount = 'Amount must be at least $5';
+      newErrors.amount = "Amount must be at least $5";
       isValid = false;
     }
 
@@ -128,9 +142,31 @@ const NewKombatForm: React.FC = () => {
   // Handle closing the ShareLinkModal and redirect to /overview
   const handleCloseShareLinkModal = () => {
     setIsShareLinkModalVisible(false);
-    router.push('/invite-friends');
+    router.push("/invite-friends");
   };
 
+  const contracts = [
+    {
+      address: "0x4432fCE60bbC8dB0a34F722c7e5F89FB7F74a944",
+      abi: KomatAbi,
+      functionName: "createBet",
+      args: [
+        [
+          "0x4432fCE60bbC8dB0a34F722c7e5F89FB7F74a944",
+          "0x4432fCE60bbC8dB0a34F722c7e5F89FB7F74a944",
+        ],
+        "test bet",
+        BigInt(86400 / 2),
+        "0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5",
+        "0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5",
+        BigInt(5000 * 1e18),
+        false,
+      ],
+    },
+  ];
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {
+    console.log("LifecycleStatus", status);
+  }, []);
   return (
     <div className="overview-container">
       <Navbar />
@@ -170,17 +206,17 @@ const NewKombatForm: React.FC = () => {
               <div className="options">
                 <div
                   className={`option ${
-                    selectedOption === 'yes' ? 'active' : ''
+                    selectedOption === "yes" ? "active" : ""
                   }`}
-                  onClick={() => handleOptionChange('yes')}
+                  onClick={() => handleOptionChange("yes")}
                 >
                   Yes
                 </div>
                 <div
                   className={`option ${
-                    selectedOption === 'no' ? 'active' : ''
+                    selectedOption === "no" ? "active" : ""
                   }`}
-                  onClick={() => handleOptionChange('no')}
+                  onClick={() => handleOptionChange("no")}
                 >
                   No
                 </div>
@@ -217,11 +253,23 @@ const NewKombatForm: React.FC = () => {
                 <span className="error-message">{errors.challenger}</span>
               )}
             </div>
-            <button type="submit">
+            {/* <button type="submit">
               <div>Start Kombat</div>
               <Image src={buttonBg} alt="" />
-            </button>
+            </button> */}
           </form>
+          <Transaction
+            chainId={84532}
+            contracts={contracts}
+            onStatus={handleOnStatus}
+          >
+            <TransactionButton text="Start Kombat" className="tx-btton" />
+            <TransactionSponsor />
+            <TransactionStatus>
+              <TransactionStatusLabel />
+              <TransactionStatusAction />
+            </TransactionStatus>
+          </Transaction>
         </div>
       </div>
 
