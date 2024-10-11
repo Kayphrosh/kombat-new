@@ -27,7 +27,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ closeModal }) => {
   // Generate the QR code URL whenever the address changes
   useEffect(() => {
     if (address) {
-      console.log(`Wallet Address: ${address}`);
+      // console.log(`Wallet Address: ${address}`);
       QRCode.toDataURL(address, { width: 250 }, (err, url) => {
         if (err) {
           console.error('Failed to generate QR code: ', err);

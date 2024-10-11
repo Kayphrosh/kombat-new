@@ -22,36 +22,7 @@ const KombatWarriors = () => {
       userName: 'Kayphrosh',
       amount: '1200',
     },
-    {
-      id: 2,
-      avatar: Avatar,
-      userName: 'Kayphrosh',
-      amount: '1200',
-    },
-    {
-      id: 2,
-      avatar: Avatar,
-      userName: 'Kayphrosh',
-      amount: '1200',
-    },
-    {
-      id: 2,
-      avatar: Avatar,
-      userName: 'Kayphrosh',
-      amount: '1200',
-    },
-    {
-      id: 2,
-      avatar: Avatar,
-      userName: 'Kayphrosh',
-      amount: '1200',
-    },
-    {
-      id: 2,
-      avatar: Avatar,
-      userName: 'Kayphrosh',
-      amount: '1200',
-    },
+
   ];
   return (
     <div className="combat-warriors">

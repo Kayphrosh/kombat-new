@@ -18,7 +18,7 @@ interface USDCBalanceProps {
 
 const USDCBalance: React.FC<USDCBalanceProps> = ({ walletAddress }) => {
   const { data, isError, isLoading } = useReadContract({
-    address: '0x036CbD53842c5426634e7929541eC2318f3dCF7e', // USDC contract address (Ethereum mainnet)
+    address: '0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5',
     abi: erc20Abi,
     functionName: 'balanceOf',
     args: [walletAddress],
@@ -27,8 +27,11 @@ const USDCBalance: React.FC<USDCBalanceProps> = ({ walletAddress }) => {
   if (isLoading) return <span>Loading...</span>;
   if (isError) return <span>Error fetching balance</span>;
 
+  // Ensure data is a valid bigint or convert it
+  const balance = data ? BigInt(data.toString()) : BigInt(0);
+
   // Format balance (USDC has 6 decimals)
-  const formattedBalance = data ? formatUnits(data, 6) : '0';
+  const formattedBalance = formatUnits(balance, 6);
 
   return <span>${parseFloat(formattedBalance).toFixed(2)} USDC</span>;
 };

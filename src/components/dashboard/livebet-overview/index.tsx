@@ -12,12 +12,16 @@ const BetOverview = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = router.query;
+
+  // Ensure hooks are always called
   const liveBet = liveBets.find((bet) => bet.id === parseInt(id as string, 10));
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const [activeOption, setActiveOption] = useState('Yes');
   const options = ['Yes', 'No'];
 
+  // Ensure hooks are called before any conditional returns
   if (!liveBet) {
     return <div>Bet not found</div>;
   }
@@ -38,7 +42,7 @@ const BetOverview = () => {
   ];
 
   return (
-    <div className="overview-container">
+    <div className="new-combat-container">
       <Navbar />
 
       <div className="invite-friends-content">
@@ -77,8 +81,8 @@ const BetOverview = () => {
                       key={index}
                       className={`option ${
                         activeOption === option ? 'active' : ''
-                      }`} // Add 'active' class
-                      onClick={() => setActiveOption(option)} // Set active option on click
+                      }`}
+                      onClick={() => setActiveOption(option)}
                     >
                       {option}
                     </div>
@@ -112,5 +116,6 @@ const BetOverview = () => {
     </div>
   );
 };
+
 
 export default BetOverview;

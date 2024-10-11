@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
         if (address && address.startsWith('0x')) {
           setWalletAddress(address as `0x${string}`);
 
-          console.log('address', address)
+          // console.log('address', address)
         }
       } catch (error) {
         console.error('Error fetching wallet address:', error);

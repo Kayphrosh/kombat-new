@@ -42,7 +42,7 @@ const Home: React.FC = () => {
           <Image src={logo} alt="Logo" />
           <div className="cta">
             <SignupButton />
-            {!address && <LoginButton />}
+            <LoginButton />
           </div>
         </div>
 
