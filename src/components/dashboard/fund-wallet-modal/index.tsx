@@ -43,7 +43,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ closeModal }) => {
       <div className="modal-content">
         <div className="title">Fund your wallet</div>
         <div className="share-link">
-          <p>Only send BTC to this address</p>
+          <p>Only send USDC BASE SEPOLIA to this address</p>
 
           <div className="link-container">
             {/* Show the wallet address */}

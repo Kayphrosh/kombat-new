@@ -1,9 +1,15 @@
 .navbar-container {
-    position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  @media (max-width: 1024px) {
+    padding: 0 1.5rem;
+  }
+  @media (max-width: 1024px) {
+    padding: 0 .5rem;
+  }
   .navbar-content {
     // position: relative;
     display: flex;
@@ -13,14 +19,24 @@
     max-width: 1500px;
     margin: 0 auto;
     padding: 1.5rem 0;
+
+    @media (max-width: 1024px) {
+      padding: 1.5rem 2rem;
+    }
+
+    @media (max-width: 768px) {
+      padding: 1.5rem 2rem;
+    }
+
+    @media (max-width: 468px) {
+      padding: 1.5rem 1rem;
+    }
   }
 }
 .identity-container {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
-  max-width: 555px;
   margin: auto;
   background: url(../../assets/images/identity-bg.svg);
   background-size: cover;
@@ -31,6 +47,26 @@
   padding: 36px 48px;
   padding-bottom: 200px;
 
+  @media (min-width: 768px) {
+    width: 100%;
+    max-width: 555px;
+  }
+  @media (max-width: 768px) {
+    margin: 0 1.5rem;
+    margin-top: 2.5rem;
+    padding: 1.5rem 1.5rem;
+    padding-bottom: 132px;
+    background: url(../../assets/images/identity--mobile-bg.svg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    width: none;
+    max-width: none;
+  }
+  @media (max-width: 468px) {
+    padding-bottom: 148px;
+  }
+
   .title {
     margin-bottom: 2.5rem;
     color: #fff;
@@ -38,6 +74,11 @@
     font-size: 24px;
     font-style: normal;
     line-height: normal;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+      margin-bottom: 1.5rem;
+    }
   }
 
   .identity-form {
@@ -73,6 +114,11 @@
           border-color: #180406;
           transition: all 0.4s ease-in-out;
         }
+
+        @media (max-width: 768px) {
+          padding: 14px 20px;
+          font-size: 14px;
+        }
       }
     }
 
@@ -81,7 +127,9 @@
       flex-direction: column;
       gap: 1.5rem;
       cursor: pointer;
-
+      @media (max-width: 768px) {
+        gap: 1rem;
+      }
       label {
         color: #fff;
         font-family: 'ABC-Diatype';
@@ -115,6 +163,29 @@
           line-height: normal;
           cursor: pointer;
         }
+        @media (max-width: 768px) {
+          gap: 1rem;
+          margin-left: 0;
+          padding: 10px 20px;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          background: rgba(255, 255, 255, 0.02);
+          color: #fff;
+          font-family: 'ABC-Diatype';
+          font-size: 14px;
+
+          img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            object-position: center;
+          }
+
+          label {
+            // padding: 8px 12px;
+            font-size: 14px !important;
+          }
+        }
       }
     }
   }
@@ -137,6 +208,13 @@
       left: 50%;
       top: 3rem;
       transform: translate(-50%, -2rem);
+    }
+
+    @media (max-width: 768px) {
+      bottom: -30%;
+      margin: 0 auto;
+      left: 5%;
+      transform: translate(0%, 0);
     }
   }
 }

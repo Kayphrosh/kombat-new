@@ -14,6 +14,7 @@ import farcasterIcon from '@/assets/images/icons/farcaster.svg';
 
 import LoginButton from '@/components/LoginBtn';
 import SignupButton from '@/components/SignUpBtn';
+import SignupButtonMobile from '@/components/SignUpBtnMobile';
 import StartKombatButton from '@/components/StartKombatBtn';
 
 const Home: React.FC = () => {
@@ -44,11 +45,14 @@ const Home: React.FC = () => {
             <SignupButton />
             <LoginButton />
           </div>
+          <div className="cta cta-mobile">
+            <SignupButtonMobile />
+          </div>
         </div>
 
         <main>
           <div className="text">
-            <h2>Decentralised and Secure Bet for You and Friends</h2>
+            <h2>Decentralised and secure wager platform</h2>
             <p>
               Experience decentralized, transparent betting where every
               challenge is fair, and funds are secured until the victor emerges.

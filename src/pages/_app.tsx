@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import '@/styles/globals.scss';
 import '@/styles/main.scss';
 import '@coinbase/onchainkit/styles.css';
@@ -9,23 +9,27 @@ import Head from 'next/head';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { baseSepolia } from 'viem/chains';
-import { WagmiConfig } from 'wagmi'; // WagmiConfig instead of WagmiProvider
+import { baseSepolia, Chain } from 'viem/chains';
+import { WagmiProvider } from 'wagmi'; // WagmiConfig instead of WagmiProvider
 import { NEXT_PUBLIC_CDP_API_KEY } from '../config';
 import { useWagmiConfig } from '@/wagmi'; // Import your custom hook
 
 const queryClient = new QueryClient();
 
 function App({ Component, pageProps }: AppProps) {
-  const config = useWagmiConfig(); // Properly call the hook here
+  const wagmiConfig = useWagmiConfig();
 
   return (
     <>
       <Head>
         <title>Kombat</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        ></meta>
         <meta name="description" content="Kombat" />
       </Head>
-      <WagmiConfig config={config}>
+      <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={NEXT_PUBLIC_CDP_API_KEY}
@@ -36,7 +40,7 @@ function App({ Component, pageProps }: AppProps) {
             </RainbowKitProvider>
           </OnchainKitProvider>
         </QueryClientProvider>
-      </WagmiConfig>
+      </WagmiProvider>
     </>
   );
 }

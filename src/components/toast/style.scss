@@ -1,0 +1,60 @@
+.toast-container {
+  position: fixed;
+  top: 120px;
+  right: calc(10% - 50px);
+  z-index: 1111;
+}
+
+.toast {
+  background-color: #333;
+  color: #fff;
+  padding: 2.5rem;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 580px;
+  height: 100px;
+  background: url(../../assets/images/alert-bg.svg);
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
+
+  .main {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .desc {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+
+      h3 {
+        font-family: 'TuskerGrotesk-Medium-6500';
+        font-size: 20px;
+        color: #fff;
+      }
+
+      p {
+        font-family: 'ABC-Diatype';
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.close-button:hover {
+  color: #f00;
+}

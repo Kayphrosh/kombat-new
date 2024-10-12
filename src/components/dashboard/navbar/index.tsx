@@ -10,6 +10,7 @@ import userAvatar from '@/assets/images/icons/avatar-2.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import USDCBalance from '@/components/USDCbalance';
+import menuIcon from '@/assets/images/icons/menu-icon.svg';
 
 const Navbar: React.FC = () => {
   const router = useRouter();
@@ -109,6 +110,9 @@ const Navbar: React.FC = () => {
           >
             <Image id="user-icon" src={userAvatar} alt="Profile" />
             <Image id="drop-down" src={dropDown} alt="Dropdown" />
+          </button>
+          <button className="menu-icon">
+            <Image src={menuIcon} alt="Menu" />
           </button>
         </div>
 

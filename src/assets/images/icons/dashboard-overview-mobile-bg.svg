@@ -1,0 +1,53 @@
+<svg width="380" height="328" viewBox="0 0 380 328" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g filter="url(#filter0_bi_1877_357573)">
+<g filter="url(#filter1_bi_1877_357573)">
+<path d="M10 0H370L380 10.9897V21.9794V306.021V317.01L370 328H10L0 317.866V21.134V10.5L10 0Z" fill="#0A0D15" fill-opacity="0.8"/>
+<path d="M0.5 10.7L10.2143 0.5H369.779L379.5 11.1831V21.9794V306.021V316.817L369.779 327.5H10.2091L0.5 317.661V21.134V10.7Z" stroke="white" stroke-opacity="0.15"/>
+</g>
+<g opacity="0.6">
+<path d="M379.404 231.343C379.463 231.707 380 231.664 380 231.295L380 94.9064C380 94.5383 379.465 94.4938 379.404 94.8569L377.678 105.165C377.669 105.22 377.664 105.275 377.664 105.331L377.664 220.558C377.664 220.612 377.668 220.666 377.677 220.719L379.404 231.343Z" fill="white"/>
+<path d="M379.404 231.343C379.463 231.707 380 231.664 380 231.295L380 94.9064C380 94.5383 379.465 94.4938 379.404 94.8569L377.678 105.165C377.669 105.22 377.664 105.275 377.664 105.331L377.664 220.558C377.664 220.612 377.668 220.666 377.677 220.719L379.404 231.343Z" fill="url(#pattern0_1877_357573)"/>
+</g>
+<g opacity="0.6">
+<path d="M1.98704 222.786C1.78969 224 -2.88384e-07 223.856 -3.20184e-07 222.626L-3.40458e-06 103.324C-3.4363e-06 102.097 1.78358 101.949 1.98626 103.159L2.32233 105.165C2.33147 105.22 2.33606 105.275 2.33606 105.331L2.33606 220.558C2.33606 220.612 2.33173 220.666 2.32311 220.719L1.98704 222.786Z" fill="white"/>
+<path d="M1.98704 222.786C1.78969 224 -2.88384e-07 223.856 -3.20184e-07 222.626L-3.40458e-06 103.324C-3.4363e-06 102.097 1.78358 101.949 1.98626 103.159L2.32233 105.165C2.33147 105.22 2.33606 105.275 2.33606 105.331L2.33606 220.558C2.33606 220.612 2.33173 220.666 2.32311 220.719L1.98704 222.786Z" fill="url(#pattern1_1877_357573)"/>
+</g>
+<path d="M380 0L380 9L378.5 7L378.5 1.5L373 1.5L371 7.86805e-07L380 0Z" fill="#D9D9D9"/>
+<path d="M7.86805e-07 0L0 9L1.5 7L1.5 1.5L7 1.5L9 7.86805e-07L7.86805e-07 0Z" fill="#D9D9D9"/>
+<path d="M7.86805e-07 328L0 319L1.5 321L1.5 326.5L7 326.5L9 328L7.86805e-07 328Z" fill="#D9D9D9"/>
+<path d="M380 328L380 319L378.5 321L378.5 326.5L373 326.5L371 328L380 328Z" fill="#D9D9D9"/>
+</g>
+<defs>
+<filter id="filter0_bi_1877_357573" x="-20" y="-20" width="420" height="368" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="10"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_1877_357573"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_1877_357573" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="21.1265"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.13 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_1877_357573"/>
+</filter>
+<filter id="filter1_bi_1877_357573" x="-20" y="-20" width="420" height="368" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="10"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_1877_357573"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_1877_357573" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="12"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_1877_357573"/>
+</filter>
+<pattern id="pattern0_1877_357573" patternContentUnits="objectBoundingBox" width="0.0313128" height="1.92632">
+<use xlink:href="#image0_1877_357573" transform="scale(0.0034792 0.214035)"/>
+</pattern>
+<pattern id="pattern1_1877_357573" patternContentUnits="objectBoundingBox" width="0.0313128" height="1.92632">
+<use xlink:href="#image0_1877_357573" transform="scale(0.0034792 0.214035)"/>
+</pattern>
+<image id="image0_1877_357573" width="9" height="9" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAiSURBVHgB3dCxAQAACMKw8v/P4gfKTOdMFXcmAK4Hgv/FLGnkEPHOzzMnAAAAAElFTkSuQmCC"/>
+</defs>
+</svg>

@@ -21,6 +21,13 @@
 
     @media (max-width: 1024px) {
       padding: 56px 24px;
+      padding-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+      padding: 2rem 1.5rem;
+    }
+    @media (max-width: 468px) {
+      padding: 2rem 1rem;
     }
 
     .top-bar {
@@ -30,12 +37,19 @@
       margin-bottom: 5rem;
 
       position: relative;
+
+      @media (max-width: 768px) {
+        margin-bottom: 2rem;
+      }
       .cta {
         display: flex;
         gap: 1rem;
 
         .font-sans {
           font-family: 'ABC-Diatype' !important;
+        }
+        @media (max-width: 768px) {
+          display: none;
         }
         button {
           display: flex;
@@ -55,6 +69,22 @@
           line-height: normal;
         }
       }
+      .cta.cta-mobile {
+        display: none;
+
+        @media (max-width: 768px) {
+          display: flex;
+          .font-sans {
+            font-family: 'ABC-Diatype' !important;
+            font-size: 14px;
+          }
+
+          button {
+            padding: 4px 8px;
+            font-size: 14px;
+          }
+        }
+      }
     }
 
     main {
@@ -64,7 +94,14 @@
       gap: 2rem;
       margin: auto 0;
 
-
+      @media (max-width: 1024px) {
+        align-items: center;
+      }
+      @media (max-width: 768px) {
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 2rem;
+      }
       .text {
         flex-basis: 50%;
         position: relative;
@@ -78,7 +115,7 @@
           line-height: normal;
 
           @media (max-width: 1024px) {
-            font-size: 32px;
+            font-size: 42px;
           }
         }
 
@@ -91,6 +128,15 @@
           line-height: 150%;
           letter-spacing: 0.18px;
           max-width: 470px;
+
+          @media (max-width: 1024px) {
+            margin-top: 1rem;
+            font-size: 16px;
+            letter-spacing: normal;
+          }
+          @media (max-width: 768px) {
+            font-size: 14px;
+          }
         }
 
         .text-ock-inverse,
@@ -110,10 +156,9 @@
           justify-content: center;
           align-items: center;
           color: #000 !important;
+          font-family: 'ABC-Diatype' !important;
         }
         button {
-          // all: unset;
-          // margin-top: 48px;
           margin-right: auto;
           position: relative !important;
           transform: translate(-20%);
@@ -133,6 +178,13 @@
             top: 3rem;
             transform: translate(-50%, -2rem);
             // z-index: 0;
+            font-family: 'ABC-Diatype' !important;
+          }
+
+          @media (max-width: 768px) {
+            position: absolute;
+            // top: 0%;
+            max-height: 40px;
           }
         }
       }
@@ -141,8 +193,21 @@
         flex-basis: 50%;
 
         img {
+          width: 100%;
           max-width: 550px;
           margin-left: auto;
+        }
+        @media (max-width: 768px) {
+          margin: 0 auto;
+          margin-top: 80px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            margin: 0 auto;
+            width: 90%;
+          }
         }
       }
 
@@ -151,10 +216,26 @@
         left: 40%;
         bottom: 0;
         transform: translate(-40%, 0);
+
+        @media (max-width: 1024px) {
+          left: 30%;
+          bottom: -5rem;
+          img {
+            width: 90%;
+          }
+        }
+        @media (max-width: 768px) {
+          bottom: -10rem;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
       }
     }
 
     .join-community {
+      @media (max-width: 768px) {
+        padding-top: 250px;
+      }
       .title {
         color: #fff;
         font-family: 'Unbounded', sans-serif;
@@ -162,6 +243,10 @@
         font-style: normal;
         font-weight: 500;
         line-height: normal;
+
+        @media (max-width: 768px) {
+          font-size: 16px;
+        }
       }
 
       .sm-links {
@@ -179,6 +264,12 @@
           background: rgba(255, 255, 255, 0.03);
           box-shadow: -2px 4px 0px 0px #fff;
           margin-bottom: 1rem;
+
+          @media (max-width: 768px) {
+            img {
+              width: 1rem;
+            }
+          }
         }
       }
     }
