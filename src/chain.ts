@@ -1,4 +1,4 @@
-const baseSepolia = {
+export const baseSepolia = {
   id: 11155111, // The chain ID for Sepolia
   name: 'Base Sepolia',
   nativeCurrency: {

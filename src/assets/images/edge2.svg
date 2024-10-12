@@ -1,0 +1,35 @@
+<svg width="15" height="195" viewBox="0 0 15 195" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<mask id="mask0_1894_366174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="15" height="194">
+<rect width="15" height="194" transform="matrix(-1 0 0 1 15 0)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_1894_366174)">
+<g filter="url(#filter0_bi_1894_366174)">
+<path d="M11.421 1H-350.219L-354 14V182L-350.219 195H11.421L15 182.5V13.5L11.421 1Z" fill="#0A0D15" fill-opacity="0.8"/>
+<path d="M14.5599 13.5618L11.0892 1.44013H-349.889L-353.56 14.0628V181.937L-349.889 194.56H11.0892L14.5599 182.438V13.5618Z" stroke="white" stroke-opacity="0.15" stroke-width="0.88027"/>
+</g>
+<g opacity="0.6">
+<path d="M13.183 137.426C13.7457 138.223 15 137.825 15 136.849L15 58.0752C15 57.1067 13.7609 56.7038 13.1913 57.487L9.19127 62.987C9.06696 63.1579 9 63.3638 9 63.5752L9 131.183C9 131.389 9.06394 131.591 9.18303 131.759L13.183 137.426Z" fill="white"/>
+<path d="M13.183 137.426C13.7457 138.223 15 137.825 15 136.849L15 58.0752C15 57.1067 13.7609 56.7038 13.1913 57.487L9.19127 62.987C9.06696 63.1579 9 63.3638 9 63.5752L9 131.183C9 131.389 9.06394 131.591 9.18303 131.759L13.183 137.426Z" fill="url(#pattern0_1894_366174)"/>
+</g>
+</g>
+<path d="M15 1H7L8 2H14V11L15 12V1Z" fill="#D9D9D9"/>
+<path d="M15 195H7L8 194H14V185L15 184V195Z" fill="#D9D9D9"/>
+<defs>
+<filter id="filter0_bi_1894_366174" x="-374" y="-19" width="409" height="234" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="10"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_1894_366174"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_1894_366174" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="21.1265"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.13 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_1894_366174"/>
+</filter>
+<pattern id="pattern0_1894_366174" patternContentUnits="objectBoundingBox" width="0.0529412" height="0.75">
+<use xlink:href="#image0_1894_366174" transform="scale(0.00588235 0.0833333)"/>
+</pattern>
+<image id="image0_1894_366174" width="9" height="9" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAiSURBVHgB3dCxAQAACMKw8v/P4gfKTOdMFXcmAK4Hgv/FLGnkEPHOzzMnAAAAAElFTkSuQmCC"/>
+</defs>
+</svg>

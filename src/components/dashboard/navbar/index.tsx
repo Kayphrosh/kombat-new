@@ -94,7 +94,10 @@ const Navbar: React.FC = () => {
             <Image src={balanceIcon} alt="Balance" />
             <span>
               {walletAddress ? (
-                <USDCBalance walletAddress={walletAddress} />
+                <USDCBalance 
+                  walletAddress={walletAddress} 
+                  onBalanceUpdate={(balance) => {/* Handle balance update */}}
+                />
               ) : (
                 <p>Fetching wallet address...</p>
               )}

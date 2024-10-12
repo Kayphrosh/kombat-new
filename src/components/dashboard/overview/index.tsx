@@ -5,6 +5,8 @@ import Image from 'next/image';
 import LiveBets from './live-bets';
 import cornerTopLeft from '@/assets/images/icons/corner-top-left.svg';
 import cornerBottomRight from '@/assets/images/icons/corner-bottom-right.svg';
+import sideLeft from '@/assets/images/edge1.svg';
+import sideRight from '@/assets/images/edge2.svg';
 import cornerTopRight from '@/assets/images/icons/corner-top-right.svg';
 import cornerBottomLeft from '@/assets/images/icons/corner-bottom-left.svg';
 import rectangle from '@/assets/images/icons/rectangle.svg';
@@ -16,12 +18,14 @@ const Overview = () => {
 
       <div className="overview-content">
         <div className="dashboard-stats">
+          <div className="bg-middle"></div>
           <Image src={cornerTopLeft} alt="" className="corner-top-left" />
           <Image
             src={cornerBottomRight}
             alt=""
             className="corner-bottom-right"
           />
+
           <Image src={cornerTopRight} alt="" className="corner-top-right" />
           <Image src={cornerBottomLeft} alt="" className="corner-bottom-left" />
 

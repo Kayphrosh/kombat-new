@@ -1,11 +1,11 @@
-import React from 'react'
-import NewKombatForm from '@/components/dashboard/new-kombat'
+import React from 'react';
+import NewKombatForm from '@/components/dashboard/new-kombat';
 const index = () => {
   return (
     <div>
-        <NewKombatForm />
+      <NewKombatForm message="" onClose={() => {}} />
     </div>
-  )
-}
+  );
+};
 
-export default index
+export default index;
