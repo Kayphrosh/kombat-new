@@ -4,24 +4,41 @@ import logo from '@/assets/images/logo.svg';
 import avatarPlaceholder from '@/assets/images/icons/avatar-placeholder.png';
 import buttonBg from '@/assets/images/icons/button-bg.svg';
 import Link from 'next/link';
+import { useAccount } from 'wagmi';
+import { Name } from '@coinbase/onchainkit/identity';
+import { baseSepolia } from 'viem/chains';
+import { useFirestore  } from '../Firebasewrapper';
 
 const Identity: React.FC = () => {
   // State for storing username and avatar
   const [username, setUsername] = useState<string>('');
-  const [avatar, setAvatar] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const account = useAccount();
+  const {createUser, uploadProfilePicture, isUsernameTaken} = useFirestore();
 
   // Handle username input
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
+  const handleUsernameChange = async () => {
+   try {
+     const usernameExists = await isUsernameTaken(username);
+     if (usernameExists) {
+       console.error('Username is already taken');
+       setError('Username is already taken');
+       return;
+     }
 
-  // Handle avatar upload
-  const handleAvatarUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const avatarUrl = URL.createObjectURL(file);
-      setAvatar(avatarUrl);
-    }
+     await createUser(account.address as string, username);
+
+     if (avatar) {
+       const imageUrl = await uploadProfilePicture(avatar, account.address as string);
+       console.log('Profile picture uploaded at:', imageUrl);
+     }
+
+     console.log('User created successfully');
+   } catch (err) {
+     console.error(err);
+     setError(err as string);
+   } 
   };
 
   return (
@@ -42,20 +59,34 @@ const Identity: React.FC = () => {
               type="text"
               id="username"
               value={username}
-              onChange={handleUsernameChange}
+              onChange={(e) => { 
+                setUsername(e.target.value);
+                setError(null);
+              }
+              }
               placeholder="Enter your username"
             />
+            {error && <div className="error">{error.toString()}</div>}
           </div>
 
           <div className="input-img">
             <label htmlFor="avatar-upload">Choose your Avatar</label>
             <div className="upload-image">
-              <Image
-                src={avatar || avatarPlaceholder}
-                alt="Avatar"
-                width={100}
-                height={100}
-              />
+              {avatar ? (
+                <Image
+                  src={URL.createObjectURL(avatar)}
+                  alt="Avatar"
+                  width={100}
+                  height={100}
+                />
+              ) : (
+                <Image
+                  src={avatarPlaceholder}
+                  alt="Avatar"
+                  width={100}
+                  height={100}
+                />
+              )}
               <button>
                 <label htmlFor="avatar-upload">Upload your image</label>
               </button>
@@ -63,19 +94,19 @@ const Identity: React.FC = () => {
                 type="file"
                 id="avatar-upload"
                 accept="image/*"
-                onChange={handleAvatarUpload}
+                onChange={(e) => setAvatar(e.target.files?.[0] || null)}
                 style={{ display: 'none' }}
               />
             </div>
           </div>
         </div>
 
-        <Link href="/overview">
-          <button className="cta">
+        {/* <Link href="/overview"> */}
+          <button className="cta" onClick={() => handleUsernameChange()}>
             <div>Enter Arena</div>
             <Image src={buttonBg} alt="Button Background" />
           </button>
-        </Link>
+        {/* </Link> */}
       </div>
     </div>
   );

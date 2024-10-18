@@ -3,6 +3,7 @@ import '@/styles/globals.scss';
 import '@/styles/main.scss';
 import '@coinbase/onchainkit/styles.css';
 import '@rainbow-me/rainbowkit/styles.css';
+import '@coinbase/onchainkit/styles.css';
 import type { AppProps } from 'next/app';
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
@@ -14,26 +15,10 @@ import { WagmiProvider } from 'wagmi'; // WagmiConfig instead of WagmiProvider
 import { NEXT_PUBLIC_CDP_API_KEY } from '../config';
 import { useWagmiConfig } from '@/wagmi'; // Import your custom hook
 import { baseSepolia } from '@/chain';
+import { FirestoreProvider } from '@/components/Firebasewrapper';
+
 const queryClient = new QueryClient();
 
-// const baseSepolia: Chain = {
-//   id: 84532,
-//   name: 'Base Sepolia',
-//   nativeCurrency: {
-//     name: 'Sepolia Ether',
-//     symbol: 'ETH',
-//     decimals: 18,
-//   },
-//   rpcUrls: {
-//     default: { http: ['https://sepolia.base.org'] },
-//     public: { http: ['https://sepolia.base.org'] },
-//   },
-//   fees: {
-//     // Make sure this is compatible with the Chain type from viem
-//     baseFeeMultiplier: 1.2 as any,
-//   },
-//   // ... other properties ...
-// };
 
 function App({ Component, pageProps }: AppProps) {
   const wagmiConfig = useWagmiConfig();
@@ -49,16 +34,18 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="description" content="Kombat" />
       </Head>
       <WagmiProvider config={wagmiConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            apiKey={NEXT_PUBLIC_CDP_API_KEY}
-            chain={baseSepolia}
-          >
-            <RainbowKitProvider modalSize="compact">
-              <Component {...pageProps} />
-            </RainbowKitProvider>
-          </OnchainKitProvider>
-        </QueryClientProvider>
+        <FirestoreProvider>
+          <QueryClientProvider client={queryClient}>
+            <OnchainKitProvider
+              apiKey={NEXT_PUBLIC_CDP_API_KEY}
+              chain={baseSepolia}
+            >
+              <RainbowKitProvider modalSize="compact">
+                <Component {...pageProps} />
+              </RainbowKitProvider>
+            </OnchainKitProvider>
+          </QueryClientProvider>
+        </FirestoreProvider>
       </WagmiProvider>
     </>
   );

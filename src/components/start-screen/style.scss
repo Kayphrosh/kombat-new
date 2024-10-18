@@ -8,6 +8,13 @@
   background-position: center center;
   background-repeat: no-repeat;
 
+  @media (max-width: 768px) {
+    background-position: top center;
+    background: url(../../assets/images/icons/home-mobile.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
   .start-screen-content {
     display: flex;
     flex-direction: column;
@@ -45,23 +52,34 @@
         display: flex;
         gap: 1rem;
 
-        .font-sans {
-          font-family: 'ABC-Diatype' !important;
-        }
         @media (max-width: 768px) {
+          display: none;
+        }
+        .font-sans {
+          font-family: 'ABC-Diatype';
+          color: #fff;
+          font-size: 16px;
+        }
+        .bg-ock-default {
+          background: #0a0d15;
+        }
+        .fill-ock-default-reverse {
+          color: #fff !important;
+          fill: #fff !important;
+        }
+        button.pointer-events-none {
           display: none;
         }
         button {
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 40px;
+          min-height: 40px;
           padding: 8px 16px;
           border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.05);
           background: rgba(14, 17, 25, 0.24);
           box-shadow: 0px 0px 16px 0px rgba(255, 255, 255, 0.1) inset;
-
           color: #fff;
           font-family: 'ABC-Diatype';
           font-size: 16px;
@@ -80,8 +98,9 @@
           }
 
           button {
-            padding: 4px 8px;
-            font-size: 14px;
+            min-height: 40px;
+            padding: 8px 1rem;
+            font-size: 12px;
           }
         }
       }
@@ -139,6 +158,30 @@
           }
         }
 
+        .main-cta {
+          display: flex;
+          gap: 2rem;
+          gap: 1rem;
+          position: relative;
+          max-width: 200px;
+
+          .market-btn {
+            margin-top: 3rem;
+            margin-left: -110px;
+            background: #000;
+            height: 54px;
+            background: #151720;
+            color: #fff;
+            padding: 16px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: normal;
+            font-family: 'Unbounded', sans-serif;
+            font-style: normal;
+          }
+        }
         .text-ock-inverse,
         .btn-custom {
           all: unset;
@@ -158,6 +201,9 @@
           color: #000 !important;
           font-family: 'ABC-Diatype' !important;
         }
+        .btn-custom div {
+          display: none;
+        }
         button {
           margin-right: auto;
           position: relative !important;
@@ -167,15 +213,21 @@
           font-size: 16px;
           font-style: normal;
           line-height: normal;
+
+          &:hover {
+            img {
+              transition: all 0.4s linear;
+            }
+          }
           img {
             width: 100%;
             height: auto;
           }
           #text {
             position: absolute;
-            visibility: hidden;
+            visibility: visible;
             left: 50%;
-            top: 3rem;
+            top: 6.2rem;
             transform: translate(-50%, -2rem);
             // z-index: 0;
             font-family: 'ABC-Diatype' !important;
@@ -183,7 +235,6 @@
 
           @media (max-width: 768px) {
             position: absolute;
-            // top: 0%;
             max-height: 40px;
           }
         }
@@ -225,16 +276,17 @@
           }
         }
         @media (max-width: 768px) {
-          bottom: -10rem;
-          left: 50%;
+          bottom: -28%;
+          left: 55%;
           transform: translate(-50%, 0);
+          width: 70%;
         }
       }
     }
 
     .join-community {
       @media (max-width: 768px) {
-        padding-top: 250px;
+        padding-top: 280px;
       }
       .title {
         color: #fff;

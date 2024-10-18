@@ -158,6 +158,30 @@
         font-style: normal;
         line-height: normal;
 
+        .tx-btton {
+          transform: translateY(1.5rem);
+          width: 200px;
+          min-height: 56px;
+          transform: translate(35%, -1rem);
+          background: transparent;
+          .status-label {
+            color: #000 !important;
+
+            span {
+              display: none !important;
+            }
+          }
+        }
+        span {
+          display: none !important;
+        }
+        .text-ock-error {
+          display: none;
+        }
+        .text-ock-foreground-muted {
+          display: none;
+        }
+
         &:hover {
           img {
             transform: scale(0.98);

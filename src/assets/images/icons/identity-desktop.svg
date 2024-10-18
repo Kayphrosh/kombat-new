@@ -1,0 +1,20 @@
+<svg width="553" height="543" viewBox="0 0 553 543" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_bi_1913_366312)">
+<path d="M36.6303 3.81495C39.5241 1.35234 43.1999 0 46.9997 0H506.547C510.509 0 514.329 1.4697 517.27 4.12462L532.851 18.1933L547.723 31.6215C551.082 34.6552 553 38.9701 553 43.4969V499.503C553 504.03 551.082 508.345 547.723 511.378L517.27 538.875C514.329 541.53 510.509 543 506.547 543H46.9997C43.1999 543 39.5241 541.648 36.6303 539.185L5.63059 512.804C2.05834 509.764 0 505.31 0 500.619V42.3806C0 37.6899 2.05834 33.2355 5.63059 30.1955L36.6303 3.81495Z" fill="#0A0D15" fill-opacity="0.8"/>
+<path d="M46.9997 0.440135H506.547C510.4 0.440135 514.115 1.8694 516.975 4.45129L532.556 18.52L547.428 31.9482C550.695 34.8984 552.56 39.0947 552.56 43.4969V499.503C552.56 503.905 550.695 508.102 547.428 511.052L516.975 538.549C514.115 541.131 510.4 542.56 506.547 542.56H46.9997C43.3044 542.56 39.7297 541.245 36.9155 538.85L5.91584 512.469C2.44186 509.513 0.440135 505.181 0.440135 500.619V42.3806C0.440135 37.8189 2.44185 33.487 5.91584 30.5307L36.9155 4.15014C39.7297 1.75527 43.3044 0.440135 46.9997 0.440135Z" stroke="white" stroke-opacity="0.15" stroke-width="0.88027"/>
+</g>
+<defs>
+<filter id="filter0_bi_1913_366312" x="-20" y="-20" width="593" height="583" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="10"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_1913_366312"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_1913_366312" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="21.1265"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.13 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_1913_366312"/>
+</filter>
+</defs>
+</svg>

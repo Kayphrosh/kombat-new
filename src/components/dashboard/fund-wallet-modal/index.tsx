@@ -10,30 +10,28 @@ interface FundWalletModalProps {
 }
 
 const FundWalletModal: React.FC<FundWalletModalProps> = ({ closeModal }) => {
-  const [isCopied, setIsCopied] = useState(false); // State to track copy status
-  const { address } = useAccount(); // Destructure the address from useAccount()
+  const [isCopied, setIsCopied] = useState(false);
+  const { address } = useAccount();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const copyToClipboard = async () => {
-    if (!address) return; // Ensure the address exists before copying
+    if (!address) return;
     try {
-      await navigator.clipboard.writeText(address); // Copy the address to clipboard
-      setIsCopied(true); // Update state to show 'Copied!'
-      setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+      await navigator.clipboard.writeText(address);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
   };
 
-  // Generate the QR code URL whenever the address changes
   useEffect(() => {
     if (address) {
-      // console.log(`Wallet Address: ${address}`);
       QRCode.toDataURL(address, { width: 250 }, (err, url) => {
         if (err) {
           console.error('Failed to generate QR code: ', err);
           return;
         }
-        setQrCodeUrl(url); // Set the generated QR code URL
+        setQrCodeUrl(url);
       });
     }
   }, [address]);
@@ -46,7 +44,6 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ closeModal }) => {
           <p>Only send USDC BASE SEPOLIA to this address</p>
 
           <div className="link-container">
-            {/* Show the wallet address */}
             <div className="link">
               {address ? (
                 <span>{address}</span>
@@ -56,7 +53,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ closeModal }) => {
             </div>
             <div className="btn" onClick={copyToClipboard}>
               {isCopied ? (
-                <span>Copied!</span> // Show 'Copied!' text
+                <span>Copied!</span>
               ) : (
                 <Image src={copyLink} alt="Copy link" />
               )}
@@ -67,7 +64,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ closeModal }) => {
         <div className="scan-qrcode">
           <p>Or Scan the QR Code</p>
           {qrCodeUrl ? (
-            <img src={qrCodeUrl} alt="QR Code" /> // Render the QR code image
+            <img src={qrCodeUrl} alt="QR Code" />
           ) : (
             <p>No QR code available</p>
           )}

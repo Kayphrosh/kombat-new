@@ -7,14 +7,27 @@ import Image from 'next/image';
 import { liveBets } from '@/components/dashboard/overview/live-bets/livebet-data';
 import ShareLinkModal from '../share-link-modal';
 import buttonBg from '@/assets/images/icons/button-bg.svg';
+import Countdown from '../overview/live-bets/countdown';
+import { useReadContract } from 'wagmi';
+import { KomatAbi } from '@/KombatAbi';
+import { useAccount } from 'wagmi';
+
 
 const BetOverview = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = router.query;
+  console.log('id', id);
 
-  // Ensure hooks are always called
-  const liveBet = liveBets.find((bet) => bet.id === parseInt(id as string, 10));
+  const account = useAccount();
+  const { data, isError, isLoading } = useReadContract({
+    address: '0x837e01e02Da39A1271194D02018e70D1601c2F7a', // USDC contract address
+    abi: KomatAbi,
+    functionName: 'getBetDetails',
+    args: [BigInt(id as string)],
+  });
+  const liveBet = {};
+  console.log('data', data);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -26,20 +39,6 @@ const BetOverview = () => {
     return <div>Bet not found</div>;
   }
 
-  const warriors = [
-    {
-      id: 0,
-      avatar: liveBet.youImage,
-      userName: 'You',
-      amount: '1200',
-    },
-    {
-      id: 1,
-      avatar: liveBet.opponentImage,
-      userName: liveBet.opponent,
-      amount: '1200',
-    },
-  ];
 
   return (
     <div className="new-combat-container">
@@ -56,11 +55,12 @@ const BetOverview = () => {
             <div className="time">
               <div className="time-left">
                 <Image src={timeIcon} alt="Time Left" />
-                {liveBet.timeLeft}
+                {/* {liveBet.timeLeft} */}
+                <Countdown endTime={Number(data?.endTimeStamp)} />
               </div>
 
               <button onClick={openModal}>
-                <div>Invite Friends</div>
+                <div>Declare Winner</div>
                 <Image src={buttonBg} alt="Invite Friends" />
               </button>
             </div>
@@ -69,7 +69,7 @@ const BetOverview = () => {
 
               <div className="desc">
                 <div className="title">Description</div>
-                <p>{liveBet.description}</p>
+                <p>{data?.betName}</p>
               </div>
 
               <div className="options-container">
@@ -92,12 +92,12 @@ const BetOverview = () => {
             </div>
             <div className="stake">
               <div className="title">Your Stake</div>
-              <div className="value">{liveBet.stake}</div>
+              <div className="value">{data?.amount}</div>
             </div>
           </div>
 
           <div className="combat-warriors-container">
-            <div className="combat-warriors">
+            {/* <div className="combat-warriors">
               {warriors.map((warrior) => (
                 <div className="warrior" key={warrior.id}>
                   <div className="user-desc">
@@ -107,7 +107,7 @@ const BetOverview = () => {
                   <div className="amount">${warrior.amount}</div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -116,6 +116,5 @@ const BetOverview = () => {
     </div>
   );
 };
-
 
 export default BetOverview;

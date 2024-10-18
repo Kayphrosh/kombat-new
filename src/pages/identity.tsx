@@ -1,11 +1,9 @@
-import React from 'react';
+// pages/identity.tsx
 import Identity from '@/components/identity';
-const identity = () => {
-  return (
-    <div>
-      <Identity />
-    </div>
-  );
+import { GetStaticProps } from 'next';
+
+const IdentityPage = (props: any) => {
+  return <Identity {...props} />;
 };
 
-export default identity;
+export default IdentityPage;

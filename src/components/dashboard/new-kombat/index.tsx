@@ -18,6 +18,9 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
 import { KomatAbi } from '@/KombatAbi';
+import { useReadContract } from 'wagmi';
+import { formatUnits } from 'viem';
+import { erc20Abi } from 'viem';
 
 interface ToastProps {
   message: string;
@@ -34,6 +37,8 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     selectedOption: 'yes' as 'yes' | 'no',
     amount: '',
     challenger: '',
+    date: '',
+    time: '',
   });
 
   const [step, setStep] = useState(1);
@@ -44,7 +49,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     amount: '',
     challenger: '',
   });
-
+  
   const router = useRouter();
 
   const handleChange = (
@@ -112,12 +117,20 @@ const NewKombatForm: React.FC<ToastProps> = () => {
   const prevStep = () => {
     setStep(step - 1);
   };
-  // const { address: account } = useAccount(); // Get the account address
-  const [availableBalance, setAvailableBalance] = useState<number>(0);
-  const { address: account } = useAccount();
+  const account = useAccount(); // Get the account address
+  const [availableBalance, setAvailableBalance] = useState<number>();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  const { data } = useReadContract({
+    address: '0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5', // USDC contract address
+    abi: erc20Abi,
+    functionName: 'balanceOf',
+    args: [account.address as `0x${string}`],
+  });
+
+  const balance = Math.floor(Number(data?.toString()) / 1e18);
+  // console.log('balance', balance);
   const handleBalanceUpdate = useCallback((balance: number) => {
     setAvailableBalance(balance);
   }, []);
@@ -128,29 +141,16 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     if (validateStepTwo()) {
       const amount = parseFloat(formData.amount);
 
-      if (amount > availableBalance) {
+      if (amount > balance) {
         setToastMessage('Insufficient funds. Please top up your wallet!');
         setShowToast(true);
         setTimeout(() => setShowToast(false), 6000);
       } else {
-        setIsShareLinkModalVisible(true);
+        // router.push('/overview');
+        console.log('formData', formData);
       }
     }
   };
-
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (validateStepTwo()) {
-  //     const amount = parseFloat(formData.amount);
-  //     const availableBalance = 120; // This should be dynamically set based on user's actual balance
-
-  //     if (amount > availableBalance) {
-  //       setIsFundWalletModalVisible(true);
-  //     } else {
-  //       setIsShareLinkModalVisible(true);
-  //     }
-  //   }
-  // };
 
   const handleCloseFundWalletModal = () => {
     setIsFundWalletModalVisible(false);
@@ -161,7 +161,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
 
   const handleCloseShareLinkModal = () => {
     setIsShareLinkModalVisible(false);
-    router.push('/invite-friends');
+    router.push('/overview');
   };
 
   const contracts = [
@@ -207,7 +207,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
             handleChange={handleChange}
             prevStep={prevStep}
             handleSubmit={handleSubmit}
-            availableBalance={availableBalance}
+            availableBalance={balance}
             errors={errors}
           />
         )}

@@ -32,3 +32,5 @@ export const liveBets = [
     description: 'Another bet description...',
   },
 ];
+
+export const getTotalLiveBets = () => `0${liveBets.length}`;

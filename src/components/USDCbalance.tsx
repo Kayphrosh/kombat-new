@@ -31,7 +31,7 @@ const USDCBalance: React.FC<USDCBalanceProps> = ({
   if (isError) return <span>Error fetching balance</span>;
 
   const balance = data ? BigInt(data.toString()) : BigInt(0);
-  const formattedBalance = formatUnits(balance, 6);
+  const formattedBalance = formatUnits(balance, 18);
   return <span>${parseFloat(formattedBalance).toFixed(2)} USDC</span>;
 };
 

@@ -1,5 +1,5 @@
 export const baseSepolia = {
-  id: 11155111, // The chain ID for Sepolia
+  id: 11155111,
   name: 'Base Sepolia',
   nativeCurrency: {
     name: 'Ethereum',
@@ -8,13 +8,17 @@ export const baseSepolia = {
   },
   rpcUrls: {
     default: {
-      http: ['https://rpc.sepolia.base.org'],
+      http: ['https://sepolia.base.org'],
+    },
+    public: {
+      http: ['https://sepolia.base.org'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Basescan',
-      url: 'https://basescan.org',
+      url: 'https://sepolia.basescan.org',
     },
   },
+  testnet: true,
 };

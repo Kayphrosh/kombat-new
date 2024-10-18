@@ -2,45 +2,36 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useAccount, useDisconnect } from 'wagmi';
 import FundWalletModal from '../fund-wallet-modal';
-import logo from '@/assets/images/logo.svg';
-import overview from '@/assets/images/icons/overview.svg';
-import dropDown from '@/assets/images/icons/drop-down.svg';
-import balanceIcon from '@/assets/images/icons/balance.svg';
 import userAvatar from '@/assets/images/icons/avatar-2.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import USDCBalance from '@/components/USDCbalance';
 import menuIcon from '@/assets/images/icons/menu-icon.svg';
+import notificationIcon from '@/assets/images/icons/notification.svg';
+import { DropdownIcon, LogoIcon, NavLinkIcon, WalletIcon } from './svg';
+import NotificationModal from '../notification-modal';
 
 const Navbar: React.FC = () => {
   const router = useRouter();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
   const [walletAddress, setWalletAddress] = useState<`0x${string}` | null>(
     null,
   );
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const notificationModalRef = useRef<HTMLDivElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    const fetchWalletAddress = async () => {
-      try {
-        // Replace this with your actual method to get the wallet address
-        // For now, we'll use the address from useAccount
-        if (address && address.startsWith('0x')) {
-          setWalletAddress(address as `0x${string}`);
-
-          // console.log('address', address)
-        }
-      } catch (error) {
-        console.error('Error fetching wallet address:', error);
-      }
-    };
-
-    fetchWalletAddress();
+    if (address?.startsWith('0x')) {
+      setWalletAddress(address as `0x${string}`);
+    }
   }, [address]);
 
   const handleDisconnect = () => {
@@ -48,7 +39,38 @@ const Navbar: React.FC = () => {
     router.push('/');
   };
 
-  const handleDropdownToggle = () => {
+  const handleNotificationModalToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setNotificationModalOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const handleNotificationModalClickOutside = (event: MouseEvent) => {
+      if (
+        notificationModalRef.current &&
+        !notificationModalRef.current.contains(event.target as Node)
+      ) {
+        setNotificationModalOpen(false);
+      }
+    };
+
+    if (isNotificationModalOpen) {
+      document.addEventListener(
+        'mousedown',
+        handleNotificationModalClickOutside,
+      );
+    }
+
+    return () => {
+      document.removeEventListener(
+        'mousedown',
+        handleNotificationModalClickOutside,
+      );
+    };
+  }, [isNotificationModalOpen]);
+
+  const handleDropdownToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setDropdownOpen((prev) => !prev);
   };
 
@@ -60,7 +82,14 @@ const Navbar: React.FC = () => {
       ) {
         setDropdownOpen(false);
       }
+      if (
+        notificationModalRef.current &&
+        !notificationModalRef.current.contains(event.target as Node)
+      ) {
+        setNotificationModalOpen(false);
+      }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -70,64 +99,108 @@ const Navbar: React.FC = () => {
   return (
     <div className="navbar-container">
       <div className="navbar-content">
-        <Image src={logo} alt="Logo" />
+        <LogoIcon />
 
         <div className="nav-links">
           <Link
             href="/overview"
             className={router.pathname === '/overview' ? 'active' : ''}
           >
-            <Image src={overview} alt="Overview" />
+            <NavLinkIcon />
             Overview
           </Link>
           <Link
             href="/wallet"
             className={router.pathname === '/wallet' ? 'active' : ''}
           >
-            <Image src={overview} alt="Wallet" />
+            <NavLinkIcon />
             Wallet
           </Link>
         </div>
 
         <div className="cta">
-          <div className="wallet-balance">
-            <Image src={balanceIcon} alt="Balance" />
+          {/* <Avatar
+            address="0x21A5a01E50af8a55F2ABa73bD3CbCd4Ed09168dC"
+            chain={baseSepolia}
+          /> */}
+
+          <div className="wallet-balance" onClick={() => setIsModalOpen(true)}>
+            <WalletIcon />
             <span>
               {walletAddress ? (
-                <USDCBalance 
-                  walletAddress={walletAddress} 
-                  onBalanceUpdate={(balance) => {/* Handle balance update */}}
+                <USDCBalance
+                  walletAddress={walletAddress}
+                  onBalanceUpdate={(balance) => {}}
                 />
               ) : (
-                <p>Fetching wallet address...</p>
+                <p>Loading...</p>
               )}
             </span>
           </div>
-          <button className="fund-wallet-btn" onClick={openModal}>
-            Fund
-          </button>
+
+          <div
+            className="fund-wallet-btn"
+            title="Notification"
+            onClick={handleNotificationModalToggle}
+          >
+            <Image src={notificationIcon} alt="Notification" />
+            <span>02</span>
+          </div>
+
           <button
             className="profile-settings-dropdown"
             title="profile-settings"
             onClick={handleDropdownToggle}
           >
             <Image id="user-icon" src={userAvatar} alt="Profile" />
-            <Image id="drop-down" src={dropDown} alt="Dropdown" />
+            <DropdownIcon />
           </button>
-          <button className="menu-icon">
+
+          <button
+            className="menu-icon"
+            title="menu"
+            onClick={handleDropdownToggle}
+          >
             <Image src={menuIcon} alt="Menu" />
           </button>
         </div>
 
+        {isNotificationModalOpen && (
+          <NotificationModal
+            isOpen={isNotificationModalOpen}
+            onClose={() => setNotificationModalOpen(false)}
+          />
+        )}
+
         {isDropdownOpen && (
-          <div ref={dropdownRef} className="profile-settings-modal">
-            <button>Profile</button>
-            <button>Support</button>
-            {isConnected ? (
-              <button onClick={handleDisconnect}>Disconnect</button>
-            ) : (
-              <button>Connect</button>
-            )}
+          <div className="notification-modal">
+            <div className="notification-modal-content">
+              <div ref={dropdownRef} className="profile-settings-modal">
+                <div className="nav-links-mobile">
+                  <Link
+                    href="/overview"
+                    className={router.pathname === '/overview' ? 'active' : ''}
+                  >
+                    <NavLinkIcon />
+                    Overview
+                  </Link>
+                  <Link
+                    href="/wallet"
+                    className={router.pathname === '/wallet' ? 'active' : ''}
+                  >
+                    <NavLinkIcon />
+                    Wallet
+                  </Link>
+                </div>
+                <button>Profile</button>
+                <button>Support</button>
+                {isConnected ? (
+                  <button onClick={handleDisconnect}>Disconnect</button>
+                ) : (
+                  <button>Connect</button>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -10,24 +10,20 @@ interface ToastProps {
 const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
   const [show, setShow] = useState(true);
 
-  // Automatically close the toast after 1.5 minutes (90 seconds)
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
       onClose();
-    }, 90000); // 1.5 minutes in milliseconds
+    }, 90000);
 
-    // Cleanup the timer if the component unmounts
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  // Close button handler
   const handleClose = () => {
     setShow(false);
     onClose();
   };
 
-  // If not showing, don't render the component
   if (!show) return null;
 
   return (
@@ -41,7 +37,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
           </div>
         </div>
 
-        <button className="close-button" onClick={handleClose}>
+        <button className="close-button" onClick={handleClose} title="Close">
           <Image src={closeIcon} alt="" />
         </button>
       </div>

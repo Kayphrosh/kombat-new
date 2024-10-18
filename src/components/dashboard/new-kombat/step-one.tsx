@@ -6,6 +6,10 @@ interface StepOneProps {
     question: string;
     description: string;
     selectedOption: 'yes' | 'no';
+    amount: string;
+    challenger: string;
+    date: string;
+    time: string;
   };
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

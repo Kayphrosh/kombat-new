@@ -1,6 +1,6 @@
 import React from 'react';
 import Overview from '@/components/dashboard/overview';
-const overview = () => {
+const overview: React.FC = () => {
   return (
     <div>
       <Overview />

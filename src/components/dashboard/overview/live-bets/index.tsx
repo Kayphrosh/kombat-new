@@ -1,17 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import liveIcon from '@/assets/images/icons/live.png';
-import plusIcon from '@/assets/images/icons/plus.svg';
-import arrowIcon from '@/assets/images/icons/arrow-right.svg';
 import Image from 'next/image';
 import Link from 'next/link';
-import NewKombatBtnBg from '@/assets/images/icons/new-kombat-btn-bg.svg';
-import { liveBets } from './livebet-data'; // Import centralized data
 import { useAccount } from 'wagmi';
-import { useWatchContractEvent } from 'wagmi';
 import { KomatAbi } from '@/KombatAbi';
 import { createPublicClient, http, parseAbiItem } from 'viem';
 import { baseSepolia } from 'viem/chains';
-import { Hex } from 'viem';
+import Countdown from './countdown';
+import { PlusIcon, ButtonBg, LiveBetBgMobile, ArrowIcon } from './svg';
+import vsIcon from '@/assets/images/icons/vs.svg';
+
+type BetData = Array<{
+  _betId?: bigint | undefined;
+  actor1?: `0x${string}` | undefined;
+  actor2?: `0x${string}` | undefined;
+  betName?: string | undefined;
+  duration?: BigInt | undefined;
+  startTimeStamp?: BigInt | undefined;
+  creator?: `0x${string}` | undefined;
+  betToken?: `0x${string}` | undefined;
+  betAmount?: BigInt | undefined;
+}>;
 
 const publicClient = createPublicClient({
   chain: baseSepolia,
@@ -22,84 +31,65 @@ const publicClient = createPublicClient({
 
 const getBetEvents = async () => {
   const logs = await publicClient.getLogs({
-    address: '0x4432fCE60bbC8dB0a34F722c7e5F89FB7F74a944',
+    address: '0xf8c6136FEDc00E5b380D76Dda4A9232839aE25F6',
     event: parseAbiItem(
       'event BetCreated(uint256 indexed _betId,address indexed actor1,address indexed actor2,string betName,uint256 duration,uint256 startTimeStamp,address creator,address betToken,uint256 betAmount)',
     ),
     args: {},
     fromBlock: BigInt(16376588),
-    toBlock: BigInt(16392874),
+    toBlock: BigInt((await publicClient.getBlock()).number),
   });
   return logs;
 };
 
 const LiveBets = () => {
-  useEffect(() => {}, []);
-  const betData: Array<{
-    _betId?: bigint | undefined;
-    actor1?: `0x${string}` | undefined;
-    actor2?: `0x${string}` | undefined;
-    betName?: string | undefined;
-    duration?: bigint | undefined;
-    startTimeStamp?: bigint | undefined;
-    creator?: `0x${string}` | undefined;
-    betToken?: `0x${string}` | undefined;
-    betAmount?: bigint | undefined;
-  }> = [];
-  var liveBetsData: Array<{
-    actor1: string;
-    actor2: string;
-    betAmount: BigInt;
-    betName: string;
-    betToken: string;
-    creator: string;
-    duration: BigInt;
-    startTimeStamp: BigInt;
-    _betId: BigInt;
-  }> = [];
-  useEffect(() => {
-    const events = getBetEvents();
-    console.log(events);
-    events
-      .then((data) => {
-        // console.log(data[0]?.args);
-        for (let i = 0; i < data.length; i++) {
-          betData.push(data[i].args);
-        }
-        console.log(betData);
-        const filterBetsByActor = (actor: string) => {
-          return betData.filter(
-            (bet) => bet.actor1 === actor || bet.actor2 === actor,
-          );
-        };
-        const userBetData: Array<{
-          _betId?: bigint | undefined;
-          actor1?: `0x${string}` | undefined;
-          actor2?: `0x${string}` | undefined;
-          betName?: string | undefined;
-          duration?: bigint | undefined;
-          startTimeStamp?: bigint | undefined;
-          creator?: `0x${string}` | undefined;
-          betToken?: `0x${string}` | undefined;
-          betAmount?: bigint | undefined;
-        }> = filterBetsByActor('0xa433f323541CF82f97395076B5F83a7A06F1646c');
-
-        const liveBets: Array<{}> = userBetData.filter((bet) => {
-          const currentTime = Math.floor(Date.now() / 1000);
-          return userBetData.filter((bet) => {
-            const expiryTime =
-              Number(bet.startTimeStamp) + Number(bet.duration);
-            return expiryTime > currentTime;
-          });
-        });
-        console.log('live bet data', liveBets);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+  const [liveBetsData, setLiveBetsData] = useState<BetData>([]);
   const account = useAccount();
-  getBetEvents().then((data) => console.log('data', data));
+
+  useEffect(() => {
+    const getCurrentLiveBets = async (address: string) => {
+      const betData: BetData = [];
+
+      const events = await getBetEvents();
+      for (let i = 0; i < events.length; i++) {
+        betData.push(
+          events[i].args as {
+            _betId?: bigint;
+            actor1?: `0x${string}`;
+            actor2?: `0x${string}`;
+            betName?: string;
+            duration?: BigInt;
+            startTimeStamp?: BigInt;
+            creator?: `0x${string}`;
+            betToken?: `0x${string}`;
+            betAmount?: BigInt;
+          },
+        );
+      }
+
+      const filterBetsByActor = (actor: string) => {
+        return betData.filter(
+          (bet) => bet.actor1 === actor || bet.actor2 === actor,
+        );
+      };
+
+      const userBetData: BetData = filterBetsByActor(address);
+
+      const liveBets = userBetData.filter((bet) => {
+        const currentTime = Math.floor(Date.now() / 1000);
+        const expiryTime = Number(bet.startTimeStamp) + Number(bet.duration);
+        return expiryTime > currentTime;
+      });
+
+      setLiveBetsData(liveBets);
+      console.log(liveBetsData);
+    };
+
+    if (account.address) {
+      getCurrentLiveBets(account.address as `0x${string}`);
+    }
+  }, [account.address]);
+
   return (
     <main className="live-bets-container">
       <div className="title">
@@ -110,54 +100,85 @@ const LiveBets = () => {
           <button>
             <div className="btn-text">
               New Kombat
-              <Image src={plusIcon} alt="" />
+              <PlusIcon />
             </div>
             <div className="bg">
-              <Image src={NewKombatBtnBg} alt="" />
+              <ButtonBg />
             </div>
           </button>
         </Link>
       </div>
-
       <div className="livebets">
-        {liveBets.map((livebet) => {
-          return (
-            <div className="livebet" key={livebet.id}>
-              <div className="players-info">
-                <div className="player">
-                  <Image src={livebet.youImage} alt="You" /> {/* Your avatar */}
-                  <p>You</p>
+        {liveBetsData.length === 0 ? (
+          <div className="no-live-bets">
+            <Image src={vsIcon} alt="" />
+            <p>
+              No kombat is currently live, click the button below to enter the
+              Arena
+            </p>
+            <Link href="./new-kombat" id="new-kombat-btn">
+              <button>
+                <div className="btn-text">
+                  New Kombat
+                  <PlusIcon />
+                </div>
+                <div className="bg">
+                  <ButtonBg />
+                </div>
+              </button>
+            </Link>
+          </div>
+        ) : (
+          liveBetsData.map((livebet) => (
+            <div className="livebet" key={livebet._betId}>
+              <div className="live-bg-mobile">
+                <LiveBetBgMobile />
+              </div>
+
+              <div className="content">
+                <div className="players-info">
+                  <div className="player">
+                    <p>You</p>
+                  </div>
+                  <span>VS</span>
+                  <div className="player">
+                    <p>{`${livebet.actor2?.slice(0, 4) ?? ''}...${livebet.actor2?.slice(-4) ?? ''}`}</p>
+                  </div>
                 </div>
 
-                <span>VS</span>
-
-                <div className="player">
-                  <Image src={livebet.opponentImage} alt={livebet.opponent} />{' '}
-                  {/* Opponent avatar */}
-                  <p>{livebet.opponent}</p>
+                <div className="details">
+                  <p id="title">{livebet.betName}</p>
+                  <div className="time-left">
+                    <p>Ends in</p>
+                    <Countdown
+                      endTime={
+                        Number(livebet.startTimeStamp) +
+                        Number(livebet.duration)
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="details">
-                <p id="title">Who will win the ballon d'or?</p>
-                <p id="time-left">{livebet.timeLeft}</p>
-              </div>
-              <div className="stake">
-                <p id="title">Kombat Stake:</p>
-                <p id="value">{livebet.stake}</p>
-              </div>
+                <div className="stake">
+                  <span>
+                    <p id="title">Stake:</p>
+                    <p id="value">${Number(livebet.betAmount) / 1e18}</p>
+                  </span>
+                </div>
 
-              <div className="cta">
-                <Link href={`/livebet/${livebet.id}`}>
-                  <button className="arrowButton" title="arrow">
-                    <Image src={arrowIcon} alt="View Bet" />
-                  </button>
-                </Link>
+                <div className="cta">
+                  <Link href={`/livebet/${livebet._betId}`}>
+                    <button className="arrowButton" title="arrow">
+                      <ArrowIcon />
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-          );
-        })}
+          ))
+        )}
       </div>
+      <div className="bg-footer"></div>
     </main>
   );
 };

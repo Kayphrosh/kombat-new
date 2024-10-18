@@ -1,5 +1,6 @@
 import React from 'react';
 import BetOverview from '@/components/dashboard/livebet-overview';
+import { GetStaticPaths, GetStaticProps } from 'next';
 const index = () => {
   return (
     <div>
