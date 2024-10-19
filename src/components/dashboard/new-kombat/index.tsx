@@ -48,8 +48,10 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     description: '',
     amount: '',
     challenger: '',
+    date: '', 
+    time: '',
   });
-  
+
   const router = useRouter();
 
   const handleChange = (
@@ -102,6 +104,20 @@ const NewKombatForm: React.FC<ToastProps> = () => {
       isValid = false;
     } else {
       newErrors.challenger = '';
+    }
+
+    if (!formData.date.trim()) {
+      newErrors.date = 'Date is required';
+      isValid = false;
+    } else {
+      newErrors.date = '';
+    }
+
+    if (!formData.time.trim()) {
+      newErrors.time = 'Time is required';
+      isValid = false;
+    } else {
+      newErrors.time = '';
     }
 
     setErrors(newErrors);

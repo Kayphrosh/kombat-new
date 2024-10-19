@@ -10,21 +10,24 @@
   top: 0;
   left: 0;
   z-index: 11111;
+
   .modal-content {
     background: url(../../../assets/images/modal-content-bg-new.svg);
-    background-size: contain;
+    background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
     overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
-    max-width: 553px;
+    max-width: 592px;
     padding: 24px;
     padding-bottom: 69px;
     margin: auto;
     z-index: 1111;
+ 
 
     // .background-shape {
     //   position: absolute;
@@ -64,6 +67,8 @@
       flex-direction: column;
       align-items: center;
       gap: 1rem;
+      width: 100%;
+      max-width: 540px;
 
       p {
         color: #fff;

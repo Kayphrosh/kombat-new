@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Navbar from '../navbar';
 import WalletHistory from './wallet-history';
 import avatar from '@/assets/images/icons/profile-pics.svg';
@@ -6,6 +6,8 @@ import buttonBg from '@/assets/images/icons/button-bg.svg';
 import Image from 'next/image';
 import FundWalletModal from '../fund-wallet-modal';
 import WithdrawalModal from '../withdrawal-modal';
+import vsIcon from '@/assets/images/icons/vs.svg';
+import USDCBalance from '@/components/USDCbalance';
 import {
   Transaction,
   TransactionButton,
@@ -18,15 +20,19 @@ import {
 import { ContractFunctionParameters } from 'viem';
 import { erc20ABI } from '@/erc20ABI';
 import { useAccount } from 'wagmi';
+import { useFirestore } from '@/components/Firebasewrapper';
 
 const Walllet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true); 
+  const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const closeWithdrawalModal = () => setIsWithdrawalModalOpen(false);
   const openWithdrawalModal = () => setIsWithdrawalModalOpen(true);
+  // const [address, setAddress] = useState('');
   const account = useAccount();
+  const { address } = useAccount();
+  const [userAvatar, setUserAvatar] = useState<string>(vsIcon);
   const withdrawAmount = 100;
   const withdrawTo = '0x4cF351F2667fdea44944C90802CbE25F89752Fec';
   const contracts = [
@@ -37,12 +43,33 @@ const Walllet = () => {
       args: [withdrawTo, withdrawAmount],
     },
   ];
-  const userAvatar = '';
+  const { getProfilePicture, checkUserExists, getAddressByUsername } =
+    useFirestore();
+
+
+  useEffect(() => {
+    if (address) {
+      getProfilePicture(address)
+        .then((profilePicture) => {
+          setUserAvatar(profilePicture || vsIcon);
+        })
+        .catch((error) => {
+          console.error(
+            `Error fetching profile picture for ${address}:`,
+            error,
+          );
+          setUserAvatar(vsIcon);
+        });
+    }
+  }, [address, getProfilePicture]);
   const userName = 'Kendrick';
   const totalAmount = '12393';
+
   const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('LifecycleStatus', status);
   }, []);
+
+  
   return (
     <div className="overview-container">
       <Navbar />
@@ -122,17 +149,28 @@ const Walllet = () => {
           </div>
           <div className="balance-container">
             <div className="title">
-              <Image src={avatar} alt="" />
+              <Image src={userAvatar} alt="Actor 1" width={50} height={50} />
               Balance
             </div>
 
-            <div className="amount">$ {totalAmount}</div>
+            <div className="amount">
+              <span>
+                {address ? (
+                  <USDCBalance
+                    walletAddress={address}
+                    onBalanceUpdate={(balance) => {}}
+                  />
+                ) : (
+                  <p>Loading...</p>
+                )}
+              </span>
+            </div>
 
             <div className="cta">
               <button className="fund-wallet" onClick={openModal}>
                 Fund Wallet
               </button>
-              <Transaction
+              {/* <Transaction
                 chainId={84532}
                 contracts={contracts as ContractFunctionParameters[]}
                 onStatus={handleOnStatus}
@@ -149,7 +187,7 @@ const Walllet = () => {
                   <TransactionStatusLabel className="status-label" />
                   <TransactionStatusAction className="status-label" />
                 </TransactionStatus>
-              </Transaction>
+              </Transaction> */}
 
               <button className="withdraw" onClick={openWithdrawalModal}>
                 <div>
@@ -348,8 +386,9 @@ const Walllet = () => {
       </div>
 
       {isModalOpen && <FundWalletModal closeModal={closeModal} />}
-      {isWithdrawalModalOpen && <WithdrawalModal closeWithdrawalModal={closeWithdrawalModal} />
-      }
+      {isWithdrawalModalOpen && (
+        <WithdrawalModal closeWithdrawalModal={closeWithdrawalModal} />
+      )}
     </div>
   );
 };

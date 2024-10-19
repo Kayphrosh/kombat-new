@@ -9,7 +9,7 @@ import { baseSepolia } from 'viem/chains';
 import Countdown from './countdown';
 import { PlusIcon, ButtonBg, LiveBetBgMobile, ArrowIcon } from './svg';
 import vsIcon from '@/assets/images/icons/vs.svg';
-
+import { useFirestore } from '@/components/Firebasewrapper';
 type BetData = Array<{
   _betId?: bigint | undefined;
   actor1?: `0x${string}` | undefined;
@@ -29,6 +29,11 @@ const publicClient = createPublicClient({
   ),
 });
 
+const safeBigInt = (value: string | number | bigint | undefined) => {
+  if (value === undefined) return BigInt(0);
+  return BigInt(value);
+};
+
 const getBetEvents = async () => {
   const logs = await publicClient.getLogs({
     address: '0xf8c6136FEDc00E5b380D76Dda4A9232839aE25F6',
@@ -44,7 +49,49 @@ const getBetEvents = async () => {
 
 const LiveBets = () => {
   const [liveBetsData, setLiveBetsData] = useState<BetData>([]);
+  const { getProfilePicture, checkUserExists, getAddressByUsername } =
+    useFirestore();
+  const [usernames, setUsernames] = useState<{ [address: string]: string }>({});
+  const [avatars, setAvatars] = useState<{ [address: string]: string }>({});
   const account = useAccount();
+
+  const { address } = useAccount();
+  const [userAvatar, setUserAvatar] = useState<string>(vsIcon);
+
+
+
+  useEffect(() => {
+    if (address) {
+      getProfilePicture(address)
+        .then((profilePicture) => {
+          setUserAvatar(profilePicture || vsIcon);
+        })
+        .catch((error) => {
+          console.error(
+            `Error fetching profile picture for ${address}:`,
+            error,
+          );
+          setUserAvatar(vsIcon);
+        });
+    }
+  }, [address, getProfilePicture]);
+
+  const fetchUserDetails = async (address: string) => {
+    try {
+      const exists = await checkUserExists(address);
+      let profilePicture = vsIcon;
+
+      if (exists) {
+        profilePicture = await getProfilePicture(address);
+      }
+
+      const username = address.slice(0, 6) + '...' + address.slice(-4);
+      setAvatars((prev) => ({ ...prev, [address]: profilePicture }));
+      setUsernames((prev) => ({ ...prev, [address]: username }));
+    } catch (error) {
+      console.error(`Error fetching user details for ${address}:`, error);
+    }
+  };
 
   useEffect(() => {
     const getCurrentLiveBets = async (address: string) => {
@@ -82,7 +129,17 @@ const LiveBets = () => {
       });
 
       setLiveBetsData(liveBets);
-      console.log(liveBetsData);
+
+      // Fetch user details for each actor in live bets
+      const uniqueActors = new Set<string>();
+      liveBets.forEach((bet) => {
+        if (bet.actor1 && bet.actor1 !== address) uniqueActors.add(bet.actor1);
+        if (bet.actor2 && bet.actor2 !== address) uniqueActors.add(bet.actor2);
+      });
+
+      uniqueActors.forEach(async (actor) => {
+        await fetchUserDetails(actor);
+      });
     };
 
     if (account.address) {
@@ -138,11 +195,43 @@ const LiveBets = () => {
               <div className="content">
                 <div className="players-info">
                   <div className="player">
-                    <p>You</p>
+                    <Image
+                      src={userAvatar}
+                      alt="Actor 1"
+                      width={50}
+                      height={50}
+                    />
+                    <p>
+                      {livebet.actor1 === account.address
+                        ? 'You'
+                        : usernames[livebet.actor1!] ||
+                          `${livebet.actor1?.slice(
+                            0,
+                            4,
+                          )}...${livebet.actor1?.slice(-4)}`}
+                    </p>
                   </div>
                   <span>VS</span>
                   <div className="player">
-                    <p>{`${livebet.actor2?.slice(0, 4) ?? ''}...${livebet.actor2?.slice(-4) ?? ''}`}</p>
+                    <Image
+                      src={
+                        livebet.actor2 === account.address
+                          ? vsIcon
+                          : avatars[livebet.actor2!] || vsIcon
+                      }
+                      alt="Actor 2"
+                      width={50}
+                      height={50}
+                    />
+                    <p>
+                      {livebet.actor2 === account.address
+                        ? 'You'
+                        : usernames[livebet.actor2!] ||
+                          `${livebet.actor2?.slice(
+                            0,
+                            4,
+                          )}...${livebet.actor2?.slice(-4)}`}
+                    </p>
                   </div>
                 </div>
 

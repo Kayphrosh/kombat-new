@@ -15,8 +15,7 @@ const StartKombatButton: React.FC<StartKombatButtonProps> = ({ onClick }) =>{
         text=""
         withWalletAggregator={true}
       />
-      <div id="text">Start Kombat</div>
-      {/* <Image src={buttonBg} alt="Button Background" /> */}
+      <div id="text">Start Komat</div>
       <svg
         width="344"
         height="232"

@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db as firestore, storage } from '@/firebase';
+import vsIcon from '@/assets/images/icons/vs.svg';
 
 // Define the shape of the context
 interface FirestoreContextProps {
@@ -51,14 +52,19 @@ export const FirestoreProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Get the profile picture download URL for a user
-  const getProfilePicture = async (userId: string) => {
-    try {
-      const storageRef = ref(storage, `profile_pictures/${userId}`);
-      return await getDownloadURL(storageRef);
-    } catch (error) {
-      throw new Error('Profile picture not found.');
-    }
-  };
+const getProfilePicture = async (userId: string) => {
+  try {
+    const storageRef = ref(storage, `profile_pictures/${userId}`);
+    return await getDownloadURL(storageRef);
+  } catch (error) {
+    console.error(
+      `Error fetching profile picture for userId ${userId}:`,
+      error,
+    );
+  
+    return vsIcon; // Replace with your default image path
+  }
+};
 
   // Create a user with address and username
   const createUser = async (address: string, username: string) => {
@@ -177,3 +183,12 @@ export const useFirestore = () => {
   }
   return context;
 };
+
+
+
+    //   liveBets.forEach((bet, index) => {
+    //     console.log(`Live bet ${index + 1}:`);
+    //     console.log(`  Actor1: ${bet.actor1}`);
+    //     console.log(`  Actor2: ${bet.actor2}`);
+    //   });
+    // };

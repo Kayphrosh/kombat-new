@@ -1,0 +1,80 @@
+.won-modal-content.lost-modal-content {
+  background: url('../../../assets/images/icons/lost-bg.svg');
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
+
+  align-items: center;
+  .user-avatar {
+    margin-top: 0px;
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  #lost-coin {
+    margin: 0 auto;
+    margin-top: 57px;
+  }
+
+  .title {
+    margin: 32px 0;
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  #new-kombat-btn {
+    margin-top: 42px;
+    position: relative;
+    // @media (max-width: 768px) {
+    //   position: fixed;
+    //   bottom: 0.5rem;
+    //   left: -35%;
+    //   z-index: 1111;
+    // }
+
+    &:hover {
+      button {
+        transform: scale(0.98);
+        transform: all 0.4s linear;
+      }
+    }
+    button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 1.5rem;
+      color: #fff;
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      margin-left: 32px;
+
+      .btn-text {
+        position: absolute;
+        left: 50%;
+        top: 2.4rem;
+        transform: translate(-50%, -1.5rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 20px 1.5rem;
+        font-family: 'Unbounded', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        width: max-content;
+
+        @media (max-width: 768px) {
+          font-size: 13px;
+          transform: translate(-50%, -1.2rem);
+        }
+      }
+    }
+  }
+}

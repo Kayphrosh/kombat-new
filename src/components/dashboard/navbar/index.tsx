@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useAccount, useDisconnect } from 'wagmi';
 import FundWalletModal from '../fund-wallet-modal';
-import userAvatar from '@/assets/images/icons/avatar-2.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import USDCBalance from '@/components/USDCbalance';
@@ -10,17 +9,18 @@ import menuIcon from '@/assets/images/icons/menu-icon.svg';
 import notificationIcon from '@/assets/images/icons/notification.svg';
 import { DropdownIcon, LogoIcon, NavLinkIcon, WalletIcon } from './svg';
 import NotificationModal from '../notification-modal';
+import { useFirestore } from '@/components/Firebasewrapper';
+import vsIcon from '@/assets/images/icons/vs.svg';
 
 const Navbar: React.FC = () => {
   const router = useRouter();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
+  const { getProfilePicture } = useFirestore();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<`0x${string}` | null>(
-    null,
-  );
+  const [userAvatar, setUserAvatar] = useState<string>(vsIcon);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -29,10 +29,20 @@ const Navbar: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (address?.startsWith('0x')) {
-      setWalletAddress(address as `0x${string}`);
+    if (address) {
+      getProfilePicture(address)
+        .then((profilePicture) => {
+          setUserAvatar(profilePicture || vsIcon);
+        })
+        .catch((error) => {
+          console.error(
+            `Error fetching profile picture for ${address}:`,
+            error,
+          );
+          setUserAvatar(vsIcon);
+        });
     }
-  }, [address]);
+  }, [address, getProfilePicture]);
 
   const handleDisconnect = () => {
     disconnect();
@@ -119,17 +129,12 @@ const Navbar: React.FC = () => {
         </div>
 
         <div className="cta">
-          {/* <Avatar
-            address="0x21A5a01E50af8a55F2ABa73bD3CbCd4Ed09168dC"
-            chain={baseSepolia}
-          /> */}
-
           <div className="wallet-balance" onClick={() => setIsModalOpen(true)}>
             <WalletIcon />
             <span>
-              {walletAddress ? (
+              {address ? (
                 <USDCBalance
-                  walletAddress={walletAddress}
+                  walletAddress={address}
                   onBalanceUpdate={(balance) => {}}
                 />
               ) : (
@@ -152,7 +157,7 @@ const Navbar: React.FC = () => {
             title="profile-settings"
             onClick={handleDropdownToggle}
           >
-            <Image id="user-icon" src={userAvatar} alt="Profile" />
+            <Image id="user-icon" src={userAvatar} alt="Profile" width={42} height={42} />
             <DropdownIcon />
           </button>
 

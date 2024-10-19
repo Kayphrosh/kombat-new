@@ -4,7 +4,6 @@ import Navbar from '../navbar';
 import backIcon from '@/assets/images/icons/back-icon.svg';
 import timeIcon from '@/assets/images/icons/time-icon.svg';
 import Image from 'next/image';
-import { liveBets } from '@/components/dashboard/overview/live-bets/livebet-data';
 import ShareLinkModal from '../share-link-modal';
 import buttonBg from '@/assets/images/icons/button-bg.svg';
 import Countdown from '../overview/live-bets/countdown';
@@ -12,33 +11,39 @@ import { useReadContract } from 'wagmi';
 import { KomatAbi } from '@/KombatAbi';
 import { useAccount } from 'wagmi';
 
-
 const BetOverview = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = router.query;
-  console.log('id', id);
-
   const account = useAccount();
+
+  // Read contract details
   const { data, isError, isLoading } = useReadContract({
     address: '0x837e01e02Da39A1271194D02018e70D1601c2F7a', // USDC contract address
     abi: KomatAbi,
     functionName: 'getBetDetails',
-    args: [BigInt(id as string)],
+    args: id ? [BigInt(id as string)] : undefined, // Ensure id is defined before conversion
   });
-  const liveBet = {};
-  console.log('data', data);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const [activeOption, setActiveOption] = useState('Yes');
   const options = ['Yes', 'No'];
 
-  // Ensure hooks are called before any conditional returns
-  if (!liveBet) {
-    return <div>Bet not found</div>;
+  // Handle loading state
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
+  // Handle error state
+  if (isError) {
+    return <div>Error fetching bet details.</div>;
+  }
+
+  // Handle case where no data is returned
+  if (!data) {
+    return <div>Bet not found</div>;
+  }
 
   return (
     <div className="new-combat-container">
@@ -55,7 +60,6 @@ const BetOverview = () => {
             <div className="time">
               <div className="time-left">
                 <Image src={timeIcon} alt="Time Left" />
-                {/* {liveBet.timeLeft} */}
                 <Countdown endTime={Number(data?.endTimeStamp)} />
               </div>
 
@@ -97,17 +101,7 @@ const BetOverview = () => {
           </div>
 
           <div className="combat-warriors-container">
-            {/* <div className="combat-warriors">
-              {warriors.map((warrior) => (
-                <div className="warrior" key={warrior.id}>
-                  <div className="user-desc">
-                    <Image src={warrior.avatar} alt={warrior.userName} />
-                    <span>{warrior.userName}</span>
-                  </div>
-                  <div className="amount">${warrior.amount}</div>
-                </div>
-              ))}
-            </div> */}
+            {/* Additional content for combat warriors can go here */}
           </div>
         </div>
       </div>

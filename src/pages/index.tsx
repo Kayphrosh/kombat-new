@@ -26,7 +26,6 @@ const Home: React.FC = () => {
 
   const handleStartKombatClick = async () => {
     if (isConnected) {
-      // Redirect to identity page if wallet is connected
       const userExists = await checkUserExists(address as string);
       if (userExists) {
         router.push('/overview');
@@ -34,8 +33,7 @@ const Home: React.FC = () => {
         router.push('/identity');
       }
     } else {
-      // If wallet is not connected, trigger the wallet modal connection
-      connect({ connector: connectors[0] }); // Pass the first available connector
+      connect({ connector: connectors[0] }); 
     }
   };
 

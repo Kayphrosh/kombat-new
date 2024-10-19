@@ -1,0 +1,59 @@
+.link-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  padding: 0.5rem 12px;
+  border-radius: 8.753px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.05);
+  margin-top: 3rem;
+
+  .link {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'ABC-Diatype';
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8.753px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+.withdrawal-form {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-width: 500px;
+  position: relative;
+
+  .withdrawal-input {
+    min-width: 500px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+
+    input {
+      position: relative;
+      min-width: 500px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      height: 56px;
+      padding: 1rem 1.5rem;
+    }
+  }
+}
