@@ -35,7 +35,6 @@ const Overview: React.FC = () => {
             <RectangleRightSVG className="rectangle-right" />
 
             <div className="stats">
-              {/* <StatBgOverview className="stat-bg-overview" /> */}
               <div className="title">
                 Live kombats <Image src={liveIcon} alt="" />
               </div>
@@ -43,18 +42,15 @@ const Overview: React.FC = () => {
             </div>
 
             <div className="stats">
-              {/* <StatBgOverview className="stat-bg-overview" /> */}
               <div className="title">Completed</div>
               <div className="value">04</div>
             </div>
 
             <div className="stats">
-              {/* <StatBgOverview className="stat-bg-overview" /> */}
               <div className="title">Total Stake</div>
               <div className="value">$400</div>
             </div>
             <div className="stats">
-              {/* <StatBgOverview className="stat-bg-overview" /> */}
               <div className="title">Won</div>
               <div className="value">$1,000</div>
             </div>

@@ -192,7 +192,9 @@
       }
       @media (max-width: 768px) {
         padding: 1rem 1.5rem;
-
+        margin: 0 auto;
+        margin-top: 70px;
+        width: 100%;
         .nav-links-mobile {
           display: flex;
           align-items: flex-start;

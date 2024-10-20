@@ -162,7 +162,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 6000);
       } else {
-        // router.push('/overview');
+        router.push('/overview');
         console.log('formData', formData);
       }
     }
@@ -172,7 +172,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     setIsFundWalletModalVisible(false);
   };
   const handleCloseToast = () => {
-    setShowToast(false); // Close the toast when the button is clicked or the toast time expires
+    setShowToast(false); 
   };
 
   const handleCloseShareLinkModal = () => {

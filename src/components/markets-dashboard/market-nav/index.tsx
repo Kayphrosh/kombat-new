@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useAccount, useDisconnect } from 'wagmi';
-import FundWalletModal from '../fund-wallet-modal';
+import FundWalletModal from '@/components/dashboard/fund-wallet-modal';
 import Image from 'next/image';
 import Link from 'next/link';
 import USDCBalance from '@/components/USDCbalance';
 import menuIcon from '@/assets/images/icons/menu-icon.svg';
 import notificationIcon from '@/assets/images/icons/notification.svg';
-import { DropdownIcon, LogoIcon, NavLinkIcon, WalletIcon } from './svg';
-import NotificationModal from '../notification-modal';
+import {
+  DropdownIcon,
+  LogoIcon,
+  NavLinkIcon,
+  WalletIcon,
+} from '@/components/dashboard/navbar/svg';
+import NotificationModal from '@/components/dashboard/notification-modal/';
 import { useFirestore } from '@/components/Firebasewrapper';
 import vsIcon from '@/assets/images/icons/vs.svg';
 
@@ -109,21 +114,21 @@ const Navbar: React.FC = () => {
   return (
     <div className="navbar-container">
       <div className="navbar-content">
-        <Link href="/overview">
+        <Link href="/market">
           <LogoIcon />
         </Link>
 
         <div className="nav-links">
           <Link
-            href="/overview"
-            className={router.pathname === '/overview' ? 'active' : ''}
+            href="/markets"
+            className={router.pathname === '/markets' ? 'active' : ''}
           >
             <NavLinkIcon />
-            Overview
+            Markets
           </Link>
           <Link
-            href="/wallet"
-            className={router.pathname === '/wallet' ? 'active' : ''}
+            href="/market-wallet"
+            className={router.pathname === '/market-wallet' ? 'active' : ''}
           >
             <NavLinkIcon />
             Wallet
@@ -159,7 +164,13 @@ const Navbar: React.FC = () => {
             title="profile-settings"
             onClick={handleDropdownToggle}
           >
-            <Image id="user-icon" src={userAvatar} alt="Profile" width={42} height={42} />
+            <Image
+              id="user-icon"
+              src={userAvatar}
+              alt="Profile"
+              width={42}
+              height={42}
+            />
             <DropdownIcon />
           </button>
 

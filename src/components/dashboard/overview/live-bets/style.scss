@@ -50,7 +50,8 @@
       @media (max-width: 768px) {
         position: fixed;
         bottom: 0.5rem;
-        left: -35%;
+        left: 50%;
+        transform: translate(-100%, 72%);
         z-index: 1111;
       }
 
@@ -88,8 +89,8 @@
           width: max-content;
 
           @media (max-width: 768px) {
-            font-size: 13px;
-            transform: translate(-50%, -1.2rem);
+            font-size: 12px;
+            transform: translate(-50%, -1.4rem);
           }
         }
       }
@@ -148,10 +149,6 @@
         margin-top: 24px;
 
         @media (max-width: 768px) {
-          position: fixed;
-          bottom: 0.5rem;
-          left: -30%;
-          z-index: 1111;
           display: none;
         }
 

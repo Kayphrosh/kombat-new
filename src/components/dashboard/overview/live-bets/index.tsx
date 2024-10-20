@@ -267,7 +267,9 @@ const LiveBets = () => {
           ))
         )}
       </div>
-      <div className="bg-footer"></div>
+      <div className="bg-footer">
+        
+      </div>
     </main>
   );
 };

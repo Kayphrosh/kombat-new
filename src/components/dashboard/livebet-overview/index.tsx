@@ -46,7 +46,7 @@ const BetOverview = () => {
   }
 
   return (
-    <div className="new-combat-container">
+    <div className="overview-container">
       <Navbar />
 
       <div className="invite-friends-content">

@@ -16,7 +16,7 @@ import LoginButton from '@/components/LoginBtn';
 import SignupButton from '@/components/SignUpBtn';
 import SignupButtonMobile from '@/components/SignUpBtnMobile';
 import StartKombatButton from '@/components/StartKombatBtn';
-import {  useFirestore } from '@/components/Firebasewrapper';
+import { useFirestore } from '@/components/Firebasewrapper';
 
 const Home: React.FC = () => {
   const { address, isConnected } = useAccount();
@@ -33,7 +33,7 @@ const Home: React.FC = () => {
         router.push('/identity');
       }
     } else {
-      connect({ connector: connectors[0] }); 
+      connect({ connector: connectors[0] });
     }
   };
 
@@ -59,8 +59,8 @@ const Home: React.FC = () => {
             </p>
             <div className="main-cta">
               <StartKombatButton onClick={handleStartKombatClick} />
-              <Link href="/markets">
-                <button className="market-btn">Market</button>
+              <Link href="/markets" className="market-btn">
+                <div>Market</div>
               </Link>
             </div>
           </div>

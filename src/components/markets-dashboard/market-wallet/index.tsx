@@ -1,11 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import Navbar from '../navbar';
-import WalletHistory from './wallet-history';
+import MarketNavbar from '@/components/markets-dashboard/market-nav';
+import WalletHistory from '@/components/dashboard/wallet/wallet-history';
 import avatar from '@/assets/images/icons/profile-pics.svg';
 import buttonBg from '@/assets/images/icons/button-bg.svg';
 import Image from 'next/image';
-import FundWalletModal from '../fund-wallet-modal';
-import WithdrawalModal from '../withdrawal-modal';
+import FundWalletModal from '@/components/dashboard/fund-wallet-modal';
+import WithdrawalModal from '@/components/dashboard/withdrawal-modal';
 import vsIcon from '@/assets/images/icons/vs.svg';
 import USDCBalance from '@/components/USDCbalance';
 import {
@@ -22,7 +22,7 @@ import { erc20ABI } from '@/erc20ABI';
 import { useAccount } from 'wagmi';
 import { useFirestore } from '@/components/Firebasewrapper';
 
-const Walllet = () => {
+const MarketWalllet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -46,7 +46,6 @@ const Walllet = () => {
   const { getProfilePicture, checkUserExists, getAddressByUsername } =
     useFirestore();
 
-
   useEffect(() => {
     if (address) {
       getProfilePicture(address)
@@ -69,10 +68,9 @@ const Walllet = () => {
     console.log('LifecycleStatus', status);
   }, []);
 
-  
   return (
     <div className="overview-container">
-      <Navbar />
+      <MarketNavbar />
 
       <div className="wallet-content">
         <div className="wallet-balance-container">
@@ -393,4 +391,4 @@ const Walllet = () => {
   );
 };
 
-export default Walllet;
+export default MarketWalllet;

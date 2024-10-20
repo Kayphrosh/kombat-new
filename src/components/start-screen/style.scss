@@ -33,9 +33,9 @@
     @media (max-width: 768px) {
       padding: 2rem 1.5rem;
     }
-    @media (max-width: 468px) {
-      padding: 2rem 1rem;
-    }
+    // @media (max-width: 468px) {
+    //   padding: 2rem 1rem;
+    // }
 
     .top-bar {
       display: flex;
@@ -125,6 +125,9 @@
         flex-basis: 50%;
         position: relative;
 
+        @media (max-width: 768px) {
+          width: 100%;
+        }
         h2 {
           color: #fff;
           font-family: 'TuskerGrotesk-Semibold';
@@ -161,13 +164,69 @@
         .main-cta {
           display: flex;
           gap: 2rem;
-          gap: 1rem;
           position: relative;
-          max-width: 200px;
+
+          @media (min-width: 768px) {
+            max-width: 200px;
+          }
+
+          .text-ock-inverse,
+          .btn-custom {
+            all: unset;
+            color: #000;
+            position: absolute;
+            cursor: pointer;
+            left: 18%;
+            top: 3.65rem;
+            transform: translate(-0%, -1rem);
+            width: 100%;
+            width: 200px;
+            height: 50px;
+            z-index: 111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000 !important;
+            font-family: 'ABC-Diatype' !important;
+          }
+          .bg-ock-default {
+            display: none;
+          }
+          .btn-custom div {
+            display: none;
+          }
+          button {
+            margin-right: auto;
+            position: relative !important;
+            transform: translate(-20%);
+            color: #000;
+            font-family: 'ABC-Diatype' !important;
+            font-size: 16px;
+            font-style: normal;
+            line-height: normal;
+            &:hover {
+              img {
+                transition: all 0.4s linear;
+              }
+            }
+            img {
+              width: 100%;
+              height: auto;
+            }
+            #text {
+              position: absolute;
+              visibility: visible;
+              left: 50%;
+              top: 6.2rem;
+              transform: translate(-50%, -2rem);
+              // z-index: 0;
+              font-family: 'ABC-Diatype' !important;
+            }
+          }
 
           .market-btn {
             margin-top: 3rem;
-            margin-left: -110px;
+            margin-left: -150px;
             background: #000;
             height: 54px;
             background: #151720;
@@ -180,65 +239,11 @@
             line-height: normal;
             font-family: 'Unbounded', sans-serif;
             font-style: normal;
-          }
-        }
-        .text-ock-inverse,
-        .btn-custom {
-          all: unset;
-          color: #000;
-          position: absolute;
-          cursor: pointer;
-          left: 18%;
-          top: 3.65rem;
-          transform: translate(-0%, -2rem);
-          width: 100%;
-          width: 200px;
-          height: 50px;
-          z-index: 111;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: #000 !important;
-          font-family: 'ABC-Diatype' !important;
-        }
-        .bg-ock-default {
-          display: none;
-        }
-        .btn-custom div {
-          display: none;
-        }
-        button {
-          margin-right: auto;
-          position: relative !important;
-          transform: translate(-20%);
-          color: #000;
-          font-family: 'ABC-Diatype' !important;
-          font-size: 16px;
-          font-style: normal;
-          line-height: normal;
 
-          &:hover {
-            img {
-              transition: all 0.4s linear;
+            @media (max-width: 768px) {
+              padding: 16px 30px;
+              margin-left: -200px;
             }
-          }
-          img {
-            width: 100%;
-            height: auto;
-          }
-          #text {
-            position: absolute;
-            visibility: visible;
-            left: 50%;
-            top: 6.2rem;
-            transform: translate(-50%, -2rem);
-            // z-index: 0;
-            font-family: 'ABC-Diatype' !important;
-          }
-
-          @media (max-width: 768px) {
-            position: absolute;
-            max-height: 40px;
           }
         }
       }
@@ -253,10 +258,11 @@
         }
         @media (max-width: 768px) {
           margin: 0 auto;
-          margin-top: 80px;
+          margin-top: -120px;
           display: flex;
           justify-content: center;
           align-items: center;
+          z-index: 12;
 
           img {
             margin: 0 auto;

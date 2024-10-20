@@ -1,6 +1,7 @@
+'use client';
 import React from 'react';
 import Head from 'next/head';
-import Markets from '@/components/markets';
+import MarketOverview from '@/components/markets-dashboard/market-overview';
 const markets = () => {
   return (
     <>
@@ -13,7 +14,7 @@ const markets = () => {
         <meta name="description" content="Kombat" />
       </Head>
 
-      <Markets />
+      <MarketOverview />
     </>
   );
 };
