@@ -151,7 +151,7 @@ const Navbar: React.FC = () => {
             onClick={handleNotificationModalToggle}
           >
             <Image src={notificationIcon} alt="Notification" />
-            <span>02</span>
+            <span></span>
           </div>
 
           <button

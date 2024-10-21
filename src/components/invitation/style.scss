@@ -14,6 +14,14 @@
     max-width: 450px;
     margin: 0 auto;
 
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      box-shadow: -3px 3px 0px 0px #ffffff;
+    }
     .text {
       color: #fff;
       font-family: 'TuskerGrotesk-Medium-6500';
@@ -170,6 +178,13 @@
         left: 50%;
         top: 3rem;
         transform: translate(-50%, -2rem);
+      }
+      .tx-btton {
+        width: 100%;
+        max-width: 200px;
+        padding: 1.22rem 36px;
+        transform: translate(6.5rem, 2.5rem);
+        opacity: 0;
       }
     }
   }

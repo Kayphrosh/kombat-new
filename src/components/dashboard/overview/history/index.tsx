@@ -6,10 +6,15 @@ import { useAccount } from 'wagmi';
 import { KomatAbi } from '@/KombatAbi';
 import { createPublicClient, http, parseAbiItem } from 'viem';
 import { baseSepolia } from 'viem/chains';
-import Countdown from './countdown';
-import { PlusIcon, ButtonBg, LiveBetBgMobile, ArrowIcon } from './svg';
+import {
+  PlusIcon,
+  ButtonBg,
+  LiveBetBgMobile,
+  ArrowIcon,
+} from '../live-bets/svg';
 import vsIcon from '@/assets/images/icons/vs.svg';
 import { useFirestore } from '@/components/Firebasewrapper';
+
 type BetData = Array<{
   _betId?: bigint | undefined;
   actor1?: `0x${string}` | undefined;
@@ -29,11 +34,6 @@ const publicClient = createPublicClient({
   ),
 });
 
-const safeBigInt = (value: string | number | bigint | undefined) => {
-  if (value === undefined) return BigInt(0);
-  return BigInt(value);
-};
-
 const getBetEvents = async () => {
   const logs = await publicClient.getLogs({
     address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
@@ -46,15 +46,22 @@ const getBetEvents = async () => {
   });
   return logs;
 };
-type LiveBetsProps = {
-  setLiveBetsCount: (count: number) => void;
+
+type CompletedBetsProps = {
+  setCompletedBetsCount: (count: number) => void;
 };
-const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
+
+const History: React.FC<CompletedBetsProps> = ({ setCompletedBetsCount }) => {
   const [liveBetsData, setLiveBetsData] = useState<BetData>([]);
-  const { getProfilePicture, checkUserExists, getAddressByUsername } =
-    useFirestore();
+  const {
+    getProfilePicture,
+    checkUserExists,
+    getAddressByUsername,
+    getUsernameByAddress,
+  } = useFirestore();
   const [usernames, setUsernames] = useState<{ [address: string]: string }>({});
   const [avatars, setAvatars] = useState<{ [address: string]: string }>({});
+  const [username, setUsername] = useState<string>('');
   const account = useAccount();
 
   const { address } = useAccount();
@@ -75,6 +82,14 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
         });
     }
   }, [address, getProfilePicture]);
+
+  useEffect(() => {
+    if (account.address) {
+      getUsernameByAddress(account.address as `0x${string}`).then((user) => {
+        setUsername(user || '');
+      });
+    }
+  }, [address, getUsernameByAddress]);
 
   const fetchUserDetails = async (address: string) => {
     try {
@@ -125,17 +140,22 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
       const liveBets = userBetData.filter((bet) => {
         const currentTime = Math.floor(Date.now() / 1000);
         const expiryTime = Number(bet.startTimeStamp) + Number(bet.duration);
-        return expiryTime > currentTime;
+        return expiryTime < currentTime;
       });
 
       setLiveBetsData(liveBets);
-      setLiveBetsCount(liveBets.length); // Update the live bets count
+      setCompletedBetsCount(liveBets.length);
+
+      for (const bet of userBetData) {
+        if (bet.actor1) fetchUserDetails(bet.actor1);
+        if (bet.actor2) fetchUserDetails(bet.actor2);
+      }
     };
 
     if (account.address) {
-      getCurrentLiveBets(account.address as `0x${string}`);
+      getCurrentLiveBets(account.address);
     }
-  }, [account.address, setLiveBetsCount]);
+  }, [account.address]);
 
   return (
     <main className="live-bets-container">
@@ -144,7 +164,7 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
           <div className="no-live-bets">
             <Image src={vsIcon} alt="" />
             <p>
-              No kombat is currently live, click the button below to enter the
+              No kombat is your history, click the button below to enter the
               Arena
             </p>
             <Link href="./new-kombat" id="new-kombat-btn">
@@ -199,12 +219,8 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
                     />
                     <p>
                       {livebet.actor2 === account.address
-                        ? 'You'
-                        : usernames[livebet.actor2!] ||
-                          `${livebet.actor2?.slice(
-                            0,
-                            4,
-                          )}...${livebet.actor2?.slice(-4)}`}
+                        ? usernames[livebet.actor2!]
+                        : username}
                     </p>
                   </div>
                 </div>
@@ -212,13 +228,7 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
                 <div className="details">
                   <p id="title">{livebet.betName}</p>
                   <div className="time-left">
-                    <p>Ends in</p>
-                    <Countdown
-                      endTime={
-                        Number(livebet.startTimeStamp) +
-                        Number(livebet.duration)
-                      }
-                    />
+                    <p className="ended">Ended</p>
                   </div>
                 </div>
 
@@ -246,4 +256,4 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
   );
 };
 
-export default LiveBets;
+export default History;

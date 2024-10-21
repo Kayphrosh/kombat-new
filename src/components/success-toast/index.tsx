@@ -6,14 +6,14 @@ interface ToastProps {
   message: string;
   onClose: () => void;
 }
-const SuccessToast: React.FC<ToastProps> = ({ onClose }) => {
+const SuccessToast: React.FC<ToastProps> = ({ message, onClose }) => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
       onClose();
-    }, 90000);
+    }, 120000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
@@ -25,12 +25,11 @@ const SuccessToast: React.FC<ToastProps> = ({ onClose }) => {
   if (!show) return null;
   return (
     <div className="toast-container">
-      <div className="toast">
+      <div className="toast toast-success">
         <div className="main">
           <Image src={successIcon} alt="" />
           <div className="desc">
-            <h3>Created Kombat Successfully</h3>
-            {/* <p>{message}</p> */}
+            <h3>{message}</h3>
           </div>
         </div>
 

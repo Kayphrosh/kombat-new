@@ -1,0 +1,153 @@
+.market-card-container {
+  background-image: url("data:image/svg+xml,%3Csvg width='364' height='259' viewBox='0 0 364 259' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_i_2024_112251)'%3E%3Cpath d='M0 24C0 10.7452 10.7452 0 24 0H340C353.255 0 364 10.7452 364 24V217.534C364 222.148 362.67 226.665 360.169 230.542L348.905 248.008C344.485 254.86 336.889 259 328.736 259H24C10.7452 259 0 248.255 0 235V24Z' fill='%230F121A' fill-opacity='0.75'/%3E%3C/g%3E%3Cpath d='M24 0.677725H340C352.881 0.677725 363.322 11.1195 363.322 24V217.534C363.322 222.018 362.03 226.407 359.599 230.175L348.335 247.641C344.04 254.299 336.659 258.322 328.736 258.322H24C11.1194 258.322 0.677725 247.881 0.677725 235V24C0.677725 11.1195 11.1195 0.677725 24 0.677725Z' stroke='white' stroke-opacity='0.1' stroke-width='1.35545'/%3E%3Cdefs%3E%3Cfilter id='filter0_i_2024_112251' x='0' y='0' width='364' height='259' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset/%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3CfeComposite in2='hardAlpha' operator='arithmetic' k2='-1' k3='1'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='shape' result='effect1_innerShadow_2024_112251'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  width: 100%;
+  max-width: 380px;
+  height: 269px;
+  //   max-height: 269px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative !important;
+  z-index: 111;
+  .top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    .duration {
+      font-family: 'ABC-Diatype';
+      font-size: 12px;
+      color: #d62634;
+      background: #141821;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      span {
+        color: #fff;
+      }
+    }
+
+    .tag {
+      font-family: 'ABC-Diatype';
+      font-size: 14px;
+      color: #d62634;
+      text-transform: uppercase;
+      border: 1px solid #2a7c3c33;
+      padding: 4px 12px;
+      border-radius: 30px;
+      border: 1px solid;
+
+      &.politics {
+        background: #2a7c3c21;
+        color: #2a7c3c;
+        border-color: #2a7c3c33;
+      }
+
+      &.crypto {
+        background: #24b7fb14;
+        color: #24b7fb;
+        border-color: #24b7fb33;
+      }
+      &.sport {
+        color: #f46f0f;
+        background: #f46f0f14;
+        border-color: #f46f0f33;
+      }
+    }
+  }
+
+  .title {
+    padding: 0 1.5rem;
+    margin-bottom: 1rem;
+    font-family: 'TuskerGrotesk-Medium-5500';
+    font-size: 20px;
+    line-height: 29.1px;
+    text-align: left;
+  }
+
+  .stake {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    padding: 0 1.5rem;
+    font-family: 'ABC-Diatype';
+    font-size: 20px;
+    line-height: 29.1px;
+
+    span {
+      font-size: 14px;
+      color: hsla(0, 0%, 100%, 0.7);
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 1rem;
+    gap: 1rem;
+    padding: 1.2rem 24px;
+    border-top: 1px solid #ffffff1a;
+
+    .option {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-basis: 50%;
+      width: 100%;
+      height: 39px;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Unbounded', sans-serif;
+      text-align: center;
+    }
+    .option1 {
+      background: #d0ffda24;
+    }
+    .option2 {
+      background: #c1272d3b;
+    }
+  }
+
+  .bottom-container {
+    position: absolute;
+    bottom: 0rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 24px;
+    background: #0f121a;
+    transform: translateY(100%);
+    opacity: 0;
+    z-index: 0;
+    display: none;
+  }
+  &:hover {
+    .bottom-container {
+      transform: translateY(0%);
+      transition: all 0.3s ease-in-out;
+
+      opacity: 1;
+      // z-index: 1111;
+
+      .volume {
+        font-size: 14px;
+        color: #fff;
+
+        span {
+          color: hsla(0, 0%, 100%, 0.7);
+        }
+      }
+    }
+  }
+}
+
+.market {
+  position: relative !important;
+  height: 269px;
+}

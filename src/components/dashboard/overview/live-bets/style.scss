@@ -2,101 +2,6 @@
   position: relative;
   overflow: hidden;
 
-  .title {
-    margin-top: 36px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 100%;
-    max-height: max-content;
-
-    @media (min-width: 768px) {
-      position: relative;
-    }
-    @media (max-width: 768px) {
-      margin-top: 64px;
-    }
-
-    h3 {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: #fff;
-      font-family: 'TuskerGrotesk-Medium-4500';
-      font-size: 32px;
-      font-style: normal;
-      line-height: normal;
-
-      @media (max-width: 768px) {
-        font-size: 24px;
-      }
-      img {
-        width: 24px;
-
-        @media (max-width: 768px) {
-          font-size: 20px;
-        }
-      }
-    }
-
-    #new-kombat-btn {
-      padding-bottom: 67px;
-      position: absolute;
-      bottom: -50%;
-      right: 0;
-      transform: translate(25%, 72%);
-
-      @media (max-width: 768px) {
-        position: fixed;
-        bottom: 0.5rem;
-        left: 50%;
-        transform: translate(-100%, 72%);
-        z-index: 1111;
-      }
-
-      &:hover {
-        button {
-          transform: scale(0.98);
-          transform: all 0.4s linear;
-        }
-      }
-      button {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        padding: 20px 1.5rem;
-        color: #fff;
-        font-family: 'Unbounded', sans-serif;
-        font-weight: 500;
-        font-size: 1rem;
-
-        .btn-text {
-          position: absolute;
-          left: 50%;
-          top: 2.4rem;
-          transform: translate(-50%, -1.5rem);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          padding: 20px 1.5rem;
-          font-family: 'Unbounded', sans-serif;
-          font-weight: 500;
-          font-size: 14px;
-          width: max-content;
-
-          @media (max-width: 768px) {
-            font-size: 12px;
-            transform: translate(-50%, -1.4rem);
-          }
-        }
-      }
-    }
-  }
-
   .livebets {
     margin-top: 2rem;
     display: flex;
@@ -364,6 +269,9 @@
             @media (max-width: 668px) {
               display: none;
             }
+          }
+          .ended {
+            color: #d62634;
           }
         }
 

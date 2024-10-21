@@ -40,7 +40,7 @@ function Countdown({ endTime }: CountdownProps) {
           {timeLeft.seconds}sec
         </p>
       ) : (
-        <p>Countdown has ended!</p>
+        <p>Time up</p>
       )}
     </div>
   );

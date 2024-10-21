@@ -7,7 +7,8 @@ import FundWalletModal from '../fund-wallet-modal';
 import ShareLinkModal from '../share-link-modal';
 import USDCBalance from '@/components/USDCbalance';
 import { useAccount } from 'wagmi';
-import Toast from '@/components/toast';
+import InsufficientFundToast from '@/components/toast';
+import SuccessToast from '@/components/success-toast';
 import {
   Transaction,
   TransactionButton,
@@ -28,6 +29,11 @@ interface ToastProps {
 }
 
 const NewKombatForm: React.FC<ToastProps> = () => {
+  const [showInsufficientFundToast, setShowInsufficientFundToast] =
+    useState(false);
+  const [canProceedWithTransaction, setCanProceedWithTransaction] =
+    useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [isFundWalletModalVisible, setIsFundWalletModalVisible] =
     useState(false);
   const [isShareLinkModalVisible, setIsShareLinkModalVisible] = useState(false);
@@ -48,7 +54,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     description: '',
     amount: '',
     challenger: '',
-    date: '', 
+    date: '',
     time: '',
   });
 
@@ -92,8 +98,11 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     const newErrors = { ...errors };
 
     const amount = parseFloat(formData.amount);
-    if (isNaN(amount) || amount < 5) {
-      newErrors.amount = 'Amount must be at least $5';
+    if (isNaN(amount) || amount <= 0) {
+      newErrors.amount = 'Amount must be a positive number';
+      isValid = false;
+    } else if (amount > balance) {
+      newErrors.amount = 'Insufficient funds';
       isValid = false;
     } else {
       newErrors.amount = '';
@@ -159,9 +168,10 @@ const NewKombatForm: React.FC<ToastProps> = () => {
 
       if (amount > balance) {
         setToastMessage('Insufficient funds. Please top up your wallet!');
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 6000);
+        setShowInsufficientFundToast(true);
+        setTimeout(() => setShowInsufficientFundToast(false), 6000);
       } else {
+        setToastMessage('Kombat created successfully!');
         router.push('/overview');
         console.log('formData', formData);
       }
@@ -172,7 +182,7 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     setIsFundWalletModalVisible(false);
   };
   const handleCloseToast = () => {
-    setShowToast(false); 
+    setShowToast(false);
   };
 
   const handleCloseShareLinkModal = () => {
@@ -200,10 +210,19 @@ const NewKombatForm: React.FC<ToastProps> = () => {
     },
   ];
 
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
-  }, []);
-
+  const handleOnStatus = useCallback(
+    (status: LifecycleStatus) => {
+      console.log('LifecycleStatus', status);
+      if (status.statusName === 'success') {
+        setShowSuccessToast(true);
+        setTimeout(() => {
+          setShowSuccessToast(false);
+          router.push('/overview');
+        }, 3000);
+      }
+    },
+    [router],
+  );
   return (
     <div className="overview-container">
       <Navbar />
@@ -225,18 +244,25 @@ const NewKombatForm: React.FC<ToastProps> = () => {
             handleSubmit={handleSubmit}
             availableBalance={balance}
             errors={errors}
+            onStatus={handleOnStatus}
           />
         )}
       </div>
 
-      {showToast && <Toast message={toastMessage} onClose={handleCloseToast} />}
-
-      {/* {account && (
-        <USDCBalance
-          walletAddress={account}
-          onBalanceUpdate={handleBalanceUpdate}
+      {showInsufficientFundToast && (
+        <InsufficientFundToast
+          message={toastMessage}
+          onClose={handleCloseToast}
         />
-      )} */}
+      )}
+
+      {showSuccessToast && (
+        <SuccessToast
+          message={'Kombat created successfully!'}
+          onClose={handleCloseToast}
+        />
+      )}
+
       {isFundWalletModalVisible && (
         <FundWalletModal closeModal={handleCloseFundWalletModal} />
       )}

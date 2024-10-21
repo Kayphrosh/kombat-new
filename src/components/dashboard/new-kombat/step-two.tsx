@@ -14,9 +14,10 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { KomatAbi } from '@/KombatAbi';
 import { useAccount } from 'wagmi';
-import { ContractFunctionParameters } from 'viem';
-import router from 'next/router';
+import { ContractFunctionParameters, Hex } from 'viem';
 import { erc20ABI } from '@/erc20ABI';
+import { hexToNumber } from 'viem';
+import { useFirestore, BetData } from '@/components/Firebasewrapper';
 
 interface StepTwoProps {
   formData: {
@@ -38,6 +39,8 @@ interface StepTwoProps {
     time: string;
   };
   availableBalance: number;
+  onStatus: (status: LifecycleStatus) => void;
+  //  canProceedWithTransaction={canProceedWithTransaction}
 }
 
 const StepTwo: React.FC<StepTwoProps> = ({
@@ -47,11 +50,14 @@ const StepTwo: React.FC<StepTwoProps> = ({
   handleSubmit,
   errors,
   availableBalance,
+  onStatus,
 }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [unixTime, setUnixTime] = useState<number>(86400);
   const [dateTimeError, setDateTimeError] = useState<string>('');
+  const [betId, setBetId] = useState<number | null>(null);
+  const { createBet } = useFirestore();
 
   useEffect(() => {
     validateDateTime();
@@ -83,37 +89,59 @@ const StepTwo: React.FC<StepTwoProps> = ({
       abi: erc20ABI,
       functionName: 'approve',
       args: [
-        '0xf8c6136FEDc00E5b380D76Dda4A9232839aE25F6',
+        '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
         Number(formData.amount) * 1e18,
       ],
     },
     {
-      address: '0xf8c6136FEDc00E5b380D76Dda4A9232839aE25F6',
+      address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
       abi: KomatAbi,
       functionName: 'createBet',
       args: [
         [account.address, formData.challenger],
         formData.question,
-        unixTime - Math.floor(Date.now() / 1000), ///change to unix time
+        unixTime - Math.floor(Date.now() / 1000),
         account.address,
-        '0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5', ///usdc
+        '0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5',
         Number(formData.amount) * 1e18,
         false,
       ],
     },
   ];
-  // console.log('Available Balance:', availableBalance); // Add this line
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
-    if (status.statusName === 'success') {
-    const logs = status.statusData.transactionReceipts[0].logs;
-    console.log(logs.filter(log => log.address === '0xf8c6136FEDc00E5b380D76Dda4A9232839aE25F6'));
-    // console.log('BetId', betId);
-    // writeFireBaseData(betId);
-  }
-  }, []);
 
-  const writeFireBaseData = async () => {};
+  const handleOnStatus = useCallback(
+    (status: LifecycleStatus) => {
+      console.log('LifecycleStatus', status);
+      if (status.statusName === 'success') {
+        const logs = status.statusData.transactionReceipts[0].logs;
+        const filteredLogs = logs.filter((l) => {
+          return (
+            l.address ===
+            ('0x6b89252fe6490ae1f61d59b7d07c93e45749eb62' as `0x${string}`)
+          );
+        });
+        console.log('filtered logs', filteredLogs);
+        const betId = filteredLogs[0].topics[1];
+        console.log('BetId', hexToNumber(betId as Hex));
+        console.log('logs', logs);
+        setBetId(hexToNumber(betId as Hex));
+        writeFireBaseData();
+      }
+      onStatus(status);
+    },
+    [onStatus],
+  );
+
+  const writeFireBaseData = async () => {
+    const betData: BetData = {
+      actor1: account.address as string,
+      actor2: formData.challenger as string,
+      description: formData.description,
+      option: formData.selectedOption,
+      amount: Number(formData.amount),
+    };
+    await createBet(Number(betId), betData);
+  };
 
   return (
     <div
@@ -204,11 +232,11 @@ const StepTwo: React.FC<StepTwoProps> = ({
             chainId={84532}
             contracts={contracts as ContractFunctionParameters[]}
             onStatus={handleOnStatus}
-            onSuccess={() => {
-              writeFireBaseData();
-              console.log('success');
-              // router.push('/overview');
-            }}
+            // onSuccess={() => {
+            //   writeFireBaseData();
+            //   console.log('success');
+            //   router.push('/overview');
+            // }}
           >
             <TransactionButton text="Submit" className="tx-btton" />
             <TransactionSponsor />

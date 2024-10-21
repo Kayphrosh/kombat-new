@@ -7,38 +7,45 @@ import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { Name } from '@coinbase/onchainkit/identity';
 import { baseSepolia } from 'viem/chains';
-import { useFirestore  } from '../Firebasewrapper';
-
+import { useFirestore } from '../Firebasewrapper';
+import SuccessToast from '../success-toast';
 const Identity: React.FC = () => {
   // State for storing username and avatar
   const [username, setUsername] = useState<string>('');
   const [avatar, setAvatar] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const account = useAccount();
-  const {createUser, uploadProfilePicture, isUsernameTaken} = useFirestore();
+  const { createUser, uploadProfilePicture, isUsernameTaken } = useFirestore();
+  const [showToast, setShowToast] = useState(false);
 
   // Handle username input
   const handleUsernameChange = async () => {
-   try {
-     const usernameExists = await isUsernameTaken(username);
-     if (usernameExists) {
-       console.error('Username is already taken');
-       setError('Username is already taken');
-       return;
-     }
+    try {
+      const usernameExists = await isUsernameTaken(username);
+      if (usernameExists) {
+        console.error('Username is already taken');
+        setError('Username is already taken');
+        return;
+      }
 
-     await createUser(account.address as string, username);
+      await createUser(account.address as string, username);
 
-     if (avatar) {
-       const imageUrl = await uploadProfilePicture(avatar, account.address as string);
-       console.log('Profile picture uploaded at:', imageUrl);
-     }
+      if (avatar) {
+        const imageUrl = await uploadProfilePicture(
+          avatar,
+          account.address as string,
+        );
+        console.log('Profile picture uploaded at:', imageUrl);
+      }
 
-     console.log('User created successfully');
-   } catch (err) {
-     console.error(err);
-     setError(err as string);
-   } 
+      console.log('User created successfully');
+    } catch (err) {
+      console.error(err);
+      setError(err as string);
+    }
+  };
+  const handleCloseToast = () => {
+    setShowToast(false);
   };
 
   return (
@@ -59,11 +66,10 @@ const Identity: React.FC = () => {
               type="text"
               id="username"
               value={username}
-              onChange={(e) => { 
+              onChange={(e) => {
                 setUsername(e.target.value);
                 setError(null);
-              }
-              }
+              }}
               placeholder="Enter your username"
             />
             {error && <div className="error">{error.toString()}</div>}
@@ -102,12 +108,17 @@ const Identity: React.FC = () => {
         </div>
 
         {/* <Link href="/overview"> */}
-          <button className="cta" onClick={() => handleUsernameChange()}>
-            <div>Enter Arena</div>
-            <Image src={buttonBg} alt="Button Background" />
-          </button>
+        <button className="cta" onClick={() => handleUsernameChange()}>
+          <div>Enter Arena</div>
+          <Image src={buttonBg} alt="Button Background" />
+        </button>
         {/* </Link> */}
       </div>
+
+      <SuccessToast
+        message="User Identity created successfully"
+        onClose={handleCloseToast}
+      />
     </div>
   );
 };

@@ -1,0 +1,124 @@
+.select-winner-modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: rgba(11, 13, 18, 0.97);
+  transition: all 0.4s linear;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11111;
+
+  .modal-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+    max-width: 584px;
+    background: url(../../../assets/images/icons/decide-bg.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #fff;
+    min-height: 555px;
+    padding: 2rem 3rem;
+
+    .close-modal {
+      position: absolute;
+      top: 2.5rem;
+      right: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .details {
+        position: relative;
+      margin-top: 00px;
+      padding: 1.5rem 2.5rem;
+      border-radius: 22.826px;
+      border: 0.951px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(
+          181deg,
+          rgba(255, 255, 255, 0) 1.16%,
+          rgba(255, 255, 255, 0.09) 55.1%,
+          rgba(255, 255, 255, 0.02) 95.36%
+        ),
+        #0a0d15;
+      box-shadow: 0px 24px 28px 0px rgba(6, 6, 6, 0.41);
+
+      h3 {
+        color: #fff;
+        font-family: 'TuskerGrotesk-Medium-5500';
+        font-size: 24px;
+        font-style: normal;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .desc {
+        margin-top: 1.5rem;
+
+        .title {
+          color: rgba(255, 255, 255, 0.65);
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: 150%; /* 24px */
+          text-transform: uppercase;
+        }
+
+        p {
+          margin-top: 1rem;
+          color: rgba(255, 255, 255, 0.8);
+          font-family: 'ABC-Diatype';
+          font-size: 16px;
+          font-style: normal;
+          line-height: 150%;
+        }
+      }
+
+      .cta {
+        margin-top: 4rem;
+        display: flex;
+        gap: 1rem;
+
+        position: relative;
+        button {
+          display: flex;
+          justify-content: center;
+          position: relative;
+          align-items: center;
+          color: #fff;
+          flex-basis: 50%;
+          height: 49px;
+          width: 100%;
+          padding: 16px 24px 16px 24px;
+          gap: 10px;
+          border-radius: 8px 0px 0px 0px;
+          opacity: 0px;
+          background: hwb(0 100% 0% / 0.189);
+
+          #title {
+            color: #fff;
+            width: 100%;
+            margin: auto;
+            text-wrap: nowrap;
+          }
+          .tx-btton {
+            opacity: 0;
+            min-width: 100px;
+          }
+        }
+      }
+    }
+  }
+}

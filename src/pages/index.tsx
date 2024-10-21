@@ -77,13 +77,13 @@ const Home: React.FC = () => {
         <div className="join-community">
           <div className="title">Join Community</div>
           <div className="sm-links">
-            <Link href="https://x.com" passHref>
+            <Link href="https://x.com/kombatxyz" passHref>
               <Image src={xIcon} alt="X Logo" />
             </Link>
-            <Link href="https://instagram.com" passHref>
+            {/* <Link href="https://instagram.com" passHref>
               <Image src={igIcon} alt="Instagram Logo" />
-            </Link>
-            <Link href="https://farcaster.com" passHref>
+            </Link> */}
+            <Link href="https://warpcast.com/kombatxyz" passHref>
               <Image src={farcasterIcon} alt="Farcaster Logo" />
             </Link>
           </div>

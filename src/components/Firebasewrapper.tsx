@@ -1,4 +1,3 @@
-
 import { createContext, ReactNode, useContext } from 'react';
 import {
   Firestore,
@@ -24,14 +23,15 @@ interface FirestoreContextProps {
   getProfilePicture: (userId: string) => Promise<string>;
   createUser: (address: string, username: string) => Promise<void>;
   isUsernameTaken: (username: string) => Promise<boolean>;
-  createBet: (userId: string, betData: BetData) => Promise<string>;
+  createBet: (userId: number, betData: BetData) => Promise<void>;
   getBet: (betId: string) => Promise<any>;
   getUserBets: (userId: string) => Promise<any[]>;
   getAddressByUsername: (username: string) => Promise<string | null>;
+  getUsernameByAddress: (address: string) => Promise<string | null>;
   checkUserExists: (address: string) => Promise<boolean>;
 }
 
-interface BetData {
+export interface BetData {
   actor1: string;
   actor2: string;
   description: string;
@@ -52,19 +52,19 @@ export const FirestoreProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Get the profile picture download URL for a user
-const getProfilePicture = async (userId: string) => {
-  try {
-    const storageRef = ref(storage, `profile_pictures/${userId}`);
-    return await getDownloadURL(storageRef);
-  } catch (error) {
-    console.error(
-      `Error fetching profile picture for userId ${userId}:`,
-      error,
-    );
-  
-    return vsIcon; // Replace with your default image path
-  }
-};
+  const getProfilePicture = async (userId: string) => {
+    try {
+      const storageRef = ref(storage, `profile_pictures/${userId}`);
+      return await getDownloadURL(storageRef);
+    } catch (error) {
+      console.error(
+        `Error fetching profile picture for userId ${userId}:`,
+        error,
+      );
+
+      return vsIcon; // Replace with your default image path
+    }
+  };
 
   // Create a user with address and username
   const createUser = async (address: string, username: string) => {
@@ -82,7 +82,7 @@ const getProfilePicture = async (userId: string) => {
     const userRef = doc(firestore, 'users', address);
     const userSnapshot = await getDoc(userRef);
     return userSnapshot.exists();
-  };  
+  };
 
   // Check if the username is already taken
   const isUsernameTaken = async (username: string) => {
@@ -108,42 +108,43 @@ const getProfilePicture = async (userId: string) => {
     return userDoc.data().address;
   };
 
+  const getUsernameByAddress = async (address: string) => {
+    const q = query(
+      collection(firestore, 'users'),
+      where('address', '==', address),
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) return null;
+
+    const userDoc = querySnapshot.docs[0];
+    return userDoc.data().username;
+  };
+
   // Create a new bet
-  const createBet = async (userId: string, betData: BetData) => {
-    const betsCollection = collection(firestore, 'bets');
-    const betRef = await addDoc(betsCollection, {
-      ...betData,
-      userId,
-      timestamp: serverTimestamp(),
-    });
+  const createBet = async (betId: number, betData: BetData) => {
+    const userRef = doc(firestore, 'bets', String(betId));
 
-    const userBetRef = doc(firestore, `users/${userId}/userBets/${betRef.id}`);
-    await setDoc(userBetRef, { ...betData, betId: betRef.id });
-
-    return betRef.id;
+    await setDoc(userRef, { betId: betId, ...betData });
   };
 
   // Get a bet by ID
   const getBet = async (betId: string) => {
-    const betRef = doc(firestore, 'bets', betId);
-    const betSnapshot = await getDoc(betRef);
-
-    if (!betSnapshot.exists()) {
-      throw new Error(`Bet with ID ${betId} does not exist.`);
-    }
-
-    return { id: betSnapshot.id, ...betSnapshot.data() };
+    const userRef = doc(firestore, 'bets', betId);
+    const userSnapshot = await getDoc(userRef);
+    return { ...userSnapshot.data() };
   };
-    const addData = async (collectionName: string, data: any, docId: any) => {
-      const colRef = collection(firestore, collectionName, docId);
-      await addDoc(colRef, data);
-    };
 
-    const getData = async (collectionName: string) => {
-      const colRef = collection(firestore, collectionName);
-      const snapshot = await getDocs(colRef);
-      return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    };
+  const addData = async (collectionName: string, data: any, docId: any) => {
+    const colRef = collection(firestore, collectionName, docId);
+    await addDoc(colRef, data);
+  };
+
+  const getData = async (collectionName: string) => {
+    const colRef = collection(firestore, collectionName);
+    const snapshot = await getDocs(colRef);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  };
 
   // Get all bets for a user
   const getUserBets = async (userId: string) => {
@@ -169,6 +170,7 @@ const getProfilePicture = async (userId: string) => {
         getUserBets,
         getAddressByUsername,
         checkUserExists,
+        getUsernameByAddress,
       }}
     >
       {children}
@@ -184,11 +186,9 @@ export const useFirestore = () => {
   return context;
 };
 
-
-
-    //   liveBets.forEach((bet, index) => {
-    //     console.log(`Live bet ${index + 1}:`);
-    //     console.log(`  Actor1: ${bet.actor1}`);
-    //     console.log(`  Actor2: ${bet.actor2}`);
-    //   });
-    // };
+//   liveBets.forEach((bet, index) => {
+//     console.log(`Live bet ${index + 1}:`);
+//     console.log(`  Actor1: ${bet.actor1}`);
+//     console.log(`  Actor2: ${bet.actor2}`);
+//   });
+// };

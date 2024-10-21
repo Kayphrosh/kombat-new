@@ -1,0 +1,94 @@
+.market-overview-container {
+  .market-overview-content {
+    width: 100%;
+    max-width: 1500px;
+    margin: 2rem auto;
+    padding: 0 50px;
+
+    @media (max-width: 1024px) {
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    @media (max-width: 768px) {
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+    }
+    .bar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #14161c;
+      border-radius: 12px;
+      padding: 20px 1.5rem;
+
+      .overview-tabs {
+        display: flex;
+        gap: 1.5rem;
+
+        .tab {
+          color: rgba(255, 255, 255, 0.5);
+          font-family: 'TuskerGrotesk-Medium-4500';
+          font-size: 32px;
+          font-style: normal;
+          line-height: normal;
+        }
+        .tab-active {
+          color: #fff;
+        }
+        .tab-live {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          @media (max-width: 768px) {
+            font-size: 24px;
+          }
+          img {
+            width: 24px;
+
+            @media (max-width: 768px) {
+              font-size: 20px;
+            }
+          }
+        }
+      }
+
+      .search-bar {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+        input {
+          width: 100%;
+          max-width: 300px;
+          height: 42px;
+          border: 1px solid #ffffff14;
+          background: transparent;
+          padding: 0 1rem;
+          border-radius: 8px;
+          color: #fff;
+        }
+        img {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+
+    .coming-soon {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    .markets {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 32px 2.5rem;
+    }
+  }
+}

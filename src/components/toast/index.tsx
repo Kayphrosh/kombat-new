@@ -7,7 +7,7 @@ interface ToastProps {
   message: string;
   onClose: () => void;
 }
-const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
+const InsufficientFundToast: React.FC<ToastProps> = ({ message, onClose }) => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -45,4 +45,4 @@ const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
   );
 };
 
-export default Toast;
+export default InsufficientFundToast;

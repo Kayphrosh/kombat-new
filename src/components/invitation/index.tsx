@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import logo from '@/assets/images/logo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,42 +7,121 @@ import Avatar from '@/assets/images/icons/avatar-2.png';
 import timeIcon from '@/assets/images/icons/time-icon.svg';
 import Navbar from '../dashboard/navbar';
 import { KomatAbi } from '@/KombatAbi';
-import { useAccount } from 'wagmi';
-import { Transaction, TransactionButton, TransactionSponsor, TransactionStatus, TransactionStatusLabel, TransactionStatusAction, LifecycleStatus } from '@coinbase/onchainkit/transaction';
-import router from 'next/router';
+import { useAccount, useReadContract } from 'wagmi';
+import {
+  Transaction,
+  TransactionButton,
+  TransactionSponsor,
+  TransactionStatus,
+  TransactionStatusLabel,
+  TransactionStatusAction,
+  LifecycleStatus,
+} from '@coinbase/onchainkit/transaction';
+import router, { useRouter } from 'next/router';
 import { ContractFunctionParameters } from 'viem';
 import { erc20ABI } from '@/erc20ABI';
+import { useFirestore } from '../Firebasewrapper';
+import { estimateMaxPriorityFeePerGasQueryOptions } from 'wagmi/query';
+import Countdown from '../dashboard/overview/live-bets/countdown';
 //0x4cF351F2667fdea44944C90802CbE25F89752Fec
+
+export type BetData = Array<{
+  _betId?: bigint | undefined;
+  actor1?: `0x${string}` | undefined;
+  actor2?: `0x${string}` | undefined;
+  betName?: string | undefined;
+  duration?: BigInt | undefined;
+  startTimeStamp?: BigInt | undefined;
+  creator?: `0x${string}` | undefined;
+  betToken?: `0x${string}` | undefined;
+  betAmount?: BigInt | undefined;
+}>;
 const Invitation = () => {
-  const betId = 0;
+  const router = useRouter();
+  const { id } = router.query;
   const account = useAccount();
+  const [inviteData, setInviteData] = useState({
+    description: '',
+    option: '',
+  });
   const contracts = [
     {
       address: '0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5',
       abi: erc20ABI,
       functionName: 'approve',
-      args: ['0xf8c6136FEDc00E5b380D76Dda4A9232839aE25F6', Number(800) * 1e18],
+      args: [
+        '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
+        Number(100000000000 * 1e18),
+      ],
     },
     {
-      address: '0xef843d1CDC2e0b4e64e7BaeEea5015cd8A9A82a9',
+      address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
       abi: KomatAbi,
       functionName: 'enterBet',
-      args: [3],
+      args: [Number(id), true],
     },
   ];
+  // console.log("page id", Number(id));
+  // const betId = 6;
 
   const options = ['Yes', 'No'];
   const [activeOption, setActiveOption] = useState('Yes'); // Track active option
+  const [challengerAddress, setChallengerAddress] = useState('');
+  const [betData, setBetBetData] = useState<{
+    actors: readonly `0x${string}`[];
+    startTimeStamp: bigint;
+    endTimeStamp: bigint;
+    betCreator: `0x${string}`;
+    betName: string;
+    betId: bigint;
+    betToken: `0x${string}`;
+    amount: bigint;
+    winner: `0x${string}`;
+    betDisputed: boolean;
+    betClaimed: boolean;
+  }>();
+
   const challengerAvatar = Avatar;
-  const challengerUsername = 'kayphrosh';
+  const { getBet, getUsernameByAddress } = useFirestore();
+  getBet(String(id)).then((ivData) => {
+    setInviteData(ivData);
+  });
+
+  const getId = (id: string | string[] | undefined) => {
+    if (id === undefined) {
+      // router.push('/overview');
+      return '0';
+    } else {
+      return id;
+    }
+  };
+  // console.log("iv", inviteData);
+  // console.log("betData", betData?.actors[1]);
+  const { data, isError, isLoading } = useReadContract({
+    address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
+    abi: KomatAbi,
+    functionName: 'getBetDetails',
+    args: [BigInt(getId(id) as string)],
+  });
+  // console.log(data?.actors);
+  useEffect(() => {
+    setBetBetData(data);
+    if (data?.betCreator != undefined) {
+      getUsernameByAddress(data?.betCreator as string).then((chal) => {
+        console.log(chal);
+        setChallengerAddress(chal as string);
+      });
+    }
+  }, [challengerAddress]);
+  // console.log(challengerAddress);
+  // const challengerUsername = "kayphrosh";
 
   const handleAcceptKombat = () => {
     console.log('accept kombat');
-  } 
+  };
   const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
+    // console.log("LifecycleStatus", status);
   }, []);
-
 
   return (
     <div className="overview-container">
@@ -52,7 +131,7 @@ const Invitation = () => {
         <div className="challenger-details">
           <Image src={challengerAvatar} alt="" />
           <div className="text">
-            @{challengerUsername} is challenging you to a kombat
+            @{challengerAddress} is challenging you to a kombat
           </div>
         </div>
 
@@ -60,24 +139,21 @@ const Invitation = () => {
           <div className="time">
             <div className="time-left">
               <Image src={timeIcon} alt="" />
-              2d : 16h : 52m
+              <Countdown endTime={Number(data?.endTimeStamp)} />
             </div>
 
             <div className="stake">
               <div className="title">Stake</div>
-              <div className="value">$200</div>
+              <div className="value">{data?.amount}</div>
             </div>
           </div>
 
           <div className="details">
-            <h3>Who will win the ballon?</h3>
+            <h3>{data?.betName}</h3>
 
             <div className="desc">
               <div className="title">Description</div>
-              <p>
-                The name of the ballon was found in the year 1892 with the most
-                winer bee the goat of football Lionel Andre Messi.
-              </p>
+              <p>{inviteData?.description}</p>
             </div>
 
             <div className="options-container">
@@ -99,27 +175,28 @@ const Invitation = () => {
             </div>
           </div>
 
-          <Link href="">
-            <button onClick={handleAcceptKombat}>
-              <div>Accept Kombat</div> <Image src={buttonBg} alt="" />
-          <Transaction
-            chainId={84532}
-            contracts={contracts as ContractFunctionParameters[]}
-            onStatus={handleOnStatus}
-            onSuccess={() => {
-              console.log('success');
-            }}
-            onError={(err) => {console.log(err)}}
-          >
-            <TransactionButton text="Submit" className="tx-btton" />
-            <TransactionSponsor />
-            <TransactionStatus>
-              <TransactionStatusLabel className="status-label" />
-              <TransactionStatusAction className="status-label" />
-            </TransactionStatus>
-          </Transaction>
-            </button>
-          </Link>
+          <button onClick={handleAcceptKombat}>
+            <div>Accept Kombat</div> <Image src={buttonBg} alt="" />
+            <Transaction
+              chainId={84532}
+              contracts={contracts as ContractFunctionParameters[]}
+              onStatus={handleOnStatus}
+              onSuccess={() => {
+                console.log('success');
+                router.push('/overview');
+              }}
+              onError={(err) => {
+                console.log(err);
+              }}
+            >
+              <TransactionButton text="Enter bet" className="tx-btton" />
+              <TransactionSponsor />
+              <TransactionStatus>
+                <TransactionStatusLabel className="status-label" />
+                <TransactionStatusAction className="status-label" />
+              </TransactionStatus>
+            </Transaction>
+          </button>
         </div>
       </div>
     </div>

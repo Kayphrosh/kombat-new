@@ -203,47 +203,56 @@ input[type='number'] {
   color: #ffffff70 !important;
 }
 
-@media (max-width: 786px) {
-  // .iekbcc0.ju367vbr.ju367va.ju367v6q.ju367v8a._1am14410,
-  .iekbcc0.ju367va {
-    display: flex;
-    flex-direction: column !important;
-  }
-  ._1ckjpok7 {
-    padding: 0 !important;
-    margin: 0 !important;
-    min-width: 100% !important;
-    top: none !important;
-  }
-  .ju367v8q {
-    min-width: 100vw !important;
-  }
-  ._9pm4ki3 {
-    left: 50% !important;
-    right: none !important;
-    transform: translateX(-50%) !important;
-    bottom: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    min-width: 100vw !important;
-  }
-  .iekbcc0._1ckjpok2._1ckjpok1.ju367vb6.ju367vdr.ju367vp.ju367vt.ju367vv.ju367vel.ju367va.ju367v15.ju367v6c.ju367v8r._1ckjpok6.ju367vq._1ckjpok7 {
-    min-width: 100vw !important;
-    left: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  // .ju367vb3 {
-  //   height: 100vh;
-  //   position: fixed;
-  //   display: flex;
-  //   align-items: center;
-  //   overflow: hidden;
-  // }
-  .iekbcc0.ju367v7e.ju367v7z.ju367v4.ju367va.ju367v15.ju367v1z {
-    display: none;
-  }
-  .iekbcc0.ju367v84.ju367v6d.ju367v6y.ju367v7j {
-    min-width: 100%;
-  }
+// @media (max-width: 786px) {
+//   // .iekbcc0.ju367vbr.ju367va.ju367v6q.ju367v8a._1am14410,
+//   .iekbcc0.ju367va {
+//     display: flex;
+//     flex-direction: column !important;
+//   }
+//   ._1ckjpok7 {
+//     padding: 0 !important;
+//     margin: 0 !important;
+//     min-width: 100% !important;
+//     top: none !important;
+//   }
+//   .ju367v8q {
+//     min-width: 100vw !important;
+//   }
+//   ._9pm4ki3 {
+//     left: 50% !important;
+//     right: none !important;
+//     transform: translateX(-50%) !important;
+//     bottom: 0 !important;
+//     margin: 0 !important;
+//     padding: 0 !important;
+//     min-width: 100vw !important;
+//   }
+//   .iekbcc0._1ckjpok2._1ckjpok1.ju367vb6.ju367vdr.ju367vp.ju367vt.ju367vv.ju367vel.ju367va.ju367v15.ju367v6c.ju367v8r._1ckjpok6.ju367vq._1ckjpok7 {
+//     min-width: 100vw !important;
+//     left: none !important;
+//     margin: 0 !important;
+//     padding: 0 !important;
+//   }
+//   // .ju367vb3 {
+//   //   height: 100vh;
+//   //   position: fixed;
+//   //   display: flex;
+//   //   align-items: center;
+//   //   overflow: hidden;
+//   // }
+//   .iekbcc0.ju367v7e.ju367v7z.ju367v4.ju367va.ju367v15.ju367v1z {
+//     display: none;
+//   }
+//   .iekbcc0.ju367v84.ju367v6d.ju367v6y.ju367v7j {
+//     min-width: 100%;
+//   }
+// }
+
+.py-1 {
+  display: none !important;
 }
+
+.bg-ock-default {
+  padding: 1rem;
+}
+
