@@ -183,12 +183,12 @@ const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {isNotificationModalOpen && (
+        {/* {isNotificationModalOpen && (
           <NotificationModal
             isOpen={isNotificationModalOpen}
             onClose={() => setNotificationModalOpen(false)}
           />
-        )}
+        )} */}
 
         {isDropdownOpen && (
           <div className="notification-modal">
