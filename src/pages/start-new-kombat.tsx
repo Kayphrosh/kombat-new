@@ -1,6 +1,8 @@
 import React from 'react';
 import StartNewCombat from '@/components/dashboard/start-new-kombat';
-const index = () => {
+import Layout from '@/components/dashboard/layout';
+
+const StartNewKombatPage = () => {
   return (
     <div>
       <StartNewCombat />
@@ -8,4 +10,8 @@ const index = () => {
   );
 };
 
-export default index;
+export default StartNewKombatPage;
+
+StartNewKombatPage.getLayout = function getLayout(page: React.ReactNode) {
+  return <Layout>{page}</Layout>;
+};

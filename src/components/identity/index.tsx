@@ -3,20 +3,21 @@ import Image from 'next/image';
 import logo from '@/assets/images/logo.svg';
 import avatarPlaceholder from '@/assets/images/icons/avatar-placeholder.png';
 import buttonBg from '@/assets/images/icons/button-bg.svg';
-import Link from 'next/link';
+import { useRouter } from 'next/router'; // Import useRouter
 import { useAccount } from 'wagmi';
-import { Name } from '@coinbase/onchainkit/identity';
-import { baseSepolia } from 'viem/chains';
 import { useFirestore } from '../Firebasewrapper';
 import SuccessToast from '../success-toast';
+
 const Identity: React.FC = () => {
   // State for storing username and avatar
   const [username, setUsername] = useState<string>('');
   const [avatar, setAvatar] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showToast, setShowToast] = useState(false);
+
   const account = useAccount();
   const { createUser, uploadProfilePicture, isUsernameTaken } = useFirestore();
-  const [showToast, setShowToast] = useState(false);
+  const router = useRouter(); // Initialize useRouter
 
   // Handle username input
   const handleUsernameChange = async () => {
@@ -24,7 +25,7 @@ const Identity: React.FC = () => {
       const usernameExists = await isUsernameTaken(username);
       if (usernameExists) {
         console.error('Username is already taken');
-        setError('Username is already taken');
+        // setError('Username is already taken');
         return;
       }
 
@@ -39,11 +40,16 @@ const Identity: React.FC = () => {
       }
 
       console.log('User created successfully');
+
+      // Show toast and redirect to overview
+      setShowToast(true);
+      router.push('/overview'); // Redirect to the overview page
     } catch (err) {
       console.error(err);
       setError(err as string);
     }
   };
+
   const handleCloseToast = () => {
     setShowToast(false);
   };
@@ -107,18 +113,18 @@ const Identity: React.FC = () => {
           </div>
         </div>
 
-        {/* <Link href="/overview"> */}
         <button className="cta" onClick={() => handleUsernameChange()}>
           <div>Enter Arena</div>
           <Image src={buttonBg} alt="Button Background" />
         </button>
-        {/* </Link> */}
       </div>
 
-      <SuccessToast
-        message="User Identity created successfully"
-        onClose={handleCloseToast}
-      />
+      {showToast && ( 
+        <SuccessToast
+          message="User Identity created successfully"
+          onClose={handleCloseToast}
+        />
+      )}
     </div>
   );
 };

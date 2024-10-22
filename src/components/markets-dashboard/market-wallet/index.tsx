@@ -70,7 +70,6 @@ const MarketWalllet = () => {
 
   return (
     <div className="overview-container">
-      <MarketNavbar />
 
       <div className="wallet-content">
         <div className="wallet-balance-container">

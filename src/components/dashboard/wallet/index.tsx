@@ -72,7 +72,7 @@ const Walllet = () => {
   
   return (
     <div className="overview-container">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="wallet-content">
         <div className="wallet-balance-container">

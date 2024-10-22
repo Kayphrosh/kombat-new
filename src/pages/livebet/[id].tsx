@@ -1,16 +1,17 @@
 import React from 'react';
+import Layout from '@/components/dashboard/layout';
 import BetOverview from '@/components/dashboard/livebet-overview';
-import { GetStaticPaths, GetStaticProps } from 'next';
 
 
 
-const index = () => {
-
+export default function BetOverviewPage() {
   return (
-    <div>
+    <>
       <BetOverview />
-    </div>
+    </>
   );
 };
 
-export default index;
+BetOverviewPage.getLayout = function getLayout(page: React.ReactNode) {
+  return <Layout>{page}</Layout>;
+};

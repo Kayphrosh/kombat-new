@@ -225,7 +225,6 @@ const NewKombatForm: React.FC<ToastProps> = () => {
   );
   return (
     <div className="overview-container">
-      <Navbar />
       <div className="wrapper">
         {step === 1 && (
           <StepOne

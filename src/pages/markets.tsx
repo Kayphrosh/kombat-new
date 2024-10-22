@@ -2,7 +2,8 @@
 import React from 'react';
 import Head from 'next/head';
 import MarketOverview from '@/components/markets-dashboard/market-overview';
-const markets = () => {
+import Layout from '@/components/markets-dashboard/layout';
+const Markets = () => {
   return (
     <>
       <Head>
@@ -19,4 +20,8 @@ const markets = () => {
   );
 };
 
-export default markets;
+export default Markets;
+
+Markets.getLayout = function getLayout(page: React.ReactNode) {
+  return <Layout>{page}</Layout>;
+};

@@ -37,7 +37,7 @@
     "src/components/ConnetWallet.jsx",
     "src/components/start-screen/index.tsx",
     ".next/types/**/*.ts"
-, "src/pages/index.tsx"  ],
+, "src/pages/index.tsx", "src/pages/loading.js"  ],
   "exclude": [
     "node_modules"
   ]

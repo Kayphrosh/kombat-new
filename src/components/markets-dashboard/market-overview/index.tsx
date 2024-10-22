@@ -84,7 +84,6 @@ const MarketOverview = () => {
   ];
   return (
     <div className="market-overview-container overview-container">
-      <MarketNavbar />
 
       <div className="market-overview-content">
         <div className="bar-container">

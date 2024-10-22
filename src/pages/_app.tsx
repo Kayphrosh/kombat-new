@@ -1,27 +1,34 @@
-// 'use client';
+// pages/_app.tsx
 import '@/styles/globals.scss';
 import '@/styles/main.scss';
 import '@coinbase/onchainkit/styles.css';
 import '@rainbow-me/rainbowkit/styles.css';
-import '@coinbase/onchainkit/styles.css';
 import type { AppProps } from 'next/app';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Chain } from 'viem/chains';
-import { WagmiProvider } from 'wagmi'; // WagmiConfig instead of WagmiProvider
-import { NEXT_PUBLIC_CDP_API_KEY } from '../config';
-import { useWagmiConfig } from '@/wagmi'; // Import your custom hook
 import { baseSepolia } from '@/chain';
 import { FirestoreProvider } from '@/components/Firebasewrapper';
+import { WagmiProvider } from 'wagmi';
+import { useWagmiConfig } from '@/wagmi';
+import { NEXT_PUBLIC_CDP_API_KEY } from '../config';
+import { NextPage } from 'next';
 
 const queryClient = new QueryClient();
 
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode
+}
 
-function App({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const wagmiConfig = useWagmiConfig();
+  const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <>
@@ -30,7 +37,7 @@ function App({ Component, pageProps }: AppProps) {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
-        ></meta>
+        />
         <meta name="description" content="Kombat" />
       </Head>
       <WagmiProvider config={wagmiConfig}>
@@ -41,7 +48,8 @@ function App({ Component, pageProps }: AppProps) {
               chain={baseSepolia}
             >
               <RainbowKitProvider modalSize="compact">
-                <Component {...pageProps} />
+                {getLayout(<Component {...pageProps} />)}{' '}
+                {/* Call getLayout here */}
               </RainbowKitProvider>
             </OnchainKitProvider>
           </QueryClientProvider>
@@ -51,4 +59,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default App;
+export default MyApp;

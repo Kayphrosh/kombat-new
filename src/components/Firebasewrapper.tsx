@@ -62,7 +62,7 @@ export const FirestoreProvider = ({ children }: { children: ReactNode }) => {
         error,
       );
 
-      return vsIcon; // Replace with your default image path
+      return vsIcon;
     }
   };
 
@@ -124,7 +124,6 @@ export const FirestoreProvider = ({ children }: { children: ReactNode }) => {
   // Create a new bet
   const createBet = async (betId: number, betData: BetData) => {
     const userRef = doc(firestore, 'bets', String(betId));
-
     await setDoc(userRef, { betId: betId, ...betData });
   };
 

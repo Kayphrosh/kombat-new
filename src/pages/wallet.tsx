@@ -1,6 +1,7 @@
 import React from 'react';
 import Wallet from '@/components/dashboard/wallet';
-const wallet = () => {
+import Layout from '@/components/dashboard/layout';
+const WalletPage = () => {
   return (
     <div>
       <Wallet />
@@ -8,4 +9,8 @@ const wallet = () => {
   );
 };
 
-export default wallet;
+export default WalletPage;
+
+WalletPage.getLayout = function getLayout(page: React.ReactNode) {
+  return <Layout>{page}</Layout>;
+};

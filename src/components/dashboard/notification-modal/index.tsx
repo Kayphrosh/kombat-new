@@ -1,21 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import CloseIcon from '@/assets/images/close.svg';
-import userAvatar from '@/assets/images/icons/avatar-2.png';
+import vsIcon from '@/assets/images/icons/vs.svg'; // Default icon if no avatar is available
 import ArrowIcon from '@/assets/images/icons/arrow-.svg';
-import { useFirestore } from '@/components/Firebasewrapper';
-import {
-  Account,
-  createPublicClient,
-  http,
-  parseAbi,
-  parseAbiItem,
-} from 'viem';
+import noNotification from '@/assets/images/icons/no-notification.svg';
+// import { BetData, useFirestore } from '@/components/Firebasewrapper';
+import { createPublicClient, http, parseAbi, parseAbiItem } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import Link from 'next/link';
-import invitation from '@/pages/invitation';
-import { AtRule } from 'postcss';
+import defaultAvatar from '@/assets/images/icons/default-avatar.svg';
 
 type BetData = Array<{
   _betId?: bigint | undefined;
@@ -29,156 +23,106 @@ type BetData = Array<{
   betAmount?: BigInt | undefined;
 }>;
 
-const publicClient = createPublicClient({
-  chain: baseSepolia,
-  transport: http(
-    'https://base-sepolia.g.alchemy.com/v2/0U4JEhe585vSsJzWGq6t9Ca-8OcNevKO',
-  ),
-});
-
-const getBetEvents = async () => {
-  const logs = await publicClient.getLogs({
-    address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
-    event: parseAbiItem(
-      'event BetCreated(uint256 indexed _betId,address indexed actor1,address indexed actor2,string betName,uint256 duration,uint256 startTimeStamp,address creator,address betToken,uint256 betAmount)',
-    ),
-    args: {},
-    fromBlock: BigInt(16376588),
-    toBlock: BigInt((await publicClient.getBlock()).number),
-  });
-  return logs;
-};
-
-const NotificationModal = ({
-  isOpen,
-  onClose,
-}: {
+interface NotificationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onNotificationCountChange: (count: number) => void;
+  newBets: BetData;
+  usernames: { [key: string]: string };
+  avatars: { [key: string]: string };
+  loading: boolean;
+}
+const NotificationModal: React.FC<NotificationModalProps> = ({
+  isOpen,
+  onClose,
+  onNotificationCountChange,
+  newBets,
+  usernames,
+  avatars,
+  loading,
 }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
-  const notification = [{}];
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      onClose();
-    }
-  };
-  const [newBets, setNewBets] = useState<BetData>([]);
-  const [usernames, setusernames] = useState<Array<string>>([]);
-  const account = useAccount();
 
-  const { getUsernameByAddress } = useFirestore();
 
-  const getLiveBetsNotEntered = async (liveBets: BetData, address: string) => {
-    try {
-      const results = await Promise.all(
-        liveBets.map(async (bet) => {
-          const entered = await publicClient.readContract({
-            address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
-            abi: parseAbi([
-              'function entered(uint256,address) external view returns (bool)',
-            ]),
-            functionName: 'entered',
-            args: [bet._betId as bigint, address as `0x${string}`],
-          });
-          console.log(`Bet ${bet._betId} entered:`, entered);
-          return { bet, entered };
-        }),
-      );
 
-      const notEnteredBets = results
-        .filter((result) => result.entered === false)
-        .map((result) => result.bet);
+   useEffect(() => {
+     onNotificationCountChange(newBets?.length || 0);
+   }, [newBets, onNotificationCountChange]);
 
-      return notEnteredBets;
-    } catch (err) {
-      console.error('Error fetching bets:', err);
-      throw new Error('Failed to fetch bets.');
-    }
-  };
+   // Effect for click outside handling
+   useEffect(() => {
+     const handleClickOutside = (event: MouseEvent) => {
+       if (
+         modalRef.current &&
+         !modalRef.current.contains(event.target as Node)
+       ) {
+         onClose();
+       }
+     };
 
-  useEffect(() => {
-    const getCurrentLiveBets = async (address: string) => {
-      const betData: BetData = [];
+     if (isOpen) {
+       document.addEventListener('mousedown', handleClickOutside);
+     }
 
-      const events = await getBetEvents();
-      for (let i = 0; i < events.length; i++) {
-        betData.push(
-          events[i].args as {
-            _betId?: bigint;
-            actor1?: `0x${string}`;
-            actor2?: `0x${string}`;
-            betName?: string;
-            duration?: BigInt;
-            startTimeStamp?: BigInt;
-            creator?: `0x${string}`;
-            betToken?: `0x${string}`;
-            betAmount?: BigInt;
-          },
-        );
-      }
+     return () => {
+       document.removeEventListener('mousedown', handleClickOutside);
+     };
+   }, [isOpen, onClose]);
 
-      const filterBetsByActor = (actor: string) => {
-        return betData.filter(
-          (bet) => bet.actor1 === actor || bet.actor2 === actor,
-        );
-      };
+   if (!isOpen) return null;
 
-      const userBetData: BetData = filterBetsByActor(address);
+   const renderNotificationContent = () => {
+     if (loading) {
+       return (
+         <div className="loading-spinner">
+           <p>Loading...</p>
+         </div>
+       );
+     }
 
-      const liveBets = userBetData.filter((bet) => {
-        const currentTime = Math.floor(Date.now() / 1000);
-        const expiryTime = Number(bet.startTimeStamp) + Number(bet.duration);
-        return expiryTime > currentTime;
-      });
+     if (!newBets || newBets.length === 0) {
+       return (
+         <div className="empty-state">
+           <Image
+             src={noNotification}
+             alt="No notifications"
+             width={100}
+             height={100}
+           />
+           <p>No notifications available</p>
+         </div>
+       );
+     }
 
-      getLiveBetsNotEntered(liveBets, account.address as string);
-      const fetchBets = async () => {
-        try {
-          const bets = await getLiveBetsNotEntered(
-            liveBets,
-            account.address as string,
-          );
-          setNewBets(bets);
-        } catch (err) {
-          // setError((err as Error).message);
-          console.error(err);
-        }
-      };
-      fetchBets();
-    };
+     return newBets.map((bet) => (
+       <Link
+         key={bet._betId?.toString()}
+         href={`/invitation/${bet._betId}`}
+         className="notification-item-link"
+       >
+         <div className="notification-item">
+           <Image
+             className="challenger-image"
+             src={avatars[bet.creator!] || defaultAvatar}
+             alt="Challenger"
+             width={42}
+             height={42}
+           />
+           <div className="notification-details">
+             <h4>@{usernames[bet.creator!] || bet.creator?.slice(0, 6)} invited you to a kombat</h4>
+             <p>{bet.betName}</p>
+           </div>
+           <div className="amount">
+             {bet.betAmount ? Math.floor(Number(bet.betAmount) / 1e18) : 0}
+           </div>
+           <div className="arrow-right">
+             <Image src={ArrowIcon} alt="View details" width={24} height={24} />
+           </div>
+         </div>
+       </Link>
+     ));
+   };
 
-    if (account.address) {
-      getCurrentLiveBets(account.address as `0x${string}`);
-    }
-  }, [account.address]);
-
-  useEffect(() => {
-    for (let i = 0; i < newBets.length; i++) {
-      if (newBets[i].creator != undefined) {
-        getUsernameByAddress(newBets[i].creator as string).then((un) => {
-          newBets[i].creator = un as `0x{string}`;
-        });
-      }
-    }
-  }, [newBets]);
-
-  console.log('notfis', newBets);
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  
   return (
     <div className="notification-modal">
       <div className="notification-modal-content" ref={modalRef}>
@@ -189,19 +133,31 @@ const NotificationModal = ({
               <Image src={CloseIcon} alt="Close" />
             </button>
           </div>
-
-          <div className="notifications-list">
-            {newBets.map((notif) => {
-              return (
-                <Link href={`/invitation/${notif._betId}`}>
+          {/* <div className="notifications-list">
+            {loading ? (
+              <div className="loading-spinner">
+                <p>Loading...</p>
+              </div>
+            ) : newBets && newBets.length > 0 ? (
+              newBets.map((notif) => (
+                <Link
+                  key={notif._betId?.toString()} // Updated to match the type
+                  href={`/invitation/${notif._betId}`} // Updated to match the type
+                >
                   <div className="notification-item">
                     <Image
                       className="challenger-image"
-                      src={userAvatar}
+                      src={avatars[notif.creator!] || vsIcon}
                       alt="Challenger"
+                      width={42}
+                      height={42}
                     />
+
                     <div className="notification-details">
-                      <h4>{notif.creator} invited you</h4>
+                      <h4>
+                        @{usernames[notif.creator!] || notif.creator} invited
+                        you
+                      </h4>
                       <p>{notif.betName}</p>
                     </div>
                     <div className="amount">
@@ -212,9 +168,21 @@ const NotificationModal = ({
                     </div>
                   </div>
                 </Link>
-              );
-            })}
-          </div>
+              ))
+            ) : (
+              <div className="empty-state">
+                <Image
+                  src={noNotification}
+                  alt="No notifications"
+                  width={100}
+                  height={100}
+                />
+                <p>No notifications available</p>
+              </div>
+            )}
+          </div> */}
+
+          <div className="notifications-list">{renderNotificationContent()}</div>
         </main>
       </div>
     </div>

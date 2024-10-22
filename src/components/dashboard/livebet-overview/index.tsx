@@ -79,7 +79,6 @@ const BetOverview = () => {
 
   return (
     <div className="overview-container new-combat-container">
-      <Navbar />
       <div className="invite-friends-content">
         <div className="back-btn" onClick={() => router.back()}>
           <Image src={backIcon} alt="Back" />

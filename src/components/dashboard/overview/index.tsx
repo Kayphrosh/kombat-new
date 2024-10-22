@@ -18,8 +18,8 @@ import {
 import WonModal from '@/components/dashboard/won-modal';
 import LostModal from '@/components/dashboard/lost-modal';
 import Link from 'next/link';
-import { useAccount, useReadContract } from "wagmi";
-import { KomatAbi } from "@/KombatAbi";
+import { useAccount, useReadContract } from 'wagmi';
+import { KomatAbi } from '@/KombatAbi';
 type OverviewProps = {
   totalLiveBets: number;
   totalCompletedBets: number;
@@ -29,28 +29,26 @@ const Overview: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'history'>('live');
   const [totalLiveBets, setTotalLiveBets] = useState<number>(0);
   const [totalCompletedBets, setTotalCompletedBets] = useState<number>(0);
-  const [won, setWon] = useState("0");
-  const [totalStake, setTotalStake] = useState("0");
+  const [won, setWon] = useState('0');
+  const [totalStake, setTotalStake] = useState('0');
   const account = useAccount();
   const { data: totaldespoited } = useReadContract({
-    address: "0x6b89252fe6490ae1f61d59b7d07c93e45749eb62",
+    address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
     abi: KomatAbi,
-    functionName: "totalDepositedUser",
+    functionName: 'totalDepositedUser',
     args: [account.address as `0x${string}`],
   });
 
   const { data: totalWon } = useReadContract({
-    address: "0x6b89252fe6490ae1f61d59b7d07c93e45749eb62",
+    address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
     abi: KomatAbi,
-    functionName: "totalWonUser",
+    functionName: 'totalWonUser',
     args: [account.address as `0x${string}`],
   });
   useEffect(() => {
     setTotalStake(String(Number(totaldespoited) / 1e18));
     setWon(String(Number(totalWon) / 1e18));
   }, [totaldespoited, totalWon]);
-
-
 
   const handleTabSwitch = (tab: 'live' | 'history') => {
     setActiveTab(tab);
@@ -59,7 +57,7 @@ const Overview: React.FC = () => {
   return (
     <>
       <div className="overview-container">
-        <Navbar />
+        {/* <Navbar /> */}
 
         <div className="overview-content">
           <div className="dashboard-stats">

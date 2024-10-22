@@ -42,6 +42,24 @@
   position: relative;
   z-index: 0;
 }
+*::-webkit-scrollbar {
+  width: 8px;
+  @media (max-width: 768px) {
+    width: 4px;
+  }
+}
+
+*::-webkit-scrollbar-track {
+  background: #2f3238;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #302527;
+  border-radius: 14px;
+  border: 3px solid #2f3238;
+}
+
 svg {
   display: block;
   overflow: visible;
@@ -255,4 +273,3 @@ input[type='number'] {
 .bg-ock-default {
   padding: 1rem;
 }
-
