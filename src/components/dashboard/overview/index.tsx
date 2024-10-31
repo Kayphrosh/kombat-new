@@ -46,7 +46,7 @@ const Overview: React.FC = () => {
     args: [account.address as `0x${string}`],
   });
   useEffect(() => {
-    setTotalStake(String(Number(totaldespoited) / 1e18));
+    setTotalStake(String(Math.floor(Number(totaldespoited) / 1e18)));
     setWon(String(Number(totalWon) / 1e18));
   }, [totaldespoited, totalWon]);
 

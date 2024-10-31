@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { KomatAbi } from '@/KombatAbi';
-import { createPublicClient, http, parseAbiItem } from 'viem';
+import { createPublicClient, http, parseAbi, parseAbiItem } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import Countdown from './countdown';
 import { PlusIcon, ButtonBg, LiveBetBgMobile, ArrowIcon } from './svg';
@@ -92,6 +92,31 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
       console.error(`Error fetching user details for ${address}:`, error);
     }
   };
+  
+  const getLiveBetsEntered = async (liveBets: BetData, address: string) => {
+    try {
+      const results = await Promise.all(
+        liveBets.map(async (bet) => {
+          const entered = await publicClient.readContract({
+            address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
+            abi: parseAbi([
+              'function entered(uint256,address) external view returns (bool)',
+            ]),
+            functionName: 'entered',
+            args: [bet._betId as bigint, address as `0x${string}`],
+          });
+          return { bet, entered };
+        }),
+      );
+
+      return results
+        .filter((result) => result.entered === true)
+        .map((result) => result.bet);
+    } catch (err) {
+      console.error('Error checking entered bets:', err);
+      return [];
+    }
+  };
 
   useEffect(() => {
     const getCurrentLiveBets = async (address: string) => {
@@ -128,7 +153,10 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
         return expiryTime > currentTime;
       });
 
-      setLiveBetsData(liveBets);
+      const liveBetsEntered = await getLiveBetsEntered(liveBets, account.address as string)
+      console.log("liveBetsEntered", liveBetsEntered)
+
+      setLiveBetsData(liveBetsEntered);
       setLiveBetsCount(liveBets.length); // Update the live bets count
     };
 

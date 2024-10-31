@@ -127,9 +127,9 @@ const Invitation = () => {
     console.log('Accept Kombat');
   };
 
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
-  }, []);
+  // const handleOnStatus = useCallback((status: LifecycleStatus) => {
+  //   console.log('LifecycleStatus', status);
+  // }, []);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading invitation.</div>;
@@ -192,7 +192,6 @@ const Invitation = () => {
             <Transaction
               chainId={84532}
               contracts={contracts as ContractFunctionParameters[]}
-              onStatus={handleOnStatus}
               onSuccess={() => {
                 console.log('Success');
                 router.push('/overview');

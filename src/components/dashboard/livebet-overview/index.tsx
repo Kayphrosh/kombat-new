@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Navbar from '../navbar';
 import backIcon from '@/assets/images/icons/back-icon.svg';
 import timeIcon from '@/assets/images/icons/time-icon.svg';
@@ -12,6 +12,8 @@ import buttonBg from '@/assets/images/icons/button-bg.svg';
 import SelectWinnerModal from '../select-winner-modal';
 import { useFirestore } from '@/components/Firebasewrapper';
 import vsIcon from '@/assets/images/icons/vs.svg'; // default image
+import { LifecycleStatus, Transaction, TransactionButton, TransactionSponsor, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction';
+import { ContractFunctionParameters } from 'viem';
 
 const BetOverview = () => {
   const router = useRouter();
@@ -32,6 +34,15 @@ const BetOverview = () => {
       return id;
     }
   };
+    const claimTx = [
+    {
+      address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
+      abi: KomatAbi,
+      functionName: 'claim',
+      args: [BigInt(getId(id) as string)],
+    },
+  ];
+  console.log("getId",getId(id))
 
   const { data, isError, isLoading } = useReadContract({
     address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
@@ -42,7 +53,8 @@ const BetOverview = () => {
 
   // Fetch bet details from Firestore
   useEffect(() => {
-    getBet(id as string).then((data) => {
+    getBet(getId(id) as string).then((data) => {
+      console.log("fbData",data)
       setFbData(data);
     });
   }, [getBet, id]);
@@ -76,7 +88,11 @@ const BetOverview = () => {
     id: id as string,
     amount: (Number(data?.amount) / 1e18).toString(),
   };
-
+  // const handleOnStatus = useCallback((status: LifecycleStatus) => {
+  //   console.log('LifecycleStatus', status);
+  //   // console.log('BetId', betId);
+  //   // writeFireBaseData(betId);
+  // }, []);
   return (
     <div className="overview-container new-combat-container">
       <div className="invite-friends-content">
@@ -142,6 +158,25 @@ const BetOverview = () => {
           </div>
         </div>
       </div>
+
+      <button title="">
+        <div id='title'>Claim</div>
+        <Transaction
+          chainId={84532}
+          contracts={claimTx as ContractFunctionParameters[]}
+          onSuccess={() => {
+            console.log('success');
+            // router.push('/overview');
+          }}
+        >
+          <TransactionButton text="Claim" className="tx-btton" />
+          <TransactionSponsor />
+          <TransactionStatus>
+            <TransactionStatusLabel className="status-label" />
+            <TransactionStatusAction className="status-label" />
+          </TransactionStatus>
+        </Transaction>
+      </button>
 
       {isModalOpen && (
         <SelectWinnerModal closeModal={() => setIsModalOpen(false)} id={id} />

@@ -18,6 +18,7 @@ import { ContractFunctionParameters, Hex } from 'viem';
 import { erc20ABI } from '@/erc20ABI';
 import { hexToNumber } from 'viem';
 import { useFirestore, BetData } from '@/components/Firebasewrapper';
+import router from 'next/router';
 
 interface StepTwoProps {
   formData: {
@@ -232,11 +233,11 @@ const StepTwo: React.FC<StepTwoProps> = ({
             chainId={84532}
             contracts={contracts as ContractFunctionParameters[]}
             onStatus={handleOnStatus}
-            // onSuccess={() => {
-            //   writeFireBaseData();
-            //   console.log('success');
-            //   router.push('/overview');
-            // }}
+            onSuccess={() => {
+              writeFireBaseData();
+              console.log('success');
+              router.push('/overview');
+            }}
           >
             <TransactionButton text="Submit" className="tx-btton" />
             <TransactionSponsor />

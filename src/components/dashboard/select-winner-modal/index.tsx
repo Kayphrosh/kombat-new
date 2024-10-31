@@ -13,6 +13,7 @@ import { ContractFunctionParameters } from 'viem';
 import closeIcon from '@/assets/images/close.svg';
 import Image from 'next/image';
 import decideIcon from '@/assets/images/icons/decide.svg';
+import router from 'next/router';
 interface SelectWinnerProps {
   closeModal: () => void;
   id: string | string[] | undefined;
@@ -35,11 +36,11 @@ const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
       args: [BigInt(id as string), false],
     },
   ];
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
-    // console.log('BetId', betId);
-    // writeFireBaseData(betId);
-  }, []);
+  // const handleOnStatus = useCallback((status: LifecycleStatus) => {
+  //   console.log('LifecycleStatus', status);
+  //   // console.log('BetId', betId);
+  //   // writeFireBaseData(betId);
+  // }, []);
 
   return (
     <div className="select-winner-modal-container">
@@ -69,7 +70,7 @@ const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
               <Transaction
                 chainId={84532}
                 contracts={wonTx as ContractFunctionParameters[]}
-                onStatus={handleOnStatus}
+                onStatus={()=>{}}
                 onSuccess={() => {
                   console.log('success');
                   // router.push('/overview');
@@ -88,10 +89,10 @@ const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
               <Transaction
                 chainId={84532}
                 contracts={lostTx as ContractFunctionParameters[]}
-                onStatus={handleOnStatus}
+                onStatus={()=>{}}
                 onSuccess={() => {
                   console.log('success');
-                  // router.push('/overview');
+                  router.push('/overview');
                 }}
               >
                 <TransactionButton text="I Lost" className="tx-btton" />
