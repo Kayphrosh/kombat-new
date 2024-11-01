@@ -1,4 +1,4 @@
-export  const ButtonBgSvg: React.FC = () => {
+export const ButtonBgSvg: React.FC = () => {
 
     return (
                   <svg

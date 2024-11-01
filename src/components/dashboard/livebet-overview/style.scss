@@ -55,7 +55,7 @@
         left: 0;
         width: 100%;
         padding: 0 24px;
-        padding-left: 69px;
+        padding-left: 56px;
 
         .time-left {
           display: flex;
@@ -68,11 +68,12 @@
           line-height: normal;
           margin-top: 14px;
         }
-        button {
+        .declare-winner {
           margin-left: auto;
 
-          position: relative;
-          //   right: 0rem;
+          position: absolute;
+          top: 0rem;
+          right: 2rem;
           transform: translate(20%);
           color: #000;
           font-family: 'ABC-Diatype';
@@ -86,6 +87,37 @@
             left: 50%;
             top: 3rem;
             transform: translate(-50%, -2rem);
+          }
+        }
+
+        .claim-btn {
+          position: relative;
+          display: flex;
+          align-items: flex-end;
+
+          svg {
+            position: absolute;
+            right: -3.5rem;
+            top: -1rem;
+          }
+
+          .transaction {
+            position: absolute;
+            top: -1rem;
+            right: 1rem;
+            width: 100%;
+            min-width: 204px;
+            margin-top: 0.2rem;
+            color: #000 !important;
+
+            .text-ock-inverse {
+              font-family: 'ABC-Diatype';
+              font-weight: normal;
+              color: #000;
+            }
+            .bg-ock-primary {
+              background: transparent;
+            }
           }
         }
       }

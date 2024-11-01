@@ -1,10 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import logo from '@/assets/images/logo.svg';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import buttonBg from '@/assets/images/icons/button-bg.svg';
-import defaultAvatar from '@/assets/images/icons/default-avatar.svg';
-import timeIcon from '@/assets/images/icons/time-icon.svg';
 import Navbar from '../dashboard/navbar';
 import { KomatAbi } from '@/KombatAbi';
 import { useAccount, useReadContract } from 'wagmi';
@@ -15,13 +10,15 @@ import {
   TransactionStatus,
   TransactionStatusLabel,
   TransactionStatusAction,
-  LifecycleStatus,
 } from '@coinbase/onchainkit/transaction';
 import router, { useRouter } from 'next/router';
 import { ContractFunctionParameters } from 'viem';
 import { erc20ABI } from '@/erc20ABI';
 import { useFirestore } from '../Firebasewrapper';
 import Countdown from '../dashboard/overview/live-bets/countdown';
+import buttonBg from '@/assets/images/icons/button-bg.svg';
+import timeIcon from '@/assets/images/icons/time-icon.svg';
+import defaultAvatar from '@/assets/images/icons/default-avatar.svg';
 
 interface InviteData {
   description: string;
@@ -29,18 +26,10 @@ interface InviteData {
 }
 
 interface BetDetails {
-  actors: readonly `0x${string}`[];
-  startTimeStamp: bigint;
-  endTimeStamp: bigint;
   betCreator: `0x${string}`;
   betName: string;
-  betId: bigint;
-  betDescription?: string;
-  betToken: `0x${string}`;
+  endTimeStamp: bigint;
   amount: bigint;
-  winner: `0x${string}`;
-  betDisputed: boolean;
-  betClaimed: boolean;
 }
 
 const Invitation = () => {
@@ -48,9 +37,8 @@ const Invitation = () => {
   const { id } = router.query;
   const account = useAccount();
 
-  // State management
   const [inviteData, setInviteData] = useState<InviteData | null>(null);
-  const [activeOption, setActiveOption] = useState('Yes');
+  const [activeOption, setActiveOption] = useState('');
   const [challengerData, setChallengerData] = useState({
     username: '',
     avatar: defaultAvatar,
@@ -59,7 +47,6 @@ const Invitation = () => {
 
   const { getBet, getUsernameByAddress, getProfilePicture } = useFirestore();
 
-  // Contract read for bet details
   const { data: betDetails, isError } = useReadContract({
     address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
     abi: KomatAbi,
@@ -67,13 +54,11 @@ const Invitation = () => {
     args: [BigInt((id as string) || '0')],
   });
 
-  // Format amount to display in USDC
   const formatAmount = (amount: bigint | undefined) => {
     if (!amount) return '0';
     return (Number(amount) / 1e18).toFixed(2);
   };
 
-  // Contract parameters for transaction
   const contracts = [
     {
       address: '0xaf6264B2cc418d17F1067ac8aC8687aae979D5e5',
@@ -92,18 +77,27 @@ const Invitation = () => {
     },
   ];
 
-  // Fetch invite data and challenger details
+  const getOppositeOption = (option: string) => {
+    return option.toLowerCase() === 'yes'
+      ? 'no'
+      : option.toLowerCase() === 'no'
+      ? 'yes'
+      : '';
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (!id || !betDetails?.betCreator) return;
 
       setIsLoading(true);
       try {
-        // Fetch invite data
         const ivData = await getBet(String(id));
         setInviteData(ivData);
 
-        // Fetch challenger details
+        if (ivData?.option) {
+          setActiveOption(getOppositeOption(ivData.option));
+        }
+
         const username = await getUsernameByAddress(betDetails.betCreator);
         const avatar = await getProfilePicture(betDetails.betCreator);
 
@@ -126,10 +120,6 @@ const Invitation = () => {
     getUsernameByAddress,
     getProfilePicture,
   ]);
-
-  // const handleOnStatus = useCallback((status: LifecycleStatus) => {
-  //   console.log('Transaction status:', status);
-  // }, []);
 
   if (isLoading) {
     return (
@@ -156,7 +146,6 @@ const Invitation = () => {
   return (
     <div className="overview-container">
       <Navbar />
-
       <div className="invitation-content">
         <div className="challenger-details">
           <Image
@@ -194,16 +183,12 @@ const Invitation = () => {
             <div className="options-container">
               <div className="title">Options</div>
               <div className="options">
-                {['Yes', 'No'].map((option) => (
-                  <div
-                    key={option}
-                    className={`option ${
-                      activeOption === option ? 'active' : ''
-                    }`}
-                  >
-                    {option}
-                  </div>
-                ))}
+                <div className="option">
+                  <span>{inviteData?.option}</span>
+                </div>
+                <div className="option active">
+                  <span> {activeOption}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -212,7 +197,6 @@ const Invitation = () => {
             <Transaction
               chainId={84532}
               contracts={contracts as ContractFunctionParameters[]}
-              // onStatus={handleOnStatus}
               onSuccess={() => {
                 console.log('success');
                 router.push('/overview');
