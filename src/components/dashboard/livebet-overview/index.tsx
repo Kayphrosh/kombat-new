@@ -106,14 +106,14 @@ const BetOverview: React.FC = () => {
     }
   }, [data, getUsernameByAddress, getProfilePicture]);
 
-  useEffect(() => {
-    if (data?.winnerDeclaredBy) {
-      setHasDeclaredWinner(true);
-      setButtonState('Claim');
-    } else {
-      setButtonState('Declare');
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.winnerDeclaredBy) {
+  //     setHasDeclaredWinner(true);
+  //     setButtonState('Claim');
+  //   } else {
+  //     setButtonState('Declare');
+  //   }
+  // }, [data]);
 
   const handleDispute = () => {
     // Logic to handle dispute, e.g., set the button to dispute state
