@@ -4,14 +4,15 @@
   flex-direction: column;
   width: 100%;
   max-width: 576px;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 68px;
 
   .challenger-details {
     display: flex;
     align-items: center;
     gap: 2rem;
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
     margin: 0 auto;
 
     img {
@@ -20,7 +21,7 @@
       border-radius: 50%;
       object-fit: cover;
       object-position: center;
-      box-shadow: -3px 3px 0px 0px #ffffff;
+      box-shadow: 3px 3px 0px 0px #ffffff;
     }
     .text {
       color: #fff;
@@ -39,7 +40,7 @@
     padding: 44px;
     padding-left: 46px;
     padding-right: 46px;
-    padding-bottom: 132px;
+    padding-bottom: 122px;
     width: 100%;
     // flex-basis: 50%;
     height: max-content;
@@ -88,6 +89,10 @@
     }
 
     .details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 342px;
       margin-top: 1.5rem;
       padding: 1.5rem 2rem;
       border-radius: 22.826px;
@@ -164,7 +169,7 @@
     button {
       position: absolute;
       left: -2rem;
-      bottom: -28%;
+      bottom: -25%;
       transform: translate(0%, -0%);
       color: #000;
       font-family: 'ABC-Diatype';
@@ -187,6 +192,16 @@
         transform: translate(6.5rem, 2.5rem);
         opacity: 0;
       }
+    }
+    .text-ock-error {
+      position: absolute !important;
+      left: -50% !important;
+      width: 100%;
+      white-space: nowrap;
+    }
+    .text-ock-foreground-muted {
+      margin-bottom: -1rem !important;
+      white-space: nowrap;
     }
   }
 }

@@ -13,7 +13,7 @@ const WithdrawalModal: React.FC<WithdrawFundModalProps> = ({
   return (
     <div className="modal-container">
       <div className="modal-content">
-        <div className="title">Fund Withdrawal</div>
+        <div className="title">Withdraw Fund</div>
 
         <p>You can only withdraw USDC BASE SEPOLIA</p>
 

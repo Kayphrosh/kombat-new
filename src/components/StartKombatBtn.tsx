@@ -9,7 +9,7 @@ type StartKombatButtonProps = {
 };
 const StartKombatButton: React.FC<StartKombatButtonProps> = ({ onClick }) =>{
   return (
-    <button title="start Kombat" onClick={onClick}>
+    <button className='start-kombat-btn' title="start Kombat" onClick={onClick}>
       <WalletWrapper
         className="btn-custom"
         text=""

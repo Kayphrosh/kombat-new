@@ -76,6 +76,10 @@
           justify-content: center;
           margin: auto;
           gap: 1rem;
+
+          img {
+            width: 42px;
+          }
         }
         .notification-item {
           position: relative;

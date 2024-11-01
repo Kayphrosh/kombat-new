@@ -74,8 +74,12 @@
         font-size: 20px;
         text-transform: uppercase;
         img {
-          width: 49px;
-          height: 49px;
+          min-width: 49px;
+          min-height: 49px;
+          max-width: 49px;
+          max-height: 49px;
+          object-fit: cover;
+          object-position: top;
           border-radius: 49px;
           box-shadow: -3px 3px 0px 0px #c1272d;
         }
@@ -129,7 +133,7 @@
           line-height: normal;
           @media (max-width: 468px) {
             font-size: 14px;
-            padding: .5rem 12px;
+            padding: 0.5rem 12px;
             min-width: 124px;
           }
         }

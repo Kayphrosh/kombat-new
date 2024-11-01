@@ -106,7 +106,7 @@
         box-shadow: 0px 0px 16px 0px rgba(255, 255, 255, 0.1) inset;
         padding: 0.5rem 12px;
         color: #fff;
-        font-family: 'Unbounded', sans-serif;
+        font-family: 'Unbounded', sans-serif !important;
         font-size: 14px;
         font-weight: 500;
         height: 40px;
@@ -154,11 +154,13 @@
           display: none;
         }
         #user-icon {
-          width: 32px;
-          height: 32px;
+          min-width: 32px;
+          min-height: 32px;
+          max-width: 32px;
+          max-height: 32px;
           border-radius: 50%;
           object-fit: cover;
-          object-position: center;
+          object-position: top;
         }
         #drop-down {
           width: 20px;

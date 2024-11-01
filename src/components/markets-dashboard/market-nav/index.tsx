@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
   return (
     <div className="navbar-container">
       <div className="navbar-content">
-        <Link href="/market">
+        <Link href="/">
           <LogoIcon />
         </Link>
 

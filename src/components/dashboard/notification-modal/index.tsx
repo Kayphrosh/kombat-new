@@ -109,11 +109,11 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
              height={42}
            />
            <div className="notification-details">
-             <h4>@{usernames[bet.creator!] || bet.creator?.slice(0, 6)} invited you to a kombat</h4>
+             <h4>@{usernames[bet.creator!] || bet.creator?.slice(0, 6)} invited you</h4>
              <p>{bet.betName}</p>
            </div>
            <div className="amount">
-             {bet.betAmount ? Math.floor(Number(bet.betAmount) / 1e18) : 0}
+             ${bet.betAmount ? Math.floor(Number(bet.betAmount) / 1e18) : 0}
            </div>
            <div className="arrow-right">
              <Image src={ArrowIcon} alt="View details" width={24} height={24} />
@@ -133,55 +133,6 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
               <Image src={CloseIcon} alt="Close" />
             </button>
           </div>
-          {/* <div className="notifications-list">
-            {loading ? (
-              <div className="loading-spinner">
-                <p>Loading...</p>
-              </div>
-            ) : newBets && newBets.length > 0 ? (
-              newBets.map((notif) => (
-                <Link
-                  key={notif._betId?.toString()} // Updated to match the type
-                  href={`/invitation/${notif._betId}`} // Updated to match the type
-                >
-                  <div className="notification-item">
-                    <Image
-                      className="challenger-image"
-                      src={avatars[notif.creator!] || vsIcon}
-                      alt="Challenger"
-                      width={42}
-                      height={42}
-                    />
-
-                    <div className="notification-details">
-                      <h4>
-                        @{usernames[notif.creator!] || notif.creator} invited
-                        you
-                      </h4>
-                      <p>{notif.betName}</p>
-                    </div>
-                    <div className="amount">
-                      {Math.floor(Number(notif.betAmount) / 1e18)}
-                    </div>
-                    <div className="arrow-right">
-                      <Image src={ArrowIcon} alt="" />
-                    </div>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <div className="empty-state">
-                <Image
-                  src={noNotification}
-                  alt="No notifications"
-                  width={100}
-                  height={100}
-                />
-                <p>No notifications available</p>
-              </div>
-            )}
-          </div> */}
-
           <div className="notifications-list">{renderNotificationContent()}</div>
         </main>
       </div>

@@ -23,7 +23,7 @@
     "coinbase-wallet-sdk": "^0.0.1-security",
     "ethers": "^6.13.3",
     "firebase": "^10.14.1",
-    "next": "^14.2.14",
+    "next": "^15.0.2",
     "qrcode": "^1.5.4",
     "react": "^18",
     "react-dom": "^18",

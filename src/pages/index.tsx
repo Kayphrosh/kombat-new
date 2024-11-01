@@ -17,6 +17,7 @@ import SignupButton from '@/components/SignUpBtn';
 import SignupButtonMobile from '@/components/SignUpBtnMobile';
 import StartKombatButton from '@/components/StartKombatBtn';
 import { useFirestore } from '@/components/Firebasewrapper';
+import MarketBtn from '@/components/MarktBtn';
 
 const Home: React.FC = () => {
   const { address, isConnected } = useAccount();
@@ -32,6 +33,20 @@ const Home: React.FC = () => {
       } else {
         router.push('/identity');
       }
+    } else {
+      connect({ connector: connectors[0] });
+    }
+  };
+
+  const handleMarketClick = () => {
+    if (isConnected) {
+      const checkUser = async () => {
+        const userExists = await checkUserExists(address as string);
+        if (userExists) {
+          router.push('/markets');
+        }
+      };
+      checkUser();
     } else {
       connect({ connector: connectors[0] });
     }
@@ -59,9 +74,7 @@ const Home: React.FC = () => {
             </p>
             <div className="main-cta">
               <StartKombatButton onClick={handleStartKombatClick} />
-              <Link href="/markets" className="market-btn">
-                <div>Market</div>
-              </Link>
+              <MarketBtn onClick={handleMarketClick} />
             </div>
           </div>
 
