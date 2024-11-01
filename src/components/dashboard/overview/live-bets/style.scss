@@ -319,7 +319,7 @@
               margin-top: 2px;
             }
             .time-mobile {
-              display: flex;
+              display: flex !important;
               flex-direction: column;
               justify-content: center;
               align-items: center;
@@ -329,7 +329,7 @@
               padding: 0 1rem;
               color: #d62634;
               font-size: 14px;
-              margin-right: 1.5rem;
+              margin-right: 2rem;
             }
           }
         }

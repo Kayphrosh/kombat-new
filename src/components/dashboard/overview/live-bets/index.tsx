@@ -288,6 +288,14 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
                     <p id="title">Stake:</p>
                     <p id="value">${Number(livebet.betAmount) / 1e18}</p>
                   </span>
+                  <div className="time-mobile">
+                    <Countdown
+                      endTime={
+                        Number(livebet.startTimeStamp) +
+                        Number(livebet.duration)
+                      }
+                    />
+                  </div>
                 </div>
                 <div className="cta">
                   <Link href={`/livebet/${livebet._betId}`}>

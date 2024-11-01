@@ -63,8 +63,6 @@ type CompletedBetsProps = {
   setCompletedBetsCount: (count: number) => void;
 };
 
-
-
 const History: React.FC<CompletedBetsProps> = ({ setCompletedBetsCount }) => {
   const [completedBetsData, setCompletedBetsData] = useState<BetData>([]);
   const [userDetails, setUserDetails] = useState<{
@@ -259,6 +257,9 @@ const History: React.FC<CompletedBetsProps> = ({ setCompletedBetsCount }) => {
                     <p id="title">Stake:</p>
                     <p id="value">${Number(bet.betAmount) / 1e18}</p>
                   </span>
+                  <div className="time-mobile">
+                    <p className="ended">Ended</p>
+                  </div>
                 </div>
                 <div className="cta">
                   <Link href={`/livebet/${bet._betId}`}>
