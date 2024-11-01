@@ -6,40 +6,52 @@ import {
   TransactionStatus,
   TransactionStatusLabel,
   TransactionStatusAction,
-  LifecycleStatus,
 } from '@coinbase/onchainkit/transaction';
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import { ContractFunctionParameters } from 'viem';
 import closeIcon from '@/assets/images/close.svg';
 import Image from 'next/image';
 import decideIcon from '@/assets/images/icons/decide.svg';
+import router from 'next/router';
+import { ButtonBgSvg } from './svg';
+
 interface SelectWinnerProps {
   closeModal: () => void;
   id: string | string[] | undefined;
 }
-const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
-  const wonTx = [
-    {
-      address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
-      abi: KomatAbi,
-      functionName: 'enterWin',
-      args: [BigInt(id as string), true],
-    },
-  ];
 
-  const lostTx = [
-    {
-      address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
-      abi: KomatAbi,
-      functionName: 'enterWin',
-      args: [BigInt(id as string), false],
-    },
-  ];
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('LifecycleStatus', status);
-    // console.log('BetId', betId);
-    // writeFireBaseData(betId);
-  }, []);
+const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
+  const [selectedOption, setSelectedOption] = useState<'won' | 'lost' | null>(
+    null,
+  );
+
+  const handleOptionClick = (option: 'won' | 'lost') => {
+    setSelectedOption(option);
+  };
+
+  const getTransaction = (): ContractFunctionParameters[] => {
+    if (selectedOption === 'won') {
+      return [
+        {
+          address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
+          abi: KomatAbi,
+          functionName: 'enterWin',
+          args: [BigInt(id as string), true],
+        },
+      ];
+    } else if (selectedOption === 'lost') {
+      return [
+        {
+          address: '0x6b89252fe6490ae1f61d59b7d07c93e45749eb62',
+          abi: KomatAbi,
+          functionName: 'enterWin',
+          args: [BigInt(id as string), false],
+        },
+      ];
+    } else {
+      return [];
+    }
+  };
 
   return (
     <div className="select-winner-modal-container">
@@ -48,13 +60,11 @@ const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
           close
           <Image src={closeIcon} alt="close" />
         </div>
-
         <div className="details">
           <h3>
             <Image src={decideIcon} alt="decide" />
             Decide the winner
           </h3>
-
           <div className="desc">
             <div className="title">Select the winner of the bet</div>
             <p>
@@ -62,47 +72,44 @@ const SelectWinnerModal: React.FC<SelectWinnerProps> = ({ closeModal, id }) => {
               settlement will done by done by third person.
             </p>
           </div>
-
-          <div className="cta">
-            <button title="I Won">
-              <div id='title'> I won</div>
-              <Transaction
-                chainId={84532}
-                contracts={wonTx as ContractFunctionParameters[]}
-                onStatus={handleOnStatus}
-                onSuccess={() => {
-                  console.log('success');
-                  // router.push('/overview');
-                }}
-              >
-                <TransactionButton text="I won" className="tx-btton" />
-                <TransactionSponsor />
-                <TransactionStatus>
-                  <TransactionStatusLabel className="status-label" />
-                  <TransactionStatusAction className="status-label" />
-                </TransactionStatus>
-              </Transaction>
-            </button>
-            <button title="I Lost">
-              <div id='title'>I Lost</div>
-              <Transaction
-                chainId={84532}
-                contracts={lostTx as ContractFunctionParameters[]}
-                onStatus={handleOnStatus}
-                onSuccess={() => {
-                  console.log('success');
-                  // router.push('/overview');
-                }}
-              >
-                <TransactionButton text="I Lost" className="tx-btton" />
-                <TransactionSponsor />
-                <TransactionStatus>
-                  <TransactionStatusLabel className="status-label" />
-                  <TransactionStatusAction className="status-label" />
-                </TransactionStatus>
-              </Transaction>
-            </button>
+          <div className="options">
+            <div
+              className={`option ${selectedOption === 'won' ? 'active' : ''}`}
+              onClick={() => handleOptionClick('won')}
+            >
+              I won
+            </div>
+            <div
+              className={`option ${selectedOption === 'lost' ? 'active' : ''}`}
+              onClick={() => handleOptionClick('lost')}
+            >
+              I lost
+            </div>
           </div>
+        </div>
+        <div className="confirm">
+          <ButtonBgSvg />
+          <Transaction
+            chainId={84532}
+            contracts={getTransaction()}
+            onStatus={() => {}}
+            onSuccess={() => {
+              console.log('success');
+              // router.push('/overview');
+            }}
+            className="transaction"
+          >
+            <TransactionButton
+              text="Confirm Winner"
+              className="tx-btton"
+              disabled={!selectedOption}
+            />
+            <TransactionSponsor />
+            <TransactionStatus>
+              <TransactionStatusLabel className="status-label" />
+              <TransactionStatusAction className="status-label" />
+            </TransactionStatus>
+          </Transaction>
         </div>
       </div>
     </div>

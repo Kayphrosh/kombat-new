@@ -91,6 +91,7 @@
       }
 
       .details {
+        min-height: 320px;
         margin-top: 90px;
         padding: 1.5rem 2rem;
         border-radius: 22.826px;
@@ -103,7 +104,9 @@
           ),
           #0a0d15;
         box-shadow: 0px 24px 28px 0px rgba(6, 6, 6, 0.41);
-
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         h3 {
           color: #fff;
           font-family: 'TuskerGrotesk-Medium-5500';
@@ -251,7 +254,12 @@
             gap: 20px;
 
             img {
-              width: 48px;
+              min-width: 48px;
+              min-height: 48px;
+              max-width: 48px;
+              max-height: 48px;
+              object-fit: cover;
+              object-position: top;
               border-radius: 50%;
               box-shadow: -3px 3px 0px 0px #c1272d;
             }

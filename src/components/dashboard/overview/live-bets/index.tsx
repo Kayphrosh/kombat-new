@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
-import { createPublicClient, http, parseAbiItem } from 'viem';
+import { createPublicClient, http, parseAbiItem, parseAbi } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import Countdown from './countdown';
 import { PlusIcon, ButtonBg, LiveBetBgMobile, ArrowIcon } from './svg';
@@ -45,7 +45,7 @@ const getBetEvents = async () => {
         'event BetCreated(uint256 indexed _betId,address indexed actor1,address indexed actor2,string betName,uint256 duration,uint256 startTimeStamp,address creator,address betToken,uint256 betAmount)',
       ),
       fromBlock: BigInt(16376588),
-      toBlock: BigInt((await publicClient.getBlock()).number),
+      toBlock: BigInt(block.number),
     });
     return logs;
   } catch (error) {
@@ -65,7 +65,7 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
   }>({});
   const { getProfilePicture, getUsernameByAddress } = useFirestore();
   const { address } = useAccount();
-
+  const account = useAccount();
   const formatAddress = (address: string) =>
     `${address.slice(0, 6)}...${address.slice(-4)}`;
 
@@ -117,6 +117,30 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
     [getUsernameByAddress, getProfilePicture, userDetails],
   );
 
+  const getLiveBetsEntered = async (liveBets: BetData, address: string) => {
+    try {
+      const results = await Promise.all(
+        liveBets.map(async (bet) => {
+          const entered = await publicClient.readContract({
+            address: '0x6b89252fe6490AE1F61d59b7D07C93E45749eb62',
+            abi: parseAbi([
+              'function entered(uint256,address) external view returns (bool)',
+            ]),
+            functionName: 'entered',
+            args: [bet._betId as bigint, address as `0x${string}`],
+          });
+          return { bet, entered };
+        }),
+      );
+
+      return results
+        .filter((result) => result.entered === true)
+        .map((result) => result.bet);
+    } catch (err) {
+      console.error('Error checking entered bets:', err);
+      return [];
+    }
+  };
   useEffect(() => {
     const fetchAllUserDetails = async () => {
       const uniqueAddresses = new Set<string>();
@@ -134,37 +158,55 @@ const LiveBets: React.FC<LiveBetsProps> = ({ setLiveBetsCount }) => {
     }
   }, [liveBetsData, fetchUserDetails]);
 
-  useEffect(() => {
-    const getCurrentLiveBets = async (userAddress: string) => {
-      try {
-        const events = await getBetEvents();
-        const betData: BetData = events.map(
-          (event) => event.args as BetData[0],
-        );
+ useEffect(() => {
+   const getCurrentLiveBets = async (address: string) => {
+     const betData: BetData = [];
 
-        const filterBetsByActor = (actor: string) =>
-          betData.filter((bet) => bet.actor1 === actor || bet.actor2 === actor);
+     const events = await getBetEvents();
+     for (let i = 0; i < events.length; i++) {
+       betData.push(
+         events[i].args as {
+           _betId?: bigint;
+           actor1?: `0x${string}`;
+           actor2?: `0x${string}`;
+           betName?: string;
+           duration?: BigInt;
+           startTimeStamp?: BigInt;
+           creator?: `0x${string}`;
+           betToken?: `0x${string}`;
+           betAmount?: BigInt;
+         },
+       );
+     }
 
-        const liveBets = filterBetsByActor(userAddress).filter((bet) => {
-          const currentTime = Math.floor(Date.now() / 1000);
-          return (
-            Number(bet.startTimeStamp) + Number(bet.duration) > currentTime
-          );
-        });
+     const filterBetsByActor = (actor: string) => {
+       return betData.filter(
+         (bet) => bet.actor1 === actor || bet.actor2 === actor,
+       );
+     };
 
-        setLiveBetsData(liveBets);
-        setLiveBetsCount(liveBets.length);
-      } catch (error) {
-        console.error('Error fetching live bets:', error);
-        setLiveBetsData([]);
-        setLiveBetsCount(0);
-      }
-    };
+     const userBetData: BetData = filterBetsByActor(address);
 
-    if (address) {
-      getCurrentLiveBets(address);
-    }
-  }, [address, setLiveBetsCount]);
+     const liveBets = userBetData.filter((bet) => {
+       const currentTime = Math.floor(Date.now() / 1000);
+       const expiryTime = Number(bet.startTimeStamp) + Number(bet.duration);
+       return expiryTime > currentTime;
+     });
+
+     const liveBetsEntered = await getLiveBetsEntered(
+       liveBets,
+       account.address as string,
+     );
+     console.log('liveBetsEntered', liveBetsEntered);
+
+     setLiveBetsData(liveBetsEntered);
+     setLiveBetsCount(liveBets.length); // Update the live bets count
+   };
+
+   if (account.address) {
+     getCurrentLiveBets(account.address as `0x${string}`);
+   }
+ }, [account.address, setLiveBetsCount]);
 
   const getDisplayName = (userAddress: string | undefined) => {
     if (!userAddress) return '';

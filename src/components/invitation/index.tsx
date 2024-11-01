@@ -65,7 +65,6 @@ const Invitation = () => {
     abi: KomatAbi,
     functionName: 'getBetDetails',
     args: [BigInt((id as string) || '0')],
-    enabled: !!id, 
   });
 
   // Format amount to display in USDC
@@ -128,9 +127,9 @@ const Invitation = () => {
     getProfilePicture,
   ]);
 
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('Transaction status:', status);
-  }, []);
+  // const handleOnStatus = useCallback((status: LifecycleStatus) => {
+  //   console.log('Transaction status:', status);
+  // }, []);
 
   if (isLoading) {
     return (
@@ -189,11 +188,7 @@ const Invitation = () => {
 
             <div className="desc">
               <div className="title">Description</div>
-              <p>
-                {inviteData?.description ||
-                  betDetails.betDescription ||
-                  'No description available'}
-              </p>
+              <p>{inviteData?.description || 'No description available'}</p>
             </div>
 
             <div className="options-container">
@@ -205,7 +200,6 @@ const Invitation = () => {
                     className={`option ${
                       activeOption === option ? 'active' : ''
                     }`}
-                    onClick={() => setActiveOption(option)}
                   >
                     {option}
                   </div>
@@ -218,7 +212,7 @@ const Invitation = () => {
             <Transaction
               chainId={84532}
               contracts={contracts as ContractFunctionParameters[]}
-              onStatus={handleOnStatus}
+              // onStatus={handleOnStatus}
               onSuccess={() => {
                 console.log('success');
                 router.push('/overview');
